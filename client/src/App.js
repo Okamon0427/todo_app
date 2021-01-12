@@ -1,10 +1,24 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; 
+import Layout from './components/layout/Layout';
+import Dashboard from './components/Dashboard';
 import './App.css';
+
+const dashboard = () => {
+  return (
+    <Layout>
+      <Dashboard />
+    </Layout>
+  )
+}
 
 const App = () => {
   return (
-    <div>
-      Hello
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={dashboard} />
+      </Switch>
+    </Router>
   );
 }
 
