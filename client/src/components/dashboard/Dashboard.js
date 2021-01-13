@@ -28,6 +28,20 @@ const Dashboard = () => {
     setTodos(initialTodos);
   }, []);
 
+  const onSearchBarChange = e => {
+    console.log(e.target.value);
+    if (e.target.value === '') {
+      setTodos(initialTodos);
+    } else {
+      const filtered = todos.filter(todo => {
+        return (
+          todo.title.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      });
+      setTodos(filtered);
+    }
+  }
+
   const onChange = e => {
     setFormData({
       ...formData,
@@ -111,6 +125,7 @@ const Dashboard = () => {
       <Input
         placeholder="Search Todo"
         inputProps={{ 'aria-label': 'description' }}
+        onChange={e => onSearchBarChange(e)}
       />
       <AddTodoForm
         onSubmit={onSubmit}
