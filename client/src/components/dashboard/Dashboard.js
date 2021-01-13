@@ -1,46 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '@material-ui/core/Input';
 // import { makeStyles } from '@material-ui/core/styles';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import moment from 'moment';
-
-const todos = [
-  {
-    id: 0,
-    title: 'Buy eggs',
-    dueDate: '01/25/2021',
-    status: 'In Progress'
-  },
-  {
-    id: 1,
-    title: 'Study English',
-    dueDate: '01/18/2021',
-    status: 'In Progress'
-  },
-  {
-    id: 2,
-    title: 'Fix table',
-    dueDate: '01/11/2021',
-    status: 'Done'
-  },
-];
+import { initialTodos } from '../../utils/data';
 
 // const useStyles = makeStyles((theme) => ({}));
 
 const Dashboard = () => {
   // const classes = useStyles();
+  const [todos, setTodos] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
     dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
     status: ''
   });
+  const [isEditMode, setIsEditMode] = useState(null)
 
   const {
     title,
     dueDate,
     status
   } = formData;
+
+  useEffect(() => {
+    setTodos(initialTodos);
+  }, []);
 
   const onChange = e => {
     setFormData({
@@ -56,19 +42,51 @@ const Dashboard = () => {
     })
   }
 
-  const onSubmit = e => {
+  const onSubmit = (e, id) => {
     e.preventDefault();
-    todos.push({
-      id: todos.length,
-      title,
-      dueDate,
-      status
-    })
+    if (!isEditMode) {
+      todos.push({
+        id: todos.length,
+        title,
+        dueDate,
+        status
+      })
+    } else {
+      const prevTodos = [...todos];
+      const newTodos = prevTodos.map(todo => {
+        if (todo.id === id) {
+          const editTodo = {
+            ...todo,
+            title,
+            dueDate,
+            status
+          };
+          return editTodo;
+        } else {
+          return todo;
+        }
+      });
+      setTodos(newTodos);
+    }
     setFormData({
       title: '',
       dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
       status: ''
-    })
+    });
+    setIsEditMode(null);
+  }
+
+  const onEdit = (id) => {
+    setIsEditMode(id);
+    const editTodo = todos.find(todo => {
+      return todo.id === id;
+    });
+    setFormData({
+      ...formData,
+      title: editTodo.title,
+      dueDate: editTodo.dueDate,
+      status: editTodo.status
+    });
   }
 
   return (
@@ -82,9 +100,17 @@ const Dashboard = () => {
         onChange={onChange}
         onDateChange={onDateChange}
         formData={formData}
+        isEditMode={isEditMode}
       />
-      {todos.map(todo => {
-        return <TodoItem key={todo.id} todo={todo} />
+      {todos && todos.map(todo => {
+        return (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onEdit={onEdit}
+            isEditMode={isEditMode}
+          />
+        )
       })}
     </>
   )

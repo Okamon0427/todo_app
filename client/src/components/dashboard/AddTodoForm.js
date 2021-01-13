@@ -9,21 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import MomentUtils from '@date-io/moment';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-
-const statusArray = [
-  {
-    key: 0,
-    value: 'Not Started',
-  },
-  {
-    key: 1,
-    value: 'In Progress',
-  },
-  {
-    key: 2,
-    value: 'Done',
-  },
-];
+import { STATUS_ARRAY } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +26,8 @@ const AddTodoForm = ({
   onSubmit,
   onChange,
   onDateChange,
-  formData: { title, dueDate, status }
+  formData: { title, dueDate, status },
+  isEditMode
 }) => {
   const classes = useStyles();
 
@@ -49,7 +36,7 @@ const AddTodoForm = ({
       className={classes.root}
       noValidate
       autoComplete="off"
-      onSubmit={onSubmit}
+      onSubmit={(e) => onSubmit(e, isEditMode)}
     >
       <FormControl>
         <InputLabel htmlFor="title">Title</InputLabel>
@@ -75,7 +62,7 @@ const AddTodoForm = ({
           value={status}
           onChange={e => onChange(e)}
         >
-          {statusArray.map((option) => (
+          {STATUS_ARRAY.map((option) => (
             <MenuItem key={option.key} value={option.value}>
               {option.value}
             </MenuItem>
@@ -89,7 +76,7 @@ const AddTodoForm = ({
         className={classes.button}
         startIcon={<AddIcon />}
       >
-        ADD NEW TODO
+        {isEditMode ? 'Edit Todo' : 'Add New Todo'}
       </Button>
     </form>
   );

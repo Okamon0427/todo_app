@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -13,7 +14,11 @@ const useStyles = makeStyles({
   },
 });
 
-const SimpleCard = ({ todo: { title, dueDate, status } }) => {
+const TodoItem = ({
+  todo: { id, title, dueDate, status },
+  onEdit,
+  isEditMode
+}) => {
   const classes = useStyles();
 
   return (
@@ -39,10 +44,30 @@ const SimpleCard = ({ todo: { title, dueDate, status } }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Details</Button>
+        {!isEditMode && (
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => onEdit(id)}
+              // component={Link}
+              // to={`/${id}`}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+            >
+              Delete
+            </Button>
+          </>
+        )}
       </CardActions>
     </Card>
   );
 }
 
-export default SimpleCard;
+export default TodoItem;
