@@ -89,6 +89,23 @@ const Dashboard = () => {
     });
   }
 
+  const onCancel = () => {
+    setFormData({
+      title: '',
+      dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
+      status: ''
+    });
+    setIsEditMode(null);
+  }
+
+  const onDelete = (id) => {
+    const prevTodos = [...todos];
+    const newTodos = prevTodos.filter(todo => {
+      return todo.id !== id
+    })
+    setTodos(newTodos);
+  }
+
   return (
     <>
       <Input
@@ -101,6 +118,7 @@ const Dashboard = () => {
         onDateChange={onDateChange}
         formData={formData}
         isEditMode={isEditMode}
+        onCancel={onCancel}
       />
       {todos && todos.map(todo => {
         return (
@@ -109,9 +127,11 @@ const Dashboard = () => {
             todo={todo}
             onEdit={onEdit}
             isEditMode={isEditMode}
+            onDelete={onDelete}
           />
         )
       })}
+      {todos.length === 0 && <h1>No Todo</h1>}
     </>
   )
 }

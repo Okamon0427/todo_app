@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -17,7 +16,8 @@ const useStyles = makeStyles({
 const TodoItem = ({
   todo: { id, title, dueDate, status },
   onEdit,
-  isEditMode
+  isEditMode,
+  onDelete
 }) => {
   const classes = useStyles();
 
@@ -51,8 +51,6 @@ const TodoItem = ({
               color="primary"
               size="small"
               onClick={() => onEdit(id)}
-              // component={Link}
-              // to={`/${id}`}
             >
               Edit
             </Button>
@@ -60,6 +58,7 @@ const TodoItem = ({
               variant="contained"
               color="secondary"
               size="small"
+              onClick={() => onDelete(id)}
             >
               Delete
             </Button>

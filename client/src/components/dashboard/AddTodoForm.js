@@ -27,7 +27,8 @@ const AddTodoForm = ({
   onChange,
   onDateChange,
   formData: { title, dueDate, status },
-  isEditMode
+  isEditMode,
+  onCancel
 }) => {
   const classes = useStyles();
 
@@ -78,6 +79,14 @@ const AddTodoForm = ({
       >
         {isEditMode ? 'Edit Todo' : 'Add New Todo'}
       </Button>
+      {isEditMode && (
+        <Button
+          variant="contained"
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+      )}
     </form>
   );
 };
