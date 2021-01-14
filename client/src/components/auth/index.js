@@ -16,23 +16,9 @@ const Landing = () => {
   const history = useHistory();
 
   const [authType, setAuthType] = useState(login);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: ''
-  });
 
-  const onChange = e => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  const onSubmit = (data) => {
+    console.log(data)
     history.push('/dashboard');
   }
 
@@ -50,18 +36,10 @@ const Landing = () => {
         {authType === signup ? signup : login}
       </h1>
       {authType === signup && (
-        <Signup
-          formData={formData}
-          onChange={onChange}
-          onSubmit={onSubmit}
-        />
+        <Signup onSubmit={onSubmit} />
       )}
       {authType === login && (
-        <Login
-          formData={formData}
-          onChange={onChange}
-          onSubmit={onSubmit}
-        />
+        <Login onSubmit={onSubmit} />
       )}
       <Button
         color="primary"

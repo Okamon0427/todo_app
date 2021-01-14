@@ -3,6 +3,20 @@ export const AUTH_TYPE = {
   login: 'Login'
 }
 
+export const ERROR_MESSAGE = {
+  userNameRequired: "User name is required",
+  emailRequired: "Email is required",
+  emailValid: "Email should be a valid email address",
+  passwordRequired: "Password is required",
+  passwordMinLength: "Password should be at least 6 charactars",
+  passwordMatch: "Password is not matched"
+}
+
+export const REGEX = {
+  //eslint-disable-next-line
+  email: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+}
+
 export const STATUS_ARRAY = [
   {
     key: 0,

@@ -1,10 +1,13 @@
 import React from 'react';
+import { useForm } from "react-hook-form";
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+// import Input from '@material-ui/core/Input';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import { ERROR_MESSAGE, REGEX } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,21 +20,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({
-  formData: { email, password },
-  onChange,
-  onSubmit
-}) => {
+const {
+  emailRequired,
+  emailValid,
+  passwordRequired,
+  passwordMinLength,
+} = ERROR_MESSAGE;
+
+const { email } = REGEX;
+
+const Login = ({ onSubmit }) => {
   const classes = useStyles();
+  const { register, errors, handleSubmit } = useForm();
 
   return (
     <form
       className={classes.root}
       noValidate
       autoComplete="off"
-      onSubmit={(e) => onSubmit(e)}
+      onSubmit={handleSubmit(onSubmit)}
     >
-      <FormControl>
+      <TextField
+        name="email"
+        label="Email"
+        inputRef={register({
+          required: true,
+          pattern: email
+        })}
+        error={errors.email}
+        helperText={(
+          errors.email && errors.email.type === "required" &&
+          emailRequired
+        ) || (
+          errors.email && errors.email.type === "pattern" &&
+          emailValid
+        )}
+      />
+      <TextField
+        name="password"
+        label="Password"
+        type="password"
+        inputRef={register({ required: true, minLength: 6 })}
+        error={errors.password}
+        helperText={(
+          errors.password && errors.password.type === "required" &&
+          passwordRequired
+        ) || (
+          errors.password && errors.password.type === "minLength" &&
+          passwordMinLength
+        )}
+      />
+      {/* <FormControl>
         <InputLabel htmlFor="email">Email</InputLabel>
         <Input
           id="email"
@@ -48,7 +87,7 @@ const Login = ({
           value={password}
           onChange={e => onChange(e)}
         />
-      </FormControl>
+      </FormControl> */}
       <Button
         variant="contained"
         color="primary"
