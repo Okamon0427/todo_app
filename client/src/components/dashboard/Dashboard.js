@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Input from '@material-ui/core/Input';
 // import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
-import moment from 'moment';
 import { initialTodos } from '../../utils/data';
+import Spinner from '../layout/Spinner';
 
 // const useStyles = makeStyles((theme) => ({}));
 
@@ -16,7 +17,8 @@ const Dashboard = () => {
     dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
     status: ''
   });
-  const [isEditMode, setIsEditMode] = useState(null)
+  const [isEditMode, setIsEditMode] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     title,
@@ -25,11 +27,14 @@ const Dashboard = () => {
   } = formData;
 
   useEffect(() => {
+    setIsLoading(true);
     setTodos(initialTodos);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, []);
 
   const onSearchBarChange = e => {
-    console.log(e.target.value);
     if (e.target.value === '') {
       setTodos(initialTodos);
     } else {
@@ -91,7 +96,6 @@ const Dashboard = () => {
   }
 
   const onEdit = (id) => {
-    setIsEditMode(id);
     const editTodo = todos.find(todo => {
       return todo.id === id;
     });
@@ -101,6 +105,7 @@ const Dashboard = () => {
       dueDate: editTodo.dueDate,
       status: editTodo.status
     });
+    setIsEditMode(id);
   }
 
   const onCancel = () => {
@@ -135,18 +140,21 @@ const Dashboard = () => {
         isEditMode={isEditMode}
         onCancel={onCancel}
       />
-      {todos && todos.map(todo => {
-        return (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onEdit={onEdit}
-            isEditMode={isEditMode}
-            onDelete={onDelete}
-          />
+      {isLoading ? <Spinner /> : (
+        todos.length === 0 ? <h1>No Todo</h1> : (
+          todos && todos.map(todo => {
+            return (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onEdit={onEdit}
+                isEditMode={isEditMode}
+                onDelete={onDelete}
+              />
+            )
+          })
         )
-      })}
-      {todos.length === 0 && <h1>No Todo</h1>}
+      )}
     </>
   )
 }
