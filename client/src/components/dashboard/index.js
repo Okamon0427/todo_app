@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
 // import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
@@ -19,6 +20,8 @@ const Dashboard = () => {
   });
   const [isEditMode, setIsEditMode] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // const { categoryId } = useParams();
 
   const {
     title,

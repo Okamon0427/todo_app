@@ -1,3 +1,8 @@
+export const AUTH_TYPE = {
+  signup: 'Sign Up',
+  login: 'Login'
+}
+
 export const STATUS_ARRAY = [
   {
     key: 0,
