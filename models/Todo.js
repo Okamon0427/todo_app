@@ -14,6 +14,9 @@ const TodoSchema = new Schema({
     enum: ['Not Started', 'In Progress', 'Done'],
     default: 'In Progress'
   },
+  category: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now
