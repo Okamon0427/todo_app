@@ -59,3 +59,10 @@ export const initialTodos = [
     status: 'In Progress',
   },
 ];
+
+export const initialUserData = {
+  id: uuidv4(),
+  name: 'John Doe',
+  email: 'test@gmail.com',
+  password: '123456'
+}
