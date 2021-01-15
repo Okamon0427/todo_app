@@ -150,7 +150,7 @@ const MiniDrawer = (props) => {
           <ListItem
             button
             component={Link}
-            to="/"
+            to="/dashboard"
           >
             <ListItemIcon>
               <MailIcon />

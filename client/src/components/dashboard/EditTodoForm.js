@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -24,13 +24,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddTodoForm = ({
+
+const EditTodoForm = ({
   onSubmit,
   onDateChange,
-  formData: { dueDate },
+  formData: { title, dueDate, status },
+  onCancel
 }) => {
   const classes = useStyles();
-  const { register, errors, handleSubmit, control } = useForm();
+  const { register, errors, handleSubmit, control, reset } = useForm();
+
+  const initialValues = {
+    title,
+    dueDate,
+    status
+  };
+
+  useEffect(() => {
+    reset(initialValues);
+  }, []);
 
   return (
     <form
@@ -91,10 +103,16 @@ const AddTodoForm = ({
         className={classes.button}
         startIcon={<AddIcon />}
       >
-        Add New Todo
+        Edit Todo
+      </Button>
+      <Button
+        variant="contained"
+        onClick={onCancel}
+      >
+        Cancel
       </Button>
     </form>
   );
 };
 
-export default AddTodoForm;
+export default EditTodoForm;

@@ -6,12 +6,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Moment from 'react-moment';
+import { DATE_FORMAT } from '../../utils/constants';
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
   },
 });
+
+const { wordDate } = DATE_FORMAT
 
 const TodoItem = ({
   todo: { id, title, dueDate, status },
@@ -34,7 +37,7 @@ const TodoItem = ({
           variant="body2"
           component="p"
         >
-          Due: <Moment format="MMMM Do YYYY, hh:mm a">{dueDate}</Moment>
+          Due: <Moment format={wordDate}>{dueDate}</Moment>
         </Typography>
         <Typography
           variant="body2"

@@ -17,6 +17,11 @@ export const REGEX = {
   email: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 }
 
+export const DATE_FORMAT = {
+  numberDate: 'MM/DD/YYYY, hh:mm a',
+  wordDate: 'MMMM Do YYYY, hh:mm a'
+};
+
 export const STATUS_ARRAY = [
   {
     key: 0,

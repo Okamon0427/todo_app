@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
+// import { useForm } from "react-hook-form";
 import Input from '@material-ui/core/Input';
 // import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
+import EditTodoForm from './EditTodoForm';
 import { initialTodos } from '../../utils/data';
 import Spinner from '../layout/Spinner';
+import { DATE_FORMAT } from '../../utils/constants';
+import { formattedDate } from '../../utils/functions';
 
 // const useStyles = makeStyles((theme) => ({}));
+
+const { numberDate } = DATE_FORMAT;
 
 const Dashboard = () => {
   // const classes = useStyles();
   const [todos, setTodos] = useState([]);
   const [formData, setFormData] = useState({
+    id: '',
     title: '',
-    dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
+    dueDate: formattedDate(numberDate, new Date()),
     status: ''
   });
   const [isEditMode, setIsEditMode] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // const { categoryId } = useParams();
-
-  const {
-    title,
-    dueDate,
-    status
-  } = formData;
+  // const { reset } = useForm();
 
   useEffect(() => {
     setIsLoading(true);
@@ -50,38 +51,34 @@ const Dashboard = () => {
     }
   }
 
-  const onChange = e => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  };
-
   const onDateChange = date => {
     setFormData({
       ...formData,
-      dueDate: moment(date._d).format('MM/DD/YYYY, hh:mm a')
+      dueDate: formattedDate(numberDate, date._d)
     })
   }
 
-  const onSubmit = (e, id) => {
-    e.preventDefault();
+  const onSubmit = (data, e) => {
     if (!isEditMode) {
-      todos.push({
-        id: todos.length,
-        title,
-        dueDate,
-        status
+      console.log(data);
+      const newTodos = [...todos]
+      newTodos.push({
+        id: newTodos.length,
+        title: data.title,
+        dueDate: formData.dueDate,
+        status: data.status
       })
+      setTodos(newTodos);
+      e.target.reset();
     } else {
       const prevTodos = [...todos];
       const newTodos = prevTodos.map(todo => {
-        if (todo.id === id) {
+        if (todo.id === formData.id) {
           const editTodo = {
             ...todo,
-            title,
-            dueDate,
-            status
+            title: data.title,
+            dueDate: formData.dueDate,
+            status: data.status
           };
           return editTodo;
         } else {
@@ -91,8 +88,9 @@ const Dashboard = () => {
       setTodos(newTodos);
     }
     setFormData({
+      id: '',
       title: '',
-      dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
+      dueDate: formattedDate(numberDate, new Date()),
       status: ''
     });
     setIsEditMode(null);
@@ -104,6 +102,7 @@ const Dashboard = () => {
     });
     setFormData({
       ...formData,
+      id: editTodo.id,
       title: editTodo.title,
       dueDate: editTodo.dueDate,
       status: editTodo.status
@@ -113,8 +112,9 @@ const Dashboard = () => {
 
   const onCancel = () => {
     setFormData({
+      id: '',
       title: '',
-      dueDate: moment(new Date()).format('MM/DD/YYYY, hh:mm a'),
+      dueDate: formattedDate(numberDate, new Date()),
       status: ''
     });
     setIsEditMode(null);
@@ -135,14 +135,20 @@ const Dashboard = () => {
         inputProps={{ 'aria-label': 'description' }}
         onChange={e => onSearchBarChange(e)}
       />
-      <AddTodoForm
-        onSubmit={onSubmit}
-        onChange={onChange}
-        onDateChange={onDateChange}
-        formData={formData}
-        isEditMode={isEditMode}
-        onCancel={onCancel}
-      />
+      {isEditMode ? (
+        <EditTodoForm
+          onSubmit={onSubmit}
+          onDateChange={onDateChange}
+          formData={formData}
+          onCancel={onCancel}
+        />
+      ) : (
+        <AddTodoForm
+          onSubmit={onSubmit}
+          onDateChange={onDateChange}
+          formData={formData}
+        />
+      )}
       {isLoading ? <Spinner /> : (
         todos.length === 0 ? <h1>No Todo</h1> : (
           todos && todos.map(todo => {
