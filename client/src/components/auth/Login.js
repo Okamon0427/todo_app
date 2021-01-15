@@ -1,13 +1,9 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import Button from '@material-ui/core/Button';
-// import Input from '@material-ui/core/Input';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
+import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import { ERROR_MESSAGE, REGEX } from '../../utils/constants';
+import { AUTH_TYPE, ERROR_MESSAGE, REGEX } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const { login } = AUTH_TYPE;
 const {
   emailRequired,
   emailValid,
   passwordRequired,
   passwordMinLength,
 } = ERROR_MESSAGE;
-
 const { email } = REGEX;
 
 const Login = ({ onSubmit }) => {
@@ -70,24 +66,6 @@ const Login = ({ onSubmit }) => {
           passwordMinLength
         )}
       />
-      {/* <FormControl>
-        <InputLabel htmlFor="email">Email</InputLabel>
-        <Input
-          id="email"
-          name="email"
-          value={email}
-          onChange={e => onChange(e)}
-        />
-      </FormControl>
-      <FormControl>
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          id="password"
-          name="password"
-          value={password}
-          onChange={e => onChange(e)}
-        />
-      </FormControl> */}
       <Button
         variant="contained"
         color="primary"
@@ -95,7 +73,7 @@ const Login = ({ onSubmit }) => {
         className={classes.button}
         startIcon={<AddIcon />}
       >
-        Login
+        {login}
       </Button>
     </form>
   );

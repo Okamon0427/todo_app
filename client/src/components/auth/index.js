@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Button, Paper } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Signup from './Signup';
 import Login from './Login';
 import { AUTH_TYPE } from '../../utils/constants';

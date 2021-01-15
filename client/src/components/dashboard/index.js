@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
-// import { useForm } from "react-hook-form";
-import Input from '@material-ui/core/Input';
+import { Input } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
-import { initialTodos } from '../../utils/data';
 import Spinner from '../layout/Spinner';
+import { initialTodos } from '../../utils/data';
 import { DATE_FORMAT } from '../../utils/constants';
 import { formattedDate } from '../../utils/functions';
 
@@ -28,7 +27,6 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // const { categoryId } = useParams();
-  // const { reset } = useForm();
 
   useEffect(() => {
     setIsLoading(true);

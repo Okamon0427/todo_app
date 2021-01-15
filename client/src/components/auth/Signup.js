@@ -1,13 +1,9 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import Button from '@material-ui/core/Button';
-// import Input from '@material-ui/core/Input';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
+import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import { ERROR_MESSAGE, REGEX } from '../../utils/constants';
+import { AUTH_TYPE, ERROR_MESSAGE, REGEX } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const { signup } = AUTH_TYPE;
 const {
   userNameRequired,
   emailRequired,
@@ -28,7 +25,6 @@ const {
   passwordMinLength,
   passwordMatch
 } = ERROR_MESSAGE;
-
 const { email } = REGEX;
 
 const Signup = ({ onSubmit }) => {
@@ -98,42 +94,6 @@ const Signup = ({ onSubmit }) => {
           passwordMatch
         )}
       />
-      {/* <FormControl>
-        <InputLabel htmlFor="name">Your Name</InputLabel>
-        <Input
-          id="name"
-          name="name"
-          value={name}
-          onChange={e => onChange(e)}
-        />
-      </FormControl>
-      <FormControl>
-        <InputLabel htmlFor="email">Email</InputLabel>
-        <Input
-          id="email"
-          name="email"
-          value={email}
-          onChange={e => onChange(e)}
-        />
-      </FormControl>
-      <FormControl>
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          id="password"
-          name="password"
-          value={password}
-          onChange={e => onChange(e)}
-        />
-      </FormControl>
-      <FormControl>
-        <InputLabel htmlFor="password2">Confirm Password</InputLabel>
-        <Input
-          id="password2"
-          name="password2"
-          value={password2}
-          onChange={e => onChange(e)}
-        />
-      </FormControl> */}
       <Button
         variant="contained"
         color="primary"
@@ -141,7 +101,7 @@ const Signup = ({ onSubmit }) => {
         className={classes.button}
         startIcon={<AddIcon />}
       >
-        Sign Up
+        {signup}
       </Button>
     </form>
   );

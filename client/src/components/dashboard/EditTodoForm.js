@@ -1,16 +1,10 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
-import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
+import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import MomentUtils from '@date-io/moment';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 import { STATUS_ARRAY } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +36,7 @@ const EditTodoForm = ({
 
   useEffect(() => {
     reset(initialValues);
+    //eslint-disable-next-line
   }, []);
 
   return (
