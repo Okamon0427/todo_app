@@ -14,9 +14,7 @@ const NotFound = () => {
 
   return (
     <>
-      <h1 className="x-large text-primary">
-        Page Not Found
-      </h1>
+      <h1>Page Not Found</h1>
       <Link to="/dashboard">
         <Button
           color="primary"

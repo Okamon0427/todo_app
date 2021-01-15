@@ -4,7 +4,8 @@ import Landing from './components/auth';
 import Layout from './components/layout/Layout';
 import Dashboard from './components/dashboard';
 import User from './components/user';
-import NotFound from './components/layout/NotFound';
+import PasswordReset from './components/others/PasswordReset';
+import NotFound from './components/others/NotFound';
 import './App.css';
 
 const landing = () => {
@@ -31,6 +32,14 @@ const user = () => {
   );
 }
 
+const passwordReset = () => {
+  return (
+    <Layout>
+      <PasswordReset />
+    </Layout>
+  );
+}
+
 const notFound = () => {
   return (
     <Layout>
@@ -47,6 +56,7 @@ const App = () => {
         <Route exact path="/dashboard" component={dashboard} />
         <Route exact path="/dashboard/:categoryId" component={dashboard} />
         <Route exact path="/user" component={user} />
+        <Route exact path="/password/reset" component={passwordReset} />
         <Route component={notFound} />
       </Switch>
     </Router>
