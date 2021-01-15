@@ -4,6 +4,7 @@ import Landing from './components/auth';
 import Layout from './components/layout/Layout';
 import Dashboard from './components/dashboard';
 import User from './components/user';
+import NotFound from './components/layout/NotFound';
 import './App.css';
 
 const landing = () => {
@@ -30,6 +31,14 @@ const user = () => {
   );
 }
 
+const notFound = () => {
+  return (
+    <Layout>
+      <NotFound />
+    </Layout>
+  );
+}
+
 const App = () => {
   return (
     <Router>
@@ -38,6 +47,7 @@ const App = () => {
         <Route exact path="/dashboard" component={dashboard} />
         <Route exact path="/dashboard/:categoryId" component={dashboard} />
         <Route exact path="/user" component={user} />
+        <Route component={notFound} />
       </Switch>
     </Router>
   );
