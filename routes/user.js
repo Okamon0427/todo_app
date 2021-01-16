@@ -29,4 +29,22 @@ router.post('/', async (req, res) => {
   }
 });
 
+// @Route  GET api/user/:userId
+// @desc   Get user
+// @access Private
+router.get('/:userId', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User does not exists '})
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
