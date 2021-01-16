@@ -142,4 +142,33 @@ router.delete('/:userId', async (req, res) => {
   }
 });
 
+// @Route  GET api/user/password/forget
+// @desc   Send email to user who forgets password
+// @access Public
+router.get('/password/forget',
+  [
+    check('email', 'Please include a valid email').isEmail(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ msg: 'User does not exists '})
+      }
+
+      // Write Logic to send email
+
+      res.json({ msg: 'Email sent to your email' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;
