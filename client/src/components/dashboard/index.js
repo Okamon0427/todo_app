@@ -7,7 +7,7 @@ import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
 import Spinner from '../layout/Spinner';
-import { DATE_FORMAT } from '../../utils/constants';
+// import { DATE_FORMAT } from '../../utils/constants';
 // import { formattedDate } from '../../utils/functions';
 import { addTodo, getTodos, editTodo, deleteTodo } from '../../actions/todo';
 
@@ -27,6 +27,8 @@ const Dashboard = () => {
     status: ''
   });
   const [isEditMode, setIsEditMode] = useState(null);
+  const [isFilterMode, setIsFilterMode] = useState(false);
+  const [filteredTodos, setFilteredTodos] = useState(null);
 
   // const { categoryId } = useParams();
 
@@ -36,14 +38,18 @@ const Dashboard = () => {
 
   const onSearchBarChange = e => {
     if (e.target.value === '') {
-      // setTodos(initialTodos);
+      setIsFilterMode(false);
+      setFilteredTodos(null);
     } else {
-      const filtered = todos.filter(todo => {
+      setIsFilterMode(true);
+      const filteredArray = todos.filter(todo => {
         return (
-          todo.title.toLowerCase().includes(e.target.value.toLowerCase())
-        )
+          todo.title.toLowerCase().includes(
+            e.target.value.toLowerCase()
+          )
+        );
       });
-      // setTodos(filtered);
+      setFilteredTodos(filteredArray);
     }
   }
 
@@ -104,6 +110,14 @@ const Dashboard = () => {
     dispatch(deleteTodo(key));
   }
 
+  let todosArray = todos;
+  if (
+    (filteredTodos && filteredTodos.length > 0) ||
+    isFilterMode
+  ) {
+    todosArray = filteredTodos;
+  }
+
   return (
     <>
       <Input
@@ -126,8 +140,8 @@ const Dashboard = () => {
         />
       )}
       {loading ? <Spinner /> : (
-        todos.length === 0 ? <h1>No Todo</h1> : (
-          todos && todos.map(todo => {
+        todosArray.length === 0 ? <h1>No Todo</h1> : (
+          todosArray && todosArray.map(todo => {
             return (
               <TodoItem
                 key={todo._id}
