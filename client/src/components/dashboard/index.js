@@ -24,20 +24,12 @@ const Dashboard = () => {
   const [formData, setFormData] = useState({
     id: '',
     title: '',
-    dueDate: formattedDate(numberDate, new Date()),
+    dueDate: new Date(),
     status: ''
   });
   const [isEditMode, setIsEditMode] = useState(null);
 
   // const { categoryId } = useParams();
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   setTodos(initialTodos);
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-  // }, []);
 
   useEffect(() => {
     dispatch(getTodos());
@@ -57,23 +49,18 @@ const Dashboard = () => {
   }
 
   const onDateChange = date => {
+    console.log(date)
     setFormData({
       ...formData,
-      dueDate: formattedDate(numberDate, date._d)
+      dueDate: date._d
     })
   }
 
   const onSubmit = (data, e) => {
     if (!isEditMode) {
-      console.log(data);
-      const newTodos = [...todos]
-      newTodos.push({
-        id: newTodos.length,
-        title: data.title,
-        dueDate: formData.dueDate,
-        status: data.status
-      })
-      // setTodos(newTodos);
+      const convertedData = { ...data };
+      convertedData.dueDate = formData.dueDate;
+      dispatch(addTodo(convertedData));
       e.target.reset();
     } else {
       const prevTodos = [...todos];
@@ -95,7 +82,7 @@ const Dashboard = () => {
     setFormData({
       id: '',
       title: '',
-      dueDate: formattedDate(numberDate, new Date()),
+      dueDate: new Date(),
       status: ''
     });
     setIsEditMode(null);
@@ -119,7 +106,7 @@ const Dashboard = () => {
     setFormData({
       id: '',
       title: '',
-      dueDate: formattedDate(numberDate, new Date()),
+      dueDate: new Date(),
       status: ''
     });
     setIsEditMode(null);

@@ -17,7 +17,7 @@ const todoReducers = (state = initialState, action) => {
     case ADD_TODO:
       return {
         ...state,
-        todos: [...state.todos, payload],
+        todos: [payload, ...state.todos],
         loading: false
       };
     case GET_TODOS:
@@ -29,8 +29,8 @@ const todoReducers = (state = initialState, action) => {
     case ERROR_TODO:
       return {
         ...state,
-        error: payload,
-        loading: false
+        loading: false,
+        error: payload
       };
     default:
       return state
