@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+
 const Todo = require('../models/Todo');
 
 // @Route  POST api/todos
@@ -25,16 +26,16 @@ router.post(
     try {
       const { title, dueDate, status, category } = req.body;
 
-      const newTodo = new Todo({
+      const newTodoObject = new Todo({
         title,
         dueDate,
         status,
         category
       });
 
-      const todo = await newTodo.save();
+      const newTodo = await newTodoObject.save();
 
-      res.json(todo);
+      res.json(newTodo);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -47,8 +48,8 @@ router.post(
 // @access Private
 router.get('/', async (req, res) => {
   try {
-    const todos = await Todo.find().sort({ createdAt: -1 });
-    res.json(todos);
+    const allTodos = await Todo.find().sort({ createdAt: -1 });
+    res.json(allTodos);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -75,19 +76,18 @@ router.put(
     }
 
     try {
-      let todo = await Todo.findById(req.params.todoId);
-
+      const todo = await Todo.findById(req.params.todoId);
       if (!todo) {
         return res.status(404).json({ msg: 'Todo not found' });
       }
 
-      todo = await Todo.findByIdAndUpdate(
+      const updatedTodo = await Todo.findByIdAndUpdate(
         req.params.todoId,
         req.body,
         { new: true }
       );
 
-      res.json(todo);
+      res.json(updatedTodo);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -101,9 +101,7 @@ router.put(
 router.delete('/:todoId', async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.todoId);
-
     if (!todo) {
-      
       return res.status(404).json({ msg: 'Todo not found' });
     }
 

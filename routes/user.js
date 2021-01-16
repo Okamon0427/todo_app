@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
+
 const User = require('../models/User');
 
 // <<< Delete Later >>>
@@ -9,19 +11,18 @@ router.post('/', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
-
-    if (user) {
+    let currentUser = await User.findOne({ email });
+    if (currentUser) {
       return res.status(400).json({ msg: 'User already exists '})
     }
 
-    user = new User({
+    newUserObject = new User({
       name,
       email,
       password
     });
 
-    const newUser = await user.save();
+    const newUser = await newUserObject.save();
 
     res.json(newUser);
   } catch(err) {
@@ -36,7 +37,6 @@ router.post('/', async (req, res) => {
 router.get('/:userId', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-
     if (!user) {
       return res.status(404).json({ msg: 'User does not exists '})
     }
@@ -49,7 +49,7 @@ router.get('/:userId', async (req, res) => {
 });
 
 // @Route  PUT api/user/:userId
-// @desc   Get user
+// @desc   Update user (NOT Password)
 // @access Private
 router.put('/:userId',
   [
@@ -65,18 +65,59 @@ router.put('/:userId',
     }
 
     try {
-      let user = await User.findById(req.params.userId);
-
+      const user = await User.findById(req.params.userId);
       if (!user) {
         return res.status(404).json({ msg: 'User does not exists '})
       }
 
-      user = await User.findOneAndUpdate(
+      const updatedUser = await User.findOneAndUpdate(
         req.params.userId,
         { new: true }
       );
 
-      return res.json(user);
+      res.json(updatedUser);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @Route  PUT api/user/:userId/password
+// @desc   Update user password
+// @access Private
+router.put('/:userId/password',
+  [
+    check(
+      'password',
+      'Please enter a password with 6 or more characters'
+    ).isLength({ min: 6 })
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    
+    const { currentPassword, newPassword, newPassword2 } = req.body;
+
+    try {
+      let user = await User.findById(req.params.userId);
+      if (!user) {
+        return res.status(404).json({ msg: 'User does not exists '})
+      }
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ msg: 'Invalid Current Password' });
+      }
+  
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(newPassword, salt);
+      
+      const updatedUser = await user.save();
+
+      return res.json(updatedUser);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -90,7 +131,6 @@ router.put('/:userId',
 router.delete('/:userId', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-
     if (!user) {
       return res.status(404).json({ msg: 'User does not exists '})
     }
