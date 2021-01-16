@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 import Landing from './components/auth';
 import Layout from './components/layout/Layout';
 import Dashboard from './components/dashboard';
@@ -59,17 +61,19 @@ const notFound = () => {
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={landing} />
-        <Route exact path="/dashboard" component={dashboard} />
-        <Route exact path="/dashboard/:categoryId" component={dashboard} />
-        <Route exact path="/user" component={user} />
-        <Route exact path="/password/change" component={passwordChange} />
-        <Route exact path="/password/reset" component={passwordReset} />
-        <Route component={notFound} />
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={landing} />
+          <Route exact path="/dashboard" component={dashboard} />
+          <Route exact path="/dashboard/:categoryId" component={dashboard} />
+          <Route exact path="/user" component={user} />
+          <Route exact path="/password/change" component={passwordChange} />
+          <Route exact path="/password/reset" component={passwordReset} />
+          <Route component={notFound} />
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
 
