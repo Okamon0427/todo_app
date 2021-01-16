@@ -2,6 +2,7 @@ import {
   ADD_TODO,
   GET_TODOS,
   EDIT_TODO,
+  DELETE_TODO,
   ERROR_TODO
 } from '../actions/types';
 
@@ -36,6 +37,14 @@ const todoReducers = (state = initialState, action) => {
           } else {
             return todo;
           }
+        }),
+        loading: false
+      };
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => {
+          return todo._id !== payload
         }),
         loading: false
       };

@@ -8,19 +8,18 @@ import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
 import Spinner from '../layout/Spinner';
 import { DATE_FORMAT } from '../../utils/constants';
-import { formattedDate } from '../../utils/functions';
-import { addTodo, getTodos, editTodo } from '../../actions/todo';
+// import { formattedDate } from '../../utils/functions';
+import { addTodo, getTodos, editTodo, deleteTodo } from '../../actions/todo';
 
 // const useStyles = makeStyles((theme) => ({}));
 
-const { numberDate } = DATE_FORMAT;
+// const { numberDate } = DATE_FORMAT;
 
 const Dashboard = () => {
   // const classes = useStyles();
   const dispatch = useDispatch();
   const { todos, loading } = useSelector(state => state.todo);
 
-  // const [todos, setTodos] = useState([]);
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -101,12 +100,8 @@ const Dashboard = () => {
     setIsEditMode(null);
   }
 
-  const onDelete = (id) => {
-    const prevTodos = [...todos];
-    const newTodos = prevTodos.filter(todo => {
-      return todo.id !== id
-    })
-    // setTodos(newTodos);
+  const onDelete = (key) => {
+    dispatch(deleteTodo(key));
   }
 
   return (
