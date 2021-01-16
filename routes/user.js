@@ -84,4 +84,22 @@ router.put('/:userId',
   }
 );
 
+// @Route  DELETE api/user/:userId
+// @desc   Delete user
+// @access Private
+router.delete('/:userId', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User does not exists '})
+    }
+
+    res.json({ msg: 'User deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
