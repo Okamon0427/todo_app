@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
 import Spinner from '../layout/Spinner';
-import { initialTodos } from '../../utils/data';
 import { DATE_FORMAT } from '../../utils/constants';
 import { formattedDate } from '../../utils/functions';
+import { addTodo, getTodos } from '../../actions/todo';
 
 // const useStyles = makeStyles((theme) => ({}));
 
@@ -16,7 +17,10 @@ const { numberDate } = DATE_FORMAT;
 
 const Dashboard = () => {
   // const classes = useStyles();
-  const [todos, setTodos] = useState([]);
+  const dispatch = useDispatch();
+  const { todos, loading } = useSelector(state => state.todo);
+
+  // const [todos, setTodos] = useState([]);
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -24,28 +28,31 @@ const Dashboard = () => {
     status: ''
   });
   const [isEditMode, setIsEditMode] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   // const { categoryId } = useParams();
 
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   setTodos(initialTodos);
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 1000);
+  // }, []);
+
   useEffect(() => {
-    setIsLoading(true);
-    setTodos(initialTodos);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+    dispatch(getTodos());
+  }, [])
 
   const onSearchBarChange = e => {
     if (e.target.value === '') {
-      setTodos(initialTodos);
+      // setTodos(initialTodos);
     } else {
       const filtered = todos.filter(todo => {
         return (
           todo.title.toLowerCase().includes(e.target.value.toLowerCase())
         )
       });
-      setTodos(filtered);
+      // setTodos(filtered);
     }
   }
 
@@ -66,7 +73,7 @@ const Dashboard = () => {
         dueDate: formData.dueDate,
         status: data.status
       })
-      setTodos(newTodos);
+      // setTodos(newTodos);
       e.target.reset();
     } else {
       const prevTodos = [...todos];
@@ -83,7 +90,7 @@ const Dashboard = () => {
           return todo;
         }
       });
-      setTodos(newTodos);
+      // setTodos(newTodos);
     }
     setFormData({
       id: '',
@@ -123,7 +130,7 @@ const Dashboard = () => {
     const newTodos = prevTodos.filter(todo => {
       return todo.id !== id
     })
-    setTodos(newTodos);
+    // setTodos(newTodos);
   }
 
   return (
@@ -147,12 +154,12 @@ const Dashboard = () => {
           formData={formData}
         />
       )}
-      {isLoading ? <Spinner /> : (
+      {loading ? <Spinner /> : (
         todos.length === 0 ? <h1>No Todo</h1> : (
           todos && todos.map(todo => {
             return (
               <TodoItem
-                key={todo.id}
+                key={todo._id}
                 todo={todo}
                 onEdit={onEdit}
                 isEditMode={isEditMode}
