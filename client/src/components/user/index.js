@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UserPic from './UserPic';
 import UserInfo from './UserInfo';
 import AccountModal from './AccountModal';
 import { initialUserData } from '../../utils/data';
+import { getUser } from '../../actions/todo';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -27,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 const User = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { user, loading } = useSelector(state => state.user);
 
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState(null);
