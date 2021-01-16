@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   ADD_TODO,
   GET_TODOS,
+  EDIT_TODO,
   ERROR_TODO
 } from './types';
 
@@ -42,6 +43,36 @@ export const getTodos = () => async dispatch => {
   
     dispatch({
       type: GET_TODOS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR_TODO,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+};
+
+// Edit todo
+export const editTodo = editTodo => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+    const res = await axios.put(
+      `/api/todos/${editTodo.id}`,
+      editTodo,
+      config
+    );
+
+    dispatch({
+      type: EDIT_TODO,
       payload: res.data
     });
   } catch (err) {

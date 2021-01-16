@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 const { wordDate } = DATE_FORMAT
 
 const TodoItem = ({
-  todo: { id, title, dueDate, status },
+  todo: { _id, title, dueDate, status },
   onEdit,
   isEditMode,
   onDelete
@@ -49,7 +49,7 @@ const TodoItem = ({
               variant="contained"
               color="primary"
               size="small"
-              onClick={() => onEdit(id)}
+              onClick={() => onEdit(_id)}
             >
               Edit
             </Button>
@@ -57,7 +57,7 @@ const TodoItem = ({
               variant="contained"
               color="secondary"
               size="small"
-              onClick={() => onDelete(id)}
+              onClick={() => onDelete(_id)}
             >
               Delete
             </Button>

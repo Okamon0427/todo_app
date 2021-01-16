@@ -9,7 +9,7 @@ import EditTodoForm from './EditTodoForm';
 import Spinner from '../layout/Spinner';
 import { DATE_FORMAT } from '../../utils/constants';
 import { formattedDate } from '../../utils/functions';
-import { addTodo, getTodos } from '../../actions/todo';
+import { addTodo, getTodos, editTodo } from '../../actions/todo';
 
 // const useStyles = makeStyles((theme) => ({}));
 
@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getTodos());
-  }, [])
+  }, [dispatch])
 
   const onSearchBarChange = e => {
     if (e.target.value === '') {
@@ -57,28 +57,17 @@ const Dashboard = () => {
   }
 
   const onSubmit = (data, e) => {
-    if (!isEditMode) {
-      const convertedData = { ...data };
-      convertedData.dueDate = formData.dueDate;
-      dispatch(addTodo(convertedData));
-      e.target.reset();
-    } else {
-      const prevTodos = [...todos];
-      const newTodos = prevTodos.map(todo => {
-        if (todo.id === formData.id) {
-          const editTodo = {
-            ...todo,
-            title: data.title,
-            dueDate: formData.dueDate,
-            status: data.status
-          };
-          return editTodo;
-        } else {
-          return todo;
-        }
-      });
-      // setTodos(newTodos);
-    }
+    const convertedData = { ...data };
+    convertedData.dueDate = formData.dueDate;
+    convertedData.id = formData.id;
+
+    isEditMode ? (
+      dispatch(editTodo(convertedData))
+    ) : (
+      dispatch(addTodo(convertedData))
+    );
+
+    e.target.reset();
     setFormData({
       id: '',
       title: '',
@@ -88,18 +77,18 @@ const Dashboard = () => {
     setIsEditMode(null);
   }
 
-  const onEdit = (id) => {
+  const onEdit = (key) => {
     const editTodo = todos.find(todo => {
-      return todo.id === id;
+      return todo._id === key;
     });
     setFormData({
       ...formData,
-      id: editTodo.id,
+      id: editTodo._id,
       title: editTodo.title,
       dueDate: editTodo.dueDate,
       status: editTodo.status
     });
-    setIsEditMode(id);
+    setIsEditMode(key);
   }
 
   const onCancel = () => {
