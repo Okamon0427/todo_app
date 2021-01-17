@@ -9,6 +9,7 @@ import EditTodoForm from './EditTodoForm';
 import Spinner from '../layout/Spinner';
 // import { DATE_FORMAT } from '../../utils/constants';
 // import { formattedDate } from '../../utils/functions';
+import { searchTodos } from '../../utils/functions';
 import { addTodo, getTodos, editTodo, deleteTodo } from '../../actions/todo';
 
 // const useStyles = makeStyles((theme) => ({}));
@@ -42,14 +43,7 @@ const Dashboard = () => {
       setFilteredTodos(null);
     } else {
       setIsFilterMode(true);
-      const filteredArray = todos.filter(todo => {
-        return (
-          todo.title.toLowerCase().includes(
-            e.target.value.toLowerCase()
-          )
-        );
-      });
-      setFilteredTodos(filteredArray);
+      setFilteredTodos(searchTodos(todos, e));
     }
   }
 

@@ -6,20 +6,15 @@ import {
   DELETE_TODO,
   ERROR_TODO
 } from './types';
+import { CONTENT_TYPE } from '../utils/constants';
 
 // Add todo
-export const addTodo = (newTodo) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
+export const addTodo = newTodo => async dispatch => {
   try {
     const res = await axios.post(
       '/api/todos/',
       newTodo,
-      config
+      CONTENT_TYPE
     );
 
     dispatch({
@@ -59,17 +54,11 @@ export const getTodos = () => async dispatch => {
 
 // Edit todo
 export const editTodo = editTodo => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
   try {
     const res = await axios.put(
       `/api/todos/${editTodo.id}`,
       editTodo,
-      config
+      CONTENT_TYPE
     );
 
     dispatch({

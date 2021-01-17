@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import { STATUS_ARRAY } from '../../utils/constants';
+import { ERROR_MESSAGE, STATUS_ARRAY } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const {
+  titleRequired,
+  statusRequired
+} = ERROR_MESSAGE;
 
 const EditTodoForm = ({
   onSubmit,
@@ -52,7 +56,7 @@ const EditTodoForm = ({
         inputRef={register({ required: true })}
         error={errors.title}
         helperText={(
-          errors.title && "Title is required"
+          errors.title && titleRequired
         )}
       />
       <FormControl margin="normal">
@@ -73,7 +77,7 @@ const EditTodoForm = ({
         </InputLabel>
         <Controller
           name="status"
-          rules={{ required: "Status is required" }}
+          rules={{ required: statusRequired }}
           control={control}
           defaultValue=""
           as={

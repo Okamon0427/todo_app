@@ -6,14 +6,12 @@ import {
   USERDATA_AUTH,
   ERROR_AUTH
 } from './types';
+import { CONTENT_TYPE } from '../utils/constants';
+import { setTokenToHeader } from '../utils/functions';
 
 // Get login user data
 export const userDataAuth = () => async dispatch => {
-  if (localStorage.token) {
-    axios.defaults.headers.common['x-auth-token'] = localStorage.token;
-  } else {
-    delete axios.defaults.headers.common['x-auth-token'];
-  }
+  setTokenToHeader(localStorage.token);
 
   try {
     const res = await axios.get('/api/user');
@@ -35,19 +33,13 @@ export const userDataAuth = () => async dispatch => {
 
 // Register User
 export const registerAuth = ({ name, email, password }) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
   const body = JSON.stringify({ name, email, password });
 
   try {
     const res = await axios.post(
       '/api/auth/register',
       body,
-      config
+      CONTENT_TYPE
     );
 
     localStorage.setItem('token', res.data.token);
@@ -71,19 +63,13 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
 
 // Login User
 export const loginAuth = ({ email, password }) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
   const body = JSON.stringify({ email, password });
 
   try {
     const res = await axios.post(
       '/api/auth/login',
       body,
-      config
+      CONTENT_TYPE
     );
 
     localStorage.setItem('token', res.data.token);

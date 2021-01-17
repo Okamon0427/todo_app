@@ -3,13 +3,21 @@ export const AUTH_TYPE = {
   login: 'Login'
 }
 
+export const CONTENT_TYPE = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
 export const ERROR_MESSAGE = {
   userNameRequired: "User name is required",
   emailRequired: "Email is required",
   emailValid: "Email should be a valid email address",
   passwordRequired: "Password is required",
   passwordMinLength: "Password should be at least 6 charactars",
-  passwordMatch: "Password is not matched"
+  passwordMatch: "Password is not matched",
+  titleRequired: "Title is required",
+  statusRequired: "Status is required",
 }
 
 export const REGEX = {
