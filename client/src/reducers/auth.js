@@ -11,7 +11,7 @@ const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: true,
-  error: {}
+  error: null
 }
 
 const authReducers = (state = initialState, action) => {
@@ -24,13 +24,15 @@ const authReducers = (state = initialState, action) => {
         ...state,
         token: localStorage.getItem('token'),
         isAuthenticated: true,
-        loading: false
+        loading: false,
+        error: null
       };
     case USERDATA_AUTH:
       return {
         ...state,
         user: payload,
-        loading: false
+        loading: false,
+        error: null
       };
     case ERROR_AUTH:
     case LOGOUT_AUTH:

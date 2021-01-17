@@ -9,7 +9,7 @@ import {
 const initialState = {
   todos: [],
   loading: true,
-  error: {}
+  error: null
 }
 
 const todoReducers = (state = initialState, action) => {
@@ -20,13 +20,15 @@ const todoReducers = (state = initialState, action) => {
       return {
         ...state,
         todos: [payload, ...state.todos],
-        loading: false
+        loading: false,
+        error: null
       };
     case GET_TODOS:
       return {
         ...state,
         todos: payload,
-        loading: false
+        loading: false,
+        error: null
       };
     case EDIT_TODO:
       return {
@@ -38,7 +40,8 @@ const todoReducers = (state = initialState, action) => {
             return todo;
           }
         }),
-        loading: false
+        loading: false,
+        error: null
       };
     case DELETE_TODO:
       return {
@@ -46,7 +49,8 @@ const todoReducers = (state = initialState, action) => {
         todos: state.todos.filter(todo => {
           return todo._id !== payload
         }),
-        loading: false
+        loading: false,
+        error: null
       };
     case ERROR_TODO:
       return {

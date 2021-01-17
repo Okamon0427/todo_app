@@ -21,5 +21,6 @@ export const getUser = () => async dispatch => {
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };

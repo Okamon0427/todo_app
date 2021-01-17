@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Landing from './components/auth';
 import Layout from './components/layout/Layout';
+import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard';
 import User from './components/user';
 import PasswordChange from './components/others/PasswordChange';
@@ -73,6 +74,7 @@ const App = () => {
           <Route component={notFound} />
         </Switch>
       </Router>
+      <Alert />
     </Provider>
   );
 }

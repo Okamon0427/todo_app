@@ -6,6 +6,7 @@ import {
   USERDATA_AUTH,
   ERROR_AUTH
 } from './types';
+import { setAlert } from './alert';
 import { CONTENT_TYPE } from '../utils/constants';
 import { setTokenToHeader } from '../utils/functions';
 
@@ -24,10 +25,11 @@ export const userDataAuth = () => async dispatch => {
     dispatch({
       type: ERROR_AUTH,
       payload: {
-        msg: err.response.statusText,
+        msg: err.response.data.msg,
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 }
 
@@ -54,10 +56,11 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
     dispatch({
       type: ERROR_AUTH,
       payload: {
-        msg: err.response.statusText,
+        msg: err.response.data.msg,
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
 
@@ -84,10 +87,11 @@ export const loginAuth = ({ email, password }) => async dispatch => {
     dispatch({
       type: ERROR_AUTH,
       payload: {
-        msg: err.response.statusText,
+        msg: err.response.data.msg,
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
 
@@ -95,4 +99,5 @@ export const loginAuth = ({ email, password }) => async dispatch => {
 export const logoutAuth = () => dispatch => {
   localStorage.removeItem('token');
   dispatch({ type: LOGOUT_AUTH });
+  dispatch(setAlert("You logged out", "success"));
 };

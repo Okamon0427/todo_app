@@ -4,8 +4,9 @@ import {
   GET_TODOS,
   EDIT_TODO,
   DELETE_TODO,
-  ERROR_TODO
+  ERROR_TODO,
 } from './types';
+import { setAlert } from './alert';
 import { CONTENT_TYPE } from '../utils/constants';
 
 // Add todo
@@ -29,6 +30,7 @@ export const addTodo = newTodo => async dispatch => {
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
 
@@ -49,6 +51,7 @@ export const getTodos = () => async dispatch => {
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
 
@@ -73,6 +76,7 @@ export const editTodo = editTodo => async dispatch => {
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
 
@@ -85,6 +89,7 @@ export const deleteTodo = id => async dispatch => {
       type: DELETE_TODO,
       payload: id
     });
+    dispatch(setAlert('Todo Deleted', 'success'))
   } catch (err) {
     dispatch({
       type: ERROR_TODO,
@@ -93,5 +98,6 @@ export const deleteTodo = id => async dispatch => {
         status: err.response.status
       }
     });
+    dispatch(setAlert(err.response.data.msg, "error"));
   }
 };

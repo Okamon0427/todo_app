@@ -6,7 +6,7 @@ import {
 const initialState = {
   user: [],
   loading: true,
-  error: {}
+  error: null
 }
 
 const userReducers = (state = initialState, action) => {
@@ -17,7 +17,8 @@ const userReducers = (state = initialState, action) => {
       return {
         ...state,
         user: payload,
-        loading: false
+        loading: false,
+        error: null
       };
     case ERROR_USER:
       return {
