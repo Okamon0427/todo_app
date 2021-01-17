@@ -65,7 +65,7 @@ router.put('/:userId',
     }
 
     try {
-      const user = await User.findById(req.params.userId);
+      const user = await User.findById(req.user.id);
       if (!user) {
         return res.status(404).json({ msg: 'User does not exists '})
       }
