@@ -2,6 +2,7 @@ import {
   REGISTER_AUTH,
   LOGIN_AUTH,
   LOGOUT_AUTH,
+  USERDATA_AUTH,
   ERROR_AUTH
 } from '../actions/types';
 
@@ -23,6 +24,12 @@ const authReducers = (state = initialState, action) => {
         ...state,
         token: localStorage.getItem('token'),
         isAuthenticated: true,
+        loading: false
+      };
+    case USERDATA_AUTH:
+      return {
+        ...state,
+        user: payload,
         loading: false
       };
     case ERROR_AUTH:

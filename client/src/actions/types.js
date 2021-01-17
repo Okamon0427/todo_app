@@ -7,6 +7,7 @@ export const ERROR_TODO = 'ERROR_TODO';
 export const REGISTER_AUTH = 'REGISTER_AUTH';
 export const LOGIN_AUTH = 'LOGIN_AUTH';
 export const LOGOUT_AUTH = 'LOGOUT_AUTH';
+export const USERDATA_AUTH = 'USERDATA_AUTH';
 export const ERROR_AUTH = 'ERROR_AUTH';
 
 export const GET_USER = 'GET_USER';

@@ -23,7 +23,6 @@ const Landing = () => {
   const [authType, setAuthType] = useState(login);
 
   const onSubmit = (data) => {
-    console.log(data)
     if (authType === login) {
       dispatch(loginAuth(data));
     } else {

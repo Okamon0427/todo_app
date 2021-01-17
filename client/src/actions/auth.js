@@ -3,8 +3,35 @@ import {
   REGISTER_AUTH,
   LOGIN_AUTH,
   LOGOUT_AUTH,
+  USERDATA_AUTH,
   ERROR_AUTH
 } from './types';
+
+// Get login user data
+export const userDataAuth = () => async dispatch => {
+  if (localStorage.token) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.token;
+  } else {
+    delete axios.defaults.headers.common['x-auth-token'];
+  }
+
+  try {
+    const res = await axios.get('/api/user');
+
+    dispatch({
+      type: USERDATA_AUTH,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR_AUTH,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+}
 
 // Register User
 export const registerAuth = ({ name, email, password }) => async dispatch => {
@@ -29,6 +56,8 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
       type: REGISTER_AUTH,
       payload: res.data
     });
+
+    dispatch(userDataAuth());
   } catch (err) {
     dispatch({
       type: ERROR_AUTH,
@@ -63,6 +92,8 @@ export const loginAuth = ({ email, password }) => async dispatch => {
       type: LOGIN_AUTH,
       payload: res.data
     });
+
+    dispatch(userDataAuth());
   } catch (err) {
     dispatch({
       type: ERROR_AUTH,

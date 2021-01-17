@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-
+const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 // <<< Delete Later >>>
@@ -31,12 +31,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-// @Route  GET api/user/:userId
+// @Route  GET api/user
 // @desc   Get user
 // @access Private
-router.get('/:userId', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ msg: 'User does not exists '})
     }

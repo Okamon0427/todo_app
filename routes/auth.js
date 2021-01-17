@@ -125,11 +125,4 @@ router.post(
   }
 );
 
-// @Route  GET api/auth/logout
-// @desc   User log out
-// @access Private
-router.post('/logout', async (req, res) => {
-
-});
-
 module.exports = router;
