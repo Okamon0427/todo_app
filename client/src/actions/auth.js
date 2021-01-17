@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   REGISTER_AUTH,
   LOGIN_AUTH,
+  LOGOUT_AUTH,
   ERROR_AUTH
 } from './types';
 
@@ -14,7 +15,6 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
   }
 
   const body = JSON.stringify({ name, email, password });
-  console.log(body);
 
   try {
     const res = await axios.post(
@@ -22,7 +22,6 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
       body,
       config
     );
-    console.log(res);
 
     localStorage.setItem('token', res.data.token);
   
@@ -73,4 +72,10 @@ export const loginAuth = ({ email, password }) => async dispatch => {
       }
     });
   }
+};
+
+// Logout User
+export const logoutAuth = () => dispatch => {
+  localStorage.removeItem('token');
+  dispatch({ type: LOGOUT_AUTH });
 };

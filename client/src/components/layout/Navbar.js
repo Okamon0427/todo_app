@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import { logoutAuth } from '../../actions/auth';
 
 const drawerWidth = 240;
 
@@ -33,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = ({ open, handleDrawerOpen }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(logoutAuth());
+  }
 
   return (
     <AppBar
@@ -60,7 +67,12 @@ const Navbar = ({ open, handleDrawerOpen }) => {
           <Button color="inherit">Setting</Button>
         </Link>
         <Link to="/">
-          <Button color="inherit">Logout</Button>
+          <Button
+            color="inherit"
+            onClick={onLogout}
+          >
+            Logout
+          </Button>
         </Link>
       </Toolbar>
     </AppBar>

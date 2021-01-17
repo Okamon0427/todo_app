@@ -1,6 +1,7 @@
 import {
   REGISTER_AUTH,
   LOGIN_AUTH,
+  LOGOUT_AUTH,
   ERROR_AUTH
 } from '../actions/types';
 
@@ -25,6 +26,7 @@ const authReducers = (state = initialState, action) => {
         loading: false
       };
     case ERROR_AUTH:
+    case LOGOUT_AUTH:
       return {
         ...state,
         user: null,
