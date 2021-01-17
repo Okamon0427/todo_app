@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Signup from './Signup';
 import Login from './Login';
 import { AUTH_TYPE } from '../../utils/constants';
+import { registerAuth, loginAuth } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -16,13 +18,17 @@ const { signup, login } = AUTH_TYPE;
 
 const Landing = () => {
   const classes = useStyles();
-  const history = useHistory();
-
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(state => state.auth);
   const [authType, setAuthType] = useState(login);
 
   const onSubmit = (data) => {
     console.log(data)
-    history.push('/dashboard');
+    if (authType === login) {
+      dispatch(loginAuth(data));
+    } else {
+      dispatch(registerAuth(data));
+    }
   }
 
   const changeAuthType = () => {
@@ -31,6 +37,10 @@ const Landing = () => {
     } else {
       setAuthType(login);
     }
+  }
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />
   }
 
   return (
