@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserPic from './UserPic';
 import UserInfo from './UserInfo';
 import AccountModal from './AccountModal';
-import { getUser } from '../../actions/user';
+import { getUser, editUserInfo } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -29,7 +29,7 @@ const User = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector(state => state.user);  
 
   const [open, setOpen] = useState(false);
   const [editInfo, setEditInfo] = useState(null);
@@ -54,14 +54,20 @@ const User = () => {
     setEditInfo(null);
   }
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   const prevUserData = { ...userData }
-  //   prevUserData[editInfo] = data[editInfo];
-  //   const newUserData = prevUserData;
-  //   setUserData(newUserData);
-  //   setEditInfo(null);
-  // }
+  const onSubmit = (data) => {
+    console.log(data);
+    let convertedData = {
+      ...data,
+      id: user._id
+    }
+    if (editInfo === 'name') {
+      convertedData.email = user.email;
+    } else {
+      convertedData.name = user.name
+    }
+    dispatch(editUserInfo(convertedData));
+    setEditInfo(null);
+  }
 
   const onDelete = () => {
     console.log('Delete your account')
@@ -77,7 +83,7 @@ const User = () => {
           editInfo={editInfo}
           onEdit={onEdit}
           onCancel={onCancel}
-          // onSubmit={onSubmit}
+          onSubmit={onSubmit}
         />
         <Link to="/password/change">
           <Button

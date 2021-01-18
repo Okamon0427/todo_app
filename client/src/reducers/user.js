@@ -15,12 +15,6 @@ const userReducers = (state = initialState, action) => {
 
   switch(type) {
     case GET_USER:
-      return {
-        ...state,
-        user: payload,
-        loading: false,
-        error: null
-      };
     case EDIT_INFO_USER:
       return {
         ...state,

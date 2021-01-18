@@ -51,7 +51,7 @@ router.get('/', auth, async (req, res) => {
 // @Route  PUT api/user/:userId
 // @desc   Update user (NOT Password)
 // @access Private
-router.put('/:userId',
+router.put('/:userId', auth,
   [
     check('name', 'User Name is required')
       .not()
@@ -71,7 +71,8 @@ router.put('/:userId',
       }
 
       const updatedUser = await User.findOneAndUpdate(
-        req.params.userId,
+        req.user.id,
+        req.body,
         { new: true }
       );
 
@@ -86,7 +87,7 @@ router.put('/:userId',
 // @Route  PUT api/user/:userId/password
 // @desc   Update user password
 // @access Private
-router.put('/:userId/password',
+router.put('/:userId/password', auth,
   [
     check(
       'password',
@@ -128,7 +129,7 @@ router.put('/:userId/password',
 // @Route  DELETE api/user/:userId
 // @desc   Delete user
 // @access Private
-router.delete('/:userId', async (req, res) => {
+router.delete('/:userId', auth, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {

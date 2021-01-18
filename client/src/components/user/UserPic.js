@@ -23,7 +23,7 @@ const UserPic = ({ userData }) => {
       <Paper>
         <h1>User Page</h1>
         <Avatar className={classes.large}>
-          {userData ? userData.name.slice(0, 1) : null}
+          {userData && userData.name && userData.name.slice(0, 1)}
         </Avatar>
       </Paper>
     </div>

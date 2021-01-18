@@ -29,14 +29,16 @@ export const getUser = () => async dispatch => {
 };
 
 // Edit user
-export const editUser = editUser => async dispatch => {
+export const editUserInfo = editUser => async dispatch => {
   try {
+    const body = JSON.stringify({ ...editUser });
+
     const res = await axios.put(
-      `/api/user/${editUser._id}`,
-      editUser,
+      `/api/user/${editUser.id}`,
+      body,
       CONTENT_TYPE
     );
-  
+
     dispatch({
       type: EDIT_INFO_USER,
       payload: res.data
