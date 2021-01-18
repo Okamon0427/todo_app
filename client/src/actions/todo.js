@@ -5,6 +5,7 @@ import {
   EDIT_TODO,
   DELETE_TODO,
   ERROR_TODO,
+  CLEAR_TODO
 } from './types';
 import { setAlert } from './alert';
 import { CONTENT_TYPE } from '../utils/constants';
@@ -100,4 +101,9 @@ export const deleteTodo = id => async dispatch => {
     });
     dispatch(setAlert(err.response.data.msg, "error"));
   }
+};
+
+// Clear todo
+export const clearTodo = () => async dispatch => {
+  dispatch({ type: CLEAR_TODO });
 };

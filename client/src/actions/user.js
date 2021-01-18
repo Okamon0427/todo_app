@@ -3,7 +3,8 @@ import {
   GET_USER,
   EDIT_INFO_USER,
   EDIT_PASSWORD_USER,
-  ERROR_USER
+  ERROR_USER,
+  CLEAR_USER
 } from './types';
 import { setAlert } from './alert';
 import { CONTENT_TYPE } from '../utils/constants';
@@ -82,4 +83,9 @@ export const editUserPassword = editUser => async dispatch => {
     });
     dispatch(setAlert(err.response.data.msg, "error"));
   }
+};
+
+// Clear User
+export const clearUser = () => async dispatch => {
+  dispatch({ type: CLEAR_USER });
 };

@@ -2,7 +2,8 @@ import {
   GET_USER,
   EDIT_INFO_USER,
   EDIT_PASSWORD_USER,
-  ERROR_USER
+  ERROR_USER,
+  CLEAR_USER
 } from '../actions/types';
 
 const initialState = {
@@ -29,6 +30,13 @@ const userReducers = (state = initialState, action) => {
         ...state,
         loading: false,
         error: payload
+      };
+    case CLEAR_USER:
+      return {
+        ...state,
+        user: [],
+        loading: false,
+        error: null
       };
     default:
       return state

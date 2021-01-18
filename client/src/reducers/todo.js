@@ -3,7 +3,8 @@ import {
   GET_TODOS,
   EDIT_TODO,
   DELETE_TODO,
-  ERROR_TODO
+  ERROR_TODO,
+  CLEAR_TODO
 } from '../actions/types';
 
 const initialState = {
@@ -58,6 +59,13 @@ const todoReducers = (state = initialState, action) => {
         loading: false,
         error: payload
       };
+    case CLEAR_TODO:
+      return {
+        ...state,
+        todos: [],
+        loading: false,
+        error: null
+      }
     default:
       return state
   }
