@@ -90,8 +90,12 @@ router.put('/:userId', auth,
 router.put('/:userId/password', auth,
   [
     check(
-      'password',
-      'Please enter a password with 6 or more characters'
+      'currentPassword',
+      'Please enter a current password with 6 or more characters'
+    ).isLength({ min: 6 }),
+    check(
+      'newPassword',
+      'Please enter a new password with 6 or more characters'
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -100,10 +104,10 @@ router.put('/:userId/password', auth,
       return res.status(400).json({ errors: errors.array() });
     }
     
-    const { currentPassword, newPassword, newPassword2 } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
     try {
-      let user = await User.findById(req.params.userId);
+      let user = await User.findById(req.user.id);
       if (!user) {
         return res.status(404).json({ msg: 'User does not exists '})
       }

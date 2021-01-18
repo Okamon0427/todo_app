@@ -55,7 +55,6 @@ const User = () => {
   }
 
   const onSubmit = (data) => {
-    console.log(data);
     let convertedData = {
       ...data,
       id: user._id

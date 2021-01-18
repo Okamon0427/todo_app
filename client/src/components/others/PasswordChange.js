@@ -1,9 +1,11 @@
 import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { Button, Paper, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ERROR_MESSAGE } from '../../utils/constants';
+import { editUserPassword } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,12 +26,17 @@ const {
 
 const PasswordChange = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { user } = useSelector(state => state.user);
   const { register, errors, handleSubmit, watch } = useForm();
   const history = useHistory();
 
   const onSubmit = (data) => {
-    console.log(data);
-    // Send Email
+    let convertedData = {
+      ...data,
+      id: user._id
+    };
+    dispatch(editUserPassword(convertedData));
     history.push('/user');
   }
 

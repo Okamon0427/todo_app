@@ -1,6 +1,7 @@
 import {
   GET_USER,
   EDIT_INFO_USER,
+  EDIT_PASSWORD_USER,
   ERROR_USER
 } from '../actions/types';
 
@@ -16,6 +17,7 @@ const userReducers = (state = initialState, action) => {
   switch(type) {
     case GET_USER:
     case EDIT_INFO_USER:
+    case EDIT_PASSWORD_USER:
       return {
         ...state,
         user: payload,
