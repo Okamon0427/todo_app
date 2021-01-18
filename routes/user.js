@@ -135,10 +135,12 @@ router.put('/:userId/password', auth,
 // @access Private
 router.delete('/:userId', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ msg: 'User does not exists '})
     }
+
+    await User.findByIdAndRemove(req.user.id);
 
     res.json({ msg: 'User deleted' });
   } catch (err) {

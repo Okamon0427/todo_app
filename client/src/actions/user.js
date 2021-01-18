@@ -8,6 +8,7 @@ import {
 } from './types';
 import { setAlert } from './alert';
 import { CONTENT_TYPE } from '../utils/constants';
+import { logoutAuth } from './auth';
 
 // Get user
 export const getUser = () => async dispatch => {
@@ -73,6 +74,25 @@ export const editUserPassword = editUser => async dispatch => {
       payload: res.data
     });
     dispatch(setAlert('Password changed', "success"));
+  } catch (err) {
+    dispatch({
+      type: ERROR_USER,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+    dispatch(setAlert(err.response.data.msg, "error"));
+  }
+};
+
+// Delete User
+export const deleteUser = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/user/${id}`);
+
+    dispatch(logoutAuth());
+    dispatch(setAlert(res.data.msg, "success"));
   } catch (err) {
     dispatch({
       type: ERROR_USER,

@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserPic from './UserPic';
 import UserInfo from './UserInfo';
 import AccountModal from './AccountModal';
-import { getUser, editUserInfo } from '../../actions/user';
+import { getUser, editUserInfo, deleteUser } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -69,7 +69,7 @@ const User = () => {
   }
 
   const onDelete = () => {
-    console.log('Delete your account')
+    dispatch(deleteUser(user._id));
     history.push('/');
   }
 
