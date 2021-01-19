@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-
+const auth = require('../middleware/auth');
 const Todo = require('../models/Todo');
 
 // @Route  POST api/todos
 // @desc   Create todo
 // @access Private
-router.post(
-  '/',
+router.post('/', auth,
   [
     check('title', 'Title is required')
       .not()
@@ -27,6 +26,7 @@ router.post(
       const { title, dueDate, status, category } = req.body;
 
       const newTodoObject = new Todo({
+        user: req.user.id,
         title,
         dueDate,
         status,
@@ -44,23 +44,24 @@ router.post(
 );
 
 // @Route  GET api/todos
-// @desc   Get all todos
+// @desc   Get all todos by user ID
 // @access Private
-router.get('/', async (req, res) => {
-  try {
-    const allTodos = await Todo.find().sort({ createdAt: -1 });
-    res.json(allTodos);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+router.get('/', auth,
+  async (req, res) => {
+    try {
+      const allTodos = await Todo.find({ user: req.user.id }).sort({ createdAt: -1 });
+      res.json(allTodos);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
   }
-});
+);
 
 // @Route  PUT api/todos/:todoId
 // @desc   Update todo by Todo Id
 // @access Private
-router.put(
-  '/:todoId',
+router.put('/:todoId', auth,
   [
     check('title', 'Title is required')
       .not()
@@ -81,6 +82,10 @@ router.put(
         return res.status(404).json({ msg: 'Todo not found' });
       }
 
+      if (todo.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'This todo is not yours' });
+      }
+
       const updatedTodo = await Todo.findByIdAndUpdate(
         req.params.todoId,
         req.body,
@@ -98,11 +103,15 @@ router.put(
 // @Route  DELETE api/todos/:todoId
 // @desc   Delete todo by Todo Id
 // @access Private
-router.delete('/:todoId', async (req, res) => {
+router.delete('/:todoId', auth, async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.todoId);
     if (!todo) {
       return res.status(404).json({ msg: 'Todo not found' });
+    }
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'This todo is not yours' });
     }
 
     await todo.remove();

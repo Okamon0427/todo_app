@@ -10,8 +10,7 @@ const User = require('../models/User');
 // @Route  POST api/auth/register
 // @desc   Register user
 // @access Public
-router.post(
-  '/register',
+router.post('/register',
   [
     check('name', 'User Name is required')
       .not()
@@ -74,8 +73,7 @@ router.post(
 // @Route  POST api/auth/login
 // @desc   Authenticate user
 // @access Public
-router.post(
-  '/login',
+router.post('/login',
   [
     check('email', 'Please include a valid email').isEmail(),
     check(

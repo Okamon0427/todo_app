@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-
+const auth = require('../middleware/auth');
 const Category = require('../models/Category');
 
 // @Route  POST api/categories
 // @desc   Create category
 // @access Private
-router.post(
-  '/',
+router.post('/', auth,
   [
     check('title', 'Title is required')
       .not()
@@ -29,6 +28,7 @@ router.post(
       }
 
       const newCategoryObject = new Category({
+        user: req.user.id,
         title,
       });
 
@@ -43,11 +43,12 @@ router.post(
 );
 
 // @Route  GET api/categories
-// @desc   GET all categories
+// @desc   GET all categories by user ID
 // @access Private
-router.get('/', async (req, res) => {  
+router.get('/', auth,
+  async (req, res) => {  
   try {
-    const allCategories = await Category.find().sort({ createdAt: -1 });;
+    const allCategories = await Category.find({ user: req.user.id }).sort({ createdAt: -1 });;
     res.json(allCategories);
   } catch (err) {
     console.error(err.message);
@@ -74,8 +75,7 @@ router.get('/:categoryId', async (req, res) => {
 // @Route  PUT api/categories/:categoryId
 // @desc   Update category by category ID
 // @access Private
-router.put(
-  '/:categoryId',
+router.put('/:categoryId',
   [
     check('title', 'Title is required')
       .not()
@@ -91,6 +91,10 @@ router.put(
       const category = await Category.findById(req.params.categoryId);
       if (!category) {
         return res.status(404).json({ msg: 'Category not found' });
+      }
+
+      if (category.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'This category is not yours' });
       }
 
       const updatedCategory = await Category.findByIdAndUpdate(
@@ -115,6 +119,10 @@ router.delete('/:categoryId', async (req, res) => {
     const category = await Category.findById(req.params.categoryId);
     if (!category) {
       return res.status(404).json({ msg: 'Category not found' });
+    }
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'This category is not yours' });
     }
 
     await category.remove();

@@ -12,11 +12,13 @@ import PasswordReset from './components/others/PasswordReset';
 import NotFound from './components/others/NotFound';
 import './App.css';
 
+// Check Later
+import { setTokenToHeader } from './utils/functions';
+setTokenToHeader(localStorage.token);
+
 const landing = () => {
   return (
-    <Layout>
-      <Landing />
-    </Layout>
+    <Landing />
   );
 }
 
