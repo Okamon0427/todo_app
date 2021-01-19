@@ -43,7 +43,7 @@ router.post(
 );
 
 // @Route  GET api/categories
-// @desc   GET all category
+// @desc   GET all categories
 // @access Private
 router.get('/', async (req, res) => {  
   try {
@@ -55,8 +55,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @Route  GET api/categories/categoryId
-// @desc   GET categories by category ID
+// @Route  GET api/categories/:categoryId
+// @desc   GET category by category ID
 // @access Private
 router.get('/:categoryId', async (req, res) => {  
   try {
@@ -70,5 +70,41 @@ router.get('/:categoryId', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @Route  PUT api/categories/:categoryId
+// @desc   Update category by category ID
+// @access Private
+router.put(
+  '/:categoryId',
+  [
+    check('title', 'Title is required')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const category = await Category.findById(req.params.categoryId);
+      if (!category) {
+        return res.status(404).json({ msg: 'Category not found' });
+      }
+
+      const updatedCategory = await Category.findByIdAndUpdate(
+        req.params.categoryId,
+        req.body,
+        { new: true }
+      );
+
+      res.json(updatedCategory);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;
