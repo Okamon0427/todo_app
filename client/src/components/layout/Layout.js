@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { CssBaseline, Divider, Drawer, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Navbar from './Navbar';
 import AddCategoryForm from './AddCategoryForm';
+import CategoriesList from './CategoriesList';
 import { getCategories, addCategory } from '../../actions/category';
 
 const drawerWidth = 240;
@@ -97,7 +95,6 @@ const MiniDrawer = (props) => {
   };
 
   const onSubmit = (data, e) => {
-    console.log(data);
     dispatch(addCategory(data));
     e.target.reset();
   };
@@ -105,7 +102,10 @@ const MiniDrawer = (props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Navbar handleDrawerOpen={handleDrawerOpen} open={open} />
+      <Navbar
+        handleDrawerOpen={handleDrawerOpen}
+        open={open}
+      />
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
@@ -129,31 +129,7 @@ const MiniDrawer = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          <ListItem
-            button
-            component={Link}
-            to="/dashboard"
-          >
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-            <ListItemText primary="All" />
-          </ListItem>
-          {categories && categories.map((category, index) => (
-            <ListItem
-              button
-              key={category._id}
-              component={Link}
-              to={`/dashboard/${category._id}`}
-            >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={category.title} />
-            </ListItem>
-          ))}
-        </List>
+        <CategoriesList categories={categories} />
         <AddCategoryForm onSubmit={onSubmit} />
       </Drawer>
       <main className={classes.content}>

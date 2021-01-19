@@ -18,7 +18,6 @@ export const addCategory = newCategory => async dispatch => {
       newCategory,
       CONTENT_TYPE
     );
-    console.log(res); // delete
 
     dispatch({
       type: ADD_CATEGORY,
