@@ -39,12 +39,14 @@ export const addCategory = newCategory => async dispatch => {
 export const getCategories = () => async dispatch => {
   try {
     const res = await axios.get('/api/categories');
+    console.log(res)
   
     dispatch({
       type: GET_CATEGORY,
       payload: res.data
     });
   } catch (err) {
+    console.log(err.response)
     dispatch({
       type: ERROR_CATEGORY,
       payload: {
@@ -57,10 +59,10 @@ export const getCategories = () => async dispatch => {
 };
 
 // Edit categories
-export const editCategory = editCategory => async dispatch => {
+export const updateCategory = editCategory => async dispatch => {
   try {
     const res = await axios.put(
-      `/api/categories/${editCategory.id}`,
+      `/api/categories/${editCategory.categoryId}`,
       editCategory,
       CONTENT_TYPE
     );

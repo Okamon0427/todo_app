@@ -34,7 +34,13 @@ const categoryReducers = (state = initialState, action) => {
     case EDIT_CATEGORY:
       return {
         ...state,
-        categories: [payload, ...state.categories],
+        categories: state.categories.map(category => {
+          if (category._id === payload._id) {
+            return payload;
+          } else {
+            return category;
+          }
+        }),
         loading: false,
         error: null
       };

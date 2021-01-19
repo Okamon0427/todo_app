@@ -29,7 +29,7 @@ const User = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.user);  
+  const { user } = useSelector(state => state.user);
 
   const [open, setOpen] = useState(false);
   const [editInfo, setEditInfo] = useState(null);

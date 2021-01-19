@@ -75,7 +75,7 @@ router.get('/:categoryId', async (req, res) => {
 // @Route  PUT api/categories/:categoryId
 // @desc   Update category by category ID
 // @access Private
-router.put('/:categoryId',
+router.put('/:categoryId', auth,
   [
     check('title', 'Title is required')
       .not()

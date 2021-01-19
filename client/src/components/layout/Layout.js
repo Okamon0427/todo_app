@@ -8,7 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
 import AddCategoryForm from './AddCategoryForm';
 import CategoriesList from './CategoriesList';
-import { getCategories, addCategory } from '../../actions/category';
+import { getCategories, addCategory, updateCategory } from '../../actions/category';
 
 const drawerWidth = 240;
 
@@ -85,7 +85,7 @@ const MiniDrawer = (props) => {
 
   useEffect(() => {
     dispatch(getCategories());
-  }, [dispatch])
+  }, [])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -97,20 +97,24 @@ const MiniDrawer = (props) => {
 
   const onSubmit = (data, e) => {
     console.log(data);
-    // if (editCategory) {
-    //   dispatch(addCategory(data));
-    // } else {
-    //   const convertedData = {
-    //     ...data,
-    //     id: user._id
-    //   }
-    //   dispatch(editCategory(convertedData));
-    // }
-    setEditCategory(null);
+    if (!editCategory) {
+      dispatch(addCategory(data));
+    } else {
+      const convertedData = {
+        ...data,
+        categoryId: editCategory.categoryId,
+        userId: editCategory.userId
+      }
+      dispatch(updateCategory(convertedData));
+      setEditCategory(null);
+    }
   };
 
-  const onEdit = (id) => {
-    setEditCategory(id);
+  const onEdit = (categoryId, userId) => {
+    setEditCategory({
+      categoryId,
+      userId
+    });
   };
 
   const onCancel = () => {

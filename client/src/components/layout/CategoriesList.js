@@ -40,7 +40,7 @@ const CategoriesList = ({
         <ListItemText primary="All" />
       </ListItem>
       {categories && categories.map((category, index) => (
-        editCategory === category._id ? (
+        editCategory && editCategory.categoryId === category._id ? (
           <ListItem key={category._id}>
             <form
               className={classes.root}
@@ -86,7 +86,7 @@ const CategoriesList = ({
                 type="submit"
                 edge="end"
                 aria-label="submit"
-                onClick={() => onEdit(category._id)}
+                onClick={() => onEdit(category._id, category.user)}
               >
                 <EditIcon />
               </IconButton>
