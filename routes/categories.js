@@ -42,4 +42,33 @@ router.post(
   }
 );
 
+// @Route  GET api/categories
+// @desc   GET all category
+// @access Private
+router.get('/', async (req, res) => {  
+  try {
+    const allCategories = await Category.find().sort({ createdAt: -1 });;
+    res.json(allCategories);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @Route  GET api/categories/categoryId
+// @desc   GET categories by category ID
+// @access Private
+router.get('/:categoryId', async (req, res) => {  
+  try {
+    const categories = await Category.findById(
+      req.params.categoryId
+    )
+      .sort({ createdAt: -1 });
+    res.json(categories);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
