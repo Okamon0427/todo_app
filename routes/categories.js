@@ -107,4 +107,22 @@ router.put(
   }
 );
 
+// @Route  DELETE api/categories/:categoryId
+// @desc   Delete category
+// @access Private
+router.delete('/:categoryId', async (req, res) => {  
+  try {
+    const category = await Category.findById(req.params.categoryId);
+    if (!category) {
+      return res.status(404).json({ msg: 'Category not found' });
+    }
+
+    await category.remove();
+    res.json({ msg: 'Category Deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
