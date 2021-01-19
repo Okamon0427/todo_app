@@ -1,10 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+import { useForm } from "react-hook-form";
+import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, TextField } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
+import PublishIcon from '@material-ui/icons/Publish';
+import { makeStyles } from '@material-ui/core/styles';
+import { ERROR_MESSAGE } from '../../utils/constants';
 
-const CategoriesList = ({ categories }) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+const {
+  titleRequired
+} = ERROR_MESSAGE;
+
+const CategoriesList = ({
+  categories,
+  onEdit,
+  onCancel,
+  onSubmit,
+  editCategory
+}) => {
+  const classes = useStyles();
+  const { register, errors, handleSubmit } = useForm();
+
   return (
     <List>
       <ListItem
@@ -15,29 +40,65 @@ const CategoriesList = ({ categories }) => {
         <ListItemText primary="All" />
       </ListItem>
       {categories && categories.map((category, index) => (
-        <ListItem
-          button
-          key={category._id}
-          component={Link}
-          to={`/dashboard/${category._id}`}
-        >
-          <ListItemText primary={category.title} />
-          <ListItemSecondaryAction>
-            <IconButton
-              type="submit"
-              edge="end"
-              aria-label="submit"
-              >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="cancel"
+        editCategory === category._id ? (
+          <ListItem key={category._id}>
+            <form
+              className={classes.root}
+              noValidate
+              autoComplete="off"
+              onSubmit={handleSubmit(onSubmit)}
             >
-              <ClearIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
+              <TextField
+                name="title"
+                label="title"
+                inputRef={register({ required: true })}
+                error={errors.title}
+                helperText={(
+                  errors.title && titleRequired
+                )}
+              />
+              <IconButton
+                type="submit"
+                edge="end"
+                aria-label="submit"
+              >
+                <PublishIcon />
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="cancel"
+                onClick={onCancel}
+              >
+                <ClearIcon />
+              </IconButton>
+            </form>
+          </ListItem>
+        ) : (
+          <ListItem
+            button
+            key={category._id}
+            component={Link}
+            to={`/dashboard/${category._id}`}
+          >
+            <ListItemText primary={category.title} />
+            <ListItemSecondaryAction>
+              <IconButton
+                type="submit"
+                edge="end"
+                aria-label="submit"
+                onClick={() => onEdit(category._id)}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="cancel"
+              >
+                <ClearIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        )
       ))}
     </List>
   )

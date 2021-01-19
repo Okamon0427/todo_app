@@ -55,3 +55,28 @@ export const getCategories = () => async dispatch => {
     dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
+
+// Edit categories
+export const editCategory = editCategory => async dispatch => {
+  try {
+    const res = await axios.put(
+      `/api/categories/${editCategory.id}`,
+      editCategory,
+      CONTENT_TYPE
+    );
+  
+    dispatch({
+      type: EDIT_CATEGORY,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR_CATEGORY,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+    dispatch(setAlert(err.response.data.msg, "error"));
+  }
+};

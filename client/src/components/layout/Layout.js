@@ -81,6 +81,7 @@ const MiniDrawer = (props) => {
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [editCategory, setEditCategory] = useState(null)
 
   useEffect(() => {
     dispatch(getCategories());
@@ -95,9 +96,26 @@ const MiniDrawer = (props) => {
   };
 
   const onSubmit = (data, e) => {
-    dispatch(addCategory(data));
-    e.target.reset();
+    console.log(data);
+    // if (editCategory) {
+    //   dispatch(addCategory(data));
+    // } else {
+    //   const convertedData = {
+    //     ...data,
+    //     id: user._id
+    //   }
+    //   dispatch(editCategory(convertedData));
+    // }
+    setEditCategory(null);
   };
+
+  const onEdit = (id) => {
+    setEditCategory(id);
+  };
+
+  const onCancel = () => {
+    setEditCategory(null);
+  }
 
   return (
     <div className={classes.root}>
@@ -129,7 +147,13 @@ const MiniDrawer = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <CategoriesList categories={categories} />
+        <CategoriesList
+          categories={categories}
+          onEdit={onEdit}
+          onCancel={onCancel}
+          onSubmit={onSubmit}
+          editCategory={editCategory}
+        />
         <AddCategoryForm onSubmit={onSubmit} />
       </Drawer>
       <main className={classes.content}>
