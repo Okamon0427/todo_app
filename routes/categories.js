@@ -23,8 +23,8 @@ router.post(
     try {
       const { title } = req.body;
 
-      const existTitle = await Category.find({ title });
-      if (existTitle) {
+      const existTitle = await Category.find();
+      if (existTitle && existTitle.length > 0) {
         return res.status(401).json({ msg: 'Title already exists' });
       }
 

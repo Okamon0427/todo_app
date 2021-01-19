@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
@@ -8,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Navbar from './Navbar';
-import { initialCategories } from '../../utils/data';
+import { getCategories } from '../../actions/category';
 
 const drawerWidth = 240;
 
@@ -76,8 +77,15 @@ const useStyles = makeStyles((theme) => ({
 
 const MiniDrawer = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { categories } = useSelector(state => state.category);
+
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -125,17 +133,17 @@ const MiniDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary="All" />
           </ListItem>
-          {initialCategories.map((category, index) => (
+          {categories && categories.map((category, index) => (
             <ListItem
               button
-              key={category.id}
+              key={category._id}
               component={Link}
-              to={`/dashboard/${category.id}`}
+              to={`/dashboard/${category._id}`}
             >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={category.name} />
+              <ListItemText primary={category.title} />
             </ListItem>
           ))}
         </List>
