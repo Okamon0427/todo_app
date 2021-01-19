@@ -10,6 +10,32 @@ import {
 import { setAlert } from './alert';
 import { CONTENT_TYPE } from '../utils/constants';
 
+// Add category
+export const addCategory = newCategory => async dispatch => {
+  try {
+    const res = await axios.post(
+      '/api/categories/',
+      newCategory,
+      CONTENT_TYPE
+    );
+    console.log(res); // delete
+
+    dispatch({
+      type: ADD_CATEGORY,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR_CATEGORY,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+    dispatch(setAlert(err.response.data.msg, "error"));
+  }
+};
+
 // Get categories
 export const getCategories = () => async dispatch => {
   try {

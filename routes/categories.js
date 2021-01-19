@@ -22,7 +22,7 @@ router.post('/', auth,
     try {
       const { title } = req.body;
 
-      const existTitle = await Category.find();
+      const existTitle = await Category.find({ title, user: req.user.id });
       if (existTitle && existTitle.length > 0) {
         return res.status(401).json({ msg: 'Title already exists' });
       }

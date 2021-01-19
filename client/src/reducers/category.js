@@ -24,6 +24,13 @@ const categoryReducers = (state = initialState, action) => {
         loading: false,
         error: null
       };
+    case ADD_CATEGORY:
+      return {
+        ...state,
+        categories: [payload, ...state.categories],
+        loading: false,
+        error: null
+      };
     case ERROR_CATEGORY:
       return {
         ...state,

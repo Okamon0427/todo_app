@@ -9,7 +9,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Navbar from './Navbar';
-import { getCategories } from '../../actions/category';
+import AddCategoryForm from './AddCategoryForm';
+import { getCategories, addCategory } from '../../actions/category';
 
 const drawerWidth = 240;
 
@@ -95,6 +96,12 @@ const MiniDrawer = (props) => {
     setOpen(false);
   };
 
+  const onSubmit = (data, e) => {
+    console.log(data);
+    dispatch(addCategory(data));
+    e.target.reset();
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -147,6 +154,7 @@ const MiniDrawer = (props) => {
             </ListItem>
           ))}
         </List>
+        <AddCategoryForm onSubmit={onSubmit} />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
