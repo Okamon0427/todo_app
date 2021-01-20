@@ -27,4 +27,11 @@ const UserSchema = new Schema({
   }
 });
 
+// Delete Categories and todos related to User when the User is deleted
+UserSchema.pre('remove', async function (next) {
+  await this.model('category').deleteMany({ user: this._id });
+  await this.model('todo').deleteMany({ user: this._id });
+  next();
+});
+
 module.exports = User = mongoose.model('user', UserSchema);

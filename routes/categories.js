@@ -60,6 +60,7 @@ router.post('/', auth,
 router.get('/', auth,
   async (req, res) => {  
   try {
+    console.log(req.user)
     const allCategories = await Category.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(allCategories);
   } catch (err) {

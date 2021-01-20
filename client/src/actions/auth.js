@@ -49,12 +49,11 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
 
     localStorage.setItem('token', res.data.token);
   
+    dispatch(userDataAuth());
     dispatch({
       type: REGISTER_AUTH,
       payload: res.data
     });
-
-    dispatch(userDataAuth());
   } catch (err) {
     dispatch({
       type: ERROR_AUTH,
@@ -77,15 +76,15 @@ export const loginAuth = ({ email, password }) => async dispatch => {
       body,
       CONTENT_TYPE
     );
+    console.log(res)
 
     localStorage.setItem('token', res.data.token);
   
+    dispatch(userDataAuth());
     dispatch({
       type: LOGIN_AUTH,
       payload: res.data
     });
-
-    dispatch(userDataAuth());
   } catch (err) {
     dispatch({
       type: ERROR_AUTH,

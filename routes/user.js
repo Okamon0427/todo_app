@@ -156,7 +156,7 @@ router.delete('/:userId', auth, async (req, res) => {
       return res.status(404).json({ msg: userNotExists })
     }
 
-    await User.findByIdAndRemove(req.user.id);
+    await user.remove();
 
     res.json({ msg: userDeleted });
   } catch (err) {
