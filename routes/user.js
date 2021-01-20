@@ -2,8 +2,24 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
+const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+
+const {
+  userNameRequired,
+  emailValid,
+  currentPasswordMinLength,
+  newPasswordMinLength
+} = VALIDATION_MESSAGE;
+const {
+  invalidCurrentPassword,
+  userExists,
+  userNotExists,
+  userDeleted,
+  serverError,
+  emailSent
+} = ERROR_MESSAGE;
 
 // <<< Delete Later >>>
 // Create user
@@ -13,7 +29,7 @@ router.post('/', async (req, res) => {
   try {
     let currentUser = await User.findOne({ email });
     if (currentUser) {
-      return res.status(400).json({ msg: 'User already exists '})
+      return res.status(400).json({ msg: userExists })
     }
 
     newUserObject = new User({
@@ -27,7 +43,7 @@ router.post('/', async (req, res) => {
     res.json(newUser);
   } catch(err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).send(serverError);
   }
 });
 
@@ -38,13 +54,13 @@ router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(404).json({ msg: 'User does not exists '})
+      return res.status(404).json({ msg: userNotExists })
     }
 
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send(serverError);
   }
 });
 
@@ -53,10 +69,10 @@ router.get('/', auth, async (req, res) => {
 // @access Private
 router.put('/:userId', auth,
   [
-    check('name', 'User Name is required')
+    check('name', userNameRequired)
       .not()
       .isEmpty(),
-    check('email', 'Please include a valid email').isEmail(),
+    check('email', emailValid).isEmail(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -67,7 +83,7 @@ router.put('/:userId', auth,
     try {
       const user = await User.findById(req.user.id);
       if (!user) {
-        return res.status(404).json({ msg: 'User does not exists '})
+        return res.status(404).json({ msg: userNotExists })
       }
 
       const updatedUser = await User.findOneAndUpdate(
@@ -79,7 +95,7 @@ router.put('/:userId', auth,
       res.json(updatedUser);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -91,11 +107,11 @@ router.put('/:userId/password', auth,
   [
     check(
       'currentPassword',
-      'Please enter a current password with 6 or more characters'
+      currentPasswordMinLength
     ).isLength({ min: 6 }),
     check(
       'newPassword',
-      'Please enter a new password with 6 or more characters'
+      newPasswordMinLength
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -109,12 +125,12 @@ router.put('/:userId/password', auth,
     try {
       let user = await User.findById(req.user.id);
       if (!user) {
-        return res.status(404).json({ msg: 'User does not exists '})
+        return res.status(404).json({ msg: userNotExists })
       }
 
       const isMatch = await bcrypt.compare(currentPassword, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid Current Password' });
+        return res.status(400).json({ msg: invalidCurrentPassword });
       }
   
       const salt = await bcrypt.genSalt(10);
@@ -125,7 +141,7 @@ router.put('/:userId/password', auth,
       return res.json(updatedUser);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -137,15 +153,15 @@ router.delete('/:userId', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(404).json({ msg: 'User does not exists '})
+      return res.status(404).json({ msg: userNotExists })
     }
 
     await User.findByIdAndRemove(req.user.id);
 
-    res.json({ msg: 'User deleted' });
+    res.json({ msg: userDeleted });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send(serverError);
   }
 });
 
@@ -154,7 +170,7 @@ router.delete('/:userId', auth, async (req, res) => {
 // @access Public
 router.get('/password/forget',
   [
-    check('email', 'Please include a valid email').isEmail(),
+    check('email', emailValid).isEmail(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -165,15 +181,15 @@ router.get('/password/forget',
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(404).json({ msg: 'User does not exists '})
+        return res.status(404).json({ msg: userNotExists })
       }
 
       // Write Logic to send email
 
-      res.json({ msg: 'Email sent to your email' });
+      res.json({ msg: emailSent });
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );

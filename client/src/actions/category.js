@@ -82,3 +82,30 @@ export const updateCategory = editCategory => async dispatch => {
     dispatch(setAlert(err.response.data.msg, "error"));
   }
 };
+
+// Delete categories
+export const deleteCategory = categoryId => async dispatch => {
+  try {
+    await axios.delete(`/api/categories/${categoryId}`);
+  
+    dispatch({
+      type: DELETE_CATEGORY,
+      payload: categoryId
+    });
+    dispatch(setAlert('Category Deleted', 'success'))
+  } catch (err) {
+    dispatch({
+      type: ERROR_CATEGORY,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+    dispatch(setAlert(err.response.data.msg, "error"));
+  }
+};
+
+// Clear category
+export const clearCategory = () => async dispatch => {
+  dispatch({ type: CLEAR_CATEGORY });
+};

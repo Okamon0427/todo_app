@@ -1,18 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 const auth = require('../middleware/auth');
 const Todo = require('../models/Todo');
+
+const {
+  titleRequired,
+  statusRequired
+} = VALIDATION_MESSAGE;
+const {
+  todoNotFound,
+  todoAuthError,
+  todoDeleted,
+  serverError
+} = ERROR_MESSAGE;
 
 // @Route  POST api/todos
 // @desc   Create todo
 // @access Private
 router.post('/', auth,
   [
-    check('title', 'Title is required')
+    check('title', titleRequired)
       .not()
       .isEmpty(),
-    check('status', 'Status is required')
+    check('status', statusRequired)
       .not()
       .isEmpty()
   ],
@@ -38,7 +50,7 @@ router.post('/', auth,
       res.json(newTodo);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -53,7 +65,7 @@ router.get('/', auth,
       res.json(allTodos);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -63,10 +75,10 @@ router.get('/', auth,
 // @access Private
 router.put('/:todoId', auth,
   [
-    check('title', 'Title is required')
+    check('title', titleRequired)
       .not()
       .isEmpty(),
-    check('status', 'Status is required')
+    check('status', statusRequired)
       .not()
       .isEmpty()
   ],
@@ -79,11 +91,11 @@ router.put('/:todoId', auth,
     try {
       const todo = await Todo.findById(req.params.todoId);
       if (!todo) {
-        return res.status(404).json({ msg: 'Todo not found' });
+        return res.status(404).json({ msg: todoNotFound });
       }
 
       if (todo.user.toString() !== req.user.id) {
-        return res.status(401).json({ msg: 'This todo is not yours' });
+        return res.status(401).json({ msg: todoAuthError });
       }
 
       const updatedTodo = await Todo.findByIdAndUpdate(
@@ -95,7 +107,7 @@ router.put('/:todoId', auth,
       res.json(updatedTodo);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -107,19 +119,19 @@ router.delete('/:todoId', auth, async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.todoId);
     if (!todo) {
-      return res.status(404).json({ msg: 'Todo not found' });
+      return res.status(404).json({ msg: todoNotFound });
     }
 
     if (todo.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'This todo is not yours' });
+      return res.status(401).json({ msg: todoAuthError });
     }
 
     await todo.remove();
 
-    res.json({ msg: 'Todo Deleted' });
+    res.json({ msg: todoDeleted });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send(serverError);
   }
 });
 

@@ -5,7 +5,7 @@ const TodoSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user',
-    requird: true
+    required: true
   },
   category: {
     type: Schema.Types.ObjectId,

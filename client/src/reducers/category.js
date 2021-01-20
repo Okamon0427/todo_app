@@ -44,6 +44,15 @@ const categoryReducers = (state = initialState, action) => {
         loading: false,
         error: null
       };
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.filter(category => {
+          return category._id !== payload
+        }),
+        loading: false,
+        error: null
+      };
     case ERROR_CATEGORY:
       return {
         ...state,
@@ -53,7 +62,7 @@ const categoryReducers = (state = initialState, action) => {
     case CLEAR_CATEGORY:
       return {
         ...state,
-        todos: [],
+        categories: [],
         loading: false,
         error: null
       }

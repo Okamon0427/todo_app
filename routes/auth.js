@@ -4,21 +4,33 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-
+const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 const User = require('../models/User');
+
+const {
+  userNameRequired,
+  emailValid,
+  passwordRequired,
+  passwordMinLength,
+} = VALIDATION_MESSAGE;
+const {
+  invalidCredentials,
+  userExists,
+  serverError
+} = ERROR_MESSAGE;
 
 // @Route  POST api/auth/register
 // @desc   Register user
 // @access Public
 router.post('/register',
   [
-    check('name', 'User Name is required')
+    check('name', userNameRequired)
       .not()
       .isEmpty(),
-    check('email', 'Please include a valid email').isEmail(),
+    check('email', emailValid).isEmail(),
     check(
       'password',
-      'Please enter a password with 6 or more characters'
+      passwordMinLength
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -33,7 +45,7 @@ router.post('/register',
       const existUser = await User.findOne({ email });
       if (existUser) {
         return res.status(400).json({
-          msg: 'User already exists'
+          msg: userExists
         })
       }
   
@@ -65,7 +77,7 @@ router.post('/register',
       );
     } catch(err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -75,10 +87,10 @@ router.post('/register',
 // @access Public
 router.post('/login',
   [
-    check('email', 'Please include a valid email').isEmail(),
+    check('email', emailValid).isEmail(),
     check(
       'password',
-      'Please is required'
+      passwordRequired
     ).exists()
   ],
   async (req, res) => {
@@ -88,17 +100,16 @@ router.post('/login',
     }
 
     const { email, password } = req.body;
-    console.log(email, password)
 
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ msg: invalidCredentials });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ msg: invalidCredentials });
       }
   
       const payload = {
@@ -118,7 +129,7 @@ router.post('/login',
       );
     } catch(err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send(serverError);
     }
   }
 );

@@ -1,15 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 const auth = require('../middleware/auth');
 const Category = require('../models/Category');
+
+const {
+  titleRequired,
+} = VALIDATION_MESSAGE;
+const {
+  categoryNotFound,
+  categoryAuthError,
+  categoryExists,
+  categoryDeleted,
+  serverError
+} = ERROR_MESSAGE;
 
 // @Route  POST api/categories
 // @desc   Create category
 // @access Private
 router.post('/', auth,
   [
-    check('title', 'Title is required')
+    check('title', titleRequired)
       .not()
       .isEmpty(),
   ],
@@ -24,7 +36,7 @@ router.post('/', auth,
 
       const existTitle = await Category.find({ title, user: req.user.id });
       if (existTitle && existTitle.length > 0) {
-        return res.status(401).json({ msg: 'Title already exists' });
+        return res.status(401).json({ msg: categoryExists });
       }
 
       const newCategoryObject = new Category({
@@ -37,7 +49,7 @@ router.post('/', auth,
       res.json(newCategory);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -48,11 +60,11 @@ router.post('/', auth,
 router.get('/', auth,
   async (req, res) => {  
   try {
-    const allCategories = await Category.find({ user: req.user.id }).sort({ createdAt: -1 });;
+    const allCategories = await Category.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(allCategories);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send(serverError);
   }
 });
 
@@ -68,7 +80,7 @@ router.get('/:categoryId', async (req, res) => {
     res.json(categories);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send(serverError);
   }
 });
 
@@ -77,7 +89,7 @@ router.get('/:categoryId', async (req, res) => {
 // @access Private
 router.put('/:categoryId', auth,
   [
-    check('title', 'Title is required')
+    check('title', titleRequired)
       .not()
       .isEmpty(),
   ],
@@ -90,11 +102,16 @@ router.put('/:categoryId', auth,
     try {
       const category = await Category.findById(req.params.categoryId);
       if (!category) {
-        return res.status(404).json({ msg: 'Category not found' });
+        return res.status(404).json({ msg: categoryNotFound });
       }
 
       if (category.user.toString() !== req.user.id) {
-        return res.status(401).json({ msg: 'This category is not yours' });
+        return res.status(401).json({ msg: categoryAuthError });
+      }
+
+      const existTitle = await Category.find({ title, user: req.user.id });
+      if (existTitle && existTitle.length > 0) {
+        return res.status(401).json({ msg: categoryExists });
       }
 
       const updatedCategory = await Category.findByIdAndUpdate(
@@ -106,7 +123,7 @@ router.put('/:categoryId', auth,
       res.json(updatedCategory);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send(serverError);
     }
   }
 );
@@ -114,22 +131,22 @@ router.put('/:categoryId', auth,
 // @Route  DELETE api/categories/:categoryId
 // @desc   Delete category
 // @access Private
-router.delete('/:categoryId', async (req, res) => {  
+router.delete('/:categoryId', auth, async (req, res) => {  
   try {
     const category = await Category.findById(req.params.categoryId);
     if (!category) {
-      return res.status(404).json({ msg: 'Category not found' });
+      return res.status(404).json({ msg: categoryNotFound });
     }
 
-    if (todo.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'This category is not yours' });
+    if (category.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: categoryAuthError });
     }
 
     await category.remove();
-    res.json({ msg: 'Category Deleted' });
+    res.json({ msg: categoryDeleted });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send(serverError);
   }
 });
 

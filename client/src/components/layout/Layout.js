@@ -8,7 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
 import AddCategoryForm from './AddCategoryForm';
 import CategoriesList from './CategoriesList';
-import { getCategories, addCategory, updateCategory } from '../../actions/category';
+import { getCategories, addCategory, updateCategory, deleteCategory } from '../../actions/category';
 
 const drawerWidth = 240;
 
@@ -96,7 +96,6 @@ const MiniDrawer = (props) => {
   };
 
   const onSubmit = (data, e) => {
-    console.log(data);
     if (!editCategory) {
       dispatch(addCategory(data));
     } else {
@@ -119,6 +118,10 @@ const MiniDrawer = (props) => {
 
   const onCancel = () => {
     setEditCategory(null);
+  }
+
+  const onDelete = (categoryId) => {
+    dispatch(deleteCategory(categoryId));
   }
 
   return (
@@ -156,6 +159,7 @@ const MiniDrawer = (props) => {
           onEdit={onEdit}
           onCancel={onCancel}
           onSubmit={onSubmit}
+          onDelete={onDelete}
           editCategory={editCategory}
         />
         <AddCategoryForm onSubmit={onSubmit} />

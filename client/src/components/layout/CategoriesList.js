@@ -25,6 +25,7 @@ const CategoriesList = ({
   onEdit,
   onCancel,
   onSubmit,
+  onDelete,
   editCategory
 }) => {
   const classes = useStyles();
@@ -93,6 +94,7 @@ const CategoriesList = ({
               <IconButton
                 edge="end"
                 aria-label="cancel"
+                onClick={() => onDelete(category._id)}
               >
                 <ClearIcon />
               </IconButton>

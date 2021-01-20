@@ -9,6 +9,7 @@ import {
 import { setAlert } from './alert';
 import { clearTodo } from './todo';
 import { clearUser } from './user';
+import { clearCategory } from './category';
 import { CONTENT_TYPE } from '../utils/constants';
 import { setTokenToHeader } from '../utils/functions';
 
@@ -101,6 +102,7 @@ export const loginAuth = ({ email, password }) => async dispatch => {
 export const logoutAuth = () => dispatch => {
   localStorage.removeItem('token');
   dispatch({ type: LOGOUT_AUTH });
+  dispatch(clearCategory());
   dispatch(clearTodo());
   dispatch(clearUser());
   dispatch(setAlert("You logged out", "success"));
