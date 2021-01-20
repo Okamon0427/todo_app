@@ -62,12 +62,15 @@ const Dashboard = () => {
     const convertedData = { ...data };
     convertedData.dueDate = formData.dueDate;
     convertedData.id = formData.id;
+    if (categoryId) {
+      convertedData.category = categoryId;
+    }
 
-    isEditMode ? (
-      dispatch(editTodo(convertedData))
-    ) : (
-      dispatch(addTodo(convertedData))
-    );
+    if (isEditMode) {
+      dispatch(editTodo(convertedData));
+    } else {
+      dispatch(addTodo(convertedData));
+    }
 
     e.target.reset();
     setFormData({
