@@ -44,3 +44,9 @@ export const STATUS_ARRAY = [
     value: 'Done',
   },
 ];
+
+export const NOT_FOUND_PAGE = {
+  title: 'Page Not Found',
+  isAuthMessage: 'Move to dashboard page',
+  isNotAuthMessage: 'Move to login Page'
+}

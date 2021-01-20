@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Routes from './components/routes/Routes';
 import Landing from './components/auth';
+import PasswordReset from './components/others/PasswordReset';
 import Layout from './components/layout/Layout';
 import Alert from './components/layout/Alert';
 import './App.css';
@@ -19,6 +20,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/" component={Landing} />
+          <Route exact path="/password/reset" component={PasswordReset} />
           <Layout>
             <Route component={Routes} />
           </Layout>
