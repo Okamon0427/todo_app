@@ -59,23 +59,10 @@ export const getTodos = () => async dispatch => {
 
 // Get todos by category
 export const getTodosByCategory = categoryId => async dispatch => {
-  try {
-    const res = await axios.get(`/api/todos/${categoryId}`);
-  
-    dispatch({
-      type: GET_TODOS_BY_CATEGORY,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: ERROR_TODO,
-      payload: {
-        msg: err.response.statusText,
-        status: err.response.status
-      }
-    });
-    dispatch(setAlert(err.response.data.msg, "error"));
-  }
+  dispatch({
+    type: GET_TODOS_BY_CATEGORY,
+    payload: categoryId
+  });
 };
 
 // Edit todo

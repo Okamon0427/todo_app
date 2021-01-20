@@ -36,7 +36,7 @@ const User = () => {
 
   useEffect(() => {
     dispatch(getUser());
-  }, []);
+  }, [dispatch]);
 
   const handleOpen = () => {
     setOpen(true);
