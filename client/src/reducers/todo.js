@@ -1,6 +1,7 @@
 import {
   ADD_TODO,
   GET_TODOS,
+  GET_TODOS_BY_CATEGORY,
   EDIT_TODO,
   DELETE_TODO,
   ERROR_TODO,
@@ -25,6 +26,7 @@ const todoReducers = (state = initialState, action) => {
         error: null
       };
     case GET_TODOS:
+    case GET_TODOS_BY_CATEGORY:
       return {
         ...state,
         todos: payload,

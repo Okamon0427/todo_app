@@ -85,7 +85,7 @@ const MiniDrawer = (props) => {
 
   useEffect(() => {
     dispatch(getCategories());
-  }, [])
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);

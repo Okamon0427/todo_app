@@ -39,7 +39,6 @@ export const addCategory = newCategory => async dispatch => {
 export const getCategories = () => async dispatch => {
   try {
     const res = await axios.get('/api/categories');
-    console.log(res)
   
     dispatch({
       type: GET_CATEGORY,

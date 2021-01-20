@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,7 @@ import Spinner from '../layout/Spinner';
 // import { DATE_FORMAT } from '../../utils/constants';
 // import { formattedDate } from '../../utils/functions';
 import { searchTodos } from '../../utils/functions';
-import { addTodo, getTodos, editTodo, deleteTodo } from '../../actions/todo';
+import { addTodo, getTodos, getTodosByCategory, editTodo, deleteTodo } from '../../actions/todo';
 
 // const useStyles = makeStyles((theme) => ({}));
 
@@ -20,6 +20,7 @@ const Dashboard = () => {
   // const classes = useStyles();
   const dispatch = useDispatch();
   const { todos, loading } = useSelector(state => state.todo);
+  const { categoryId } = useParams();
 
   const [formData, setFormData] = useState({
     id: '',
@@ -31,11 +32,13 @@ const Dashboard = () => {
   const [isFilterMode, setIsFilterMode] = useState(false);
   const [filteredTodos, setFilteredTodos] = useState(null);
 
-  // const { categoryId } = useParams();
-
   useEffect(() => {
-    dispatch(getTodos());
-  }, [dispatch])
+    if (!categoryId) {
+      dispatch(getTodos());
+    } else {
+      dispatch(getTodosByCategory(categoryId));
+    }
+  }, [dispatch, categoryId])
 
   const onSearchBarChange = e => {
     if (e.target.value === '') {

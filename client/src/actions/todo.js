@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   ADD_TODO,
   GET_TODOS,
+  GET_TODOS_BY_CATEGORY,
   EDIT_TODO,
   DELETE_TODO,
   ERROR_TODO,
@@ -42,6 +43,27 @@ export const getTodos = () => async dispatch => {
   
     dispatch({
       type: GET_TODOS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ERROR_TODO,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+    dispatch(setAlert(err.response.data.msg, "error"));
+  }
+};
+
+// Get todos by category
+export const getTodosByCategory = categoryId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/todos/${categoryId}`);
+  
+    dispatch({
+      type: GET_TODOS_BY_CATEGORY,
       payload: res.data
     });
   } catch (err) {
