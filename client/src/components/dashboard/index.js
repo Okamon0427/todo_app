@@ -20,7 +20,7 @@ const Dashboard = () => {
   // const classes = useStyles();
   const dispatch = useDispatch();
   const { todos, loading } = useSelector(state => state.todo);
-  const { categoryId } = useParams();
+  const { currentCategoryId } = useParams();
 
   const [formData, setFormData] = useState({
     id: '',
@@ -33,12 +33,12 @@ const Dashboard = () => {
   const [filteredTodos, setFilteredTodos] = useState(null);
 
   useEffect(() => {
-    if (!categoryId) {
+    if (!currentCategoryId) {
       dispatch(getTodos());
     } else {
-      dispatch(getTodosByCategory(categoryId));
+      dispatch(getTodosByCategory(currentCategoryId));
     }
-  }, [dispatch, categoryId])
+  }, [dispatch, currentCategoryId])
 
   const onSearchBarChange = e => {
     if (e.target.value === '') {
@@ -62,8 +62,8 @@ const Dashboard = () => {
     const convertedData = { ...data };
     convertedData.dueDate = formData.dueDate;
     convertedData.id = formData.id;
-    if (categoryId) {
-      convertedData.category = categoryId;
+    if (currentCategoryId) {
+      convertedData.category = currentCategoryId;
     }
 
     if (isEditMode) {

@@ -91,7 +91,7 @@ export const deleteCategory = categoryId => async dispatch => {
       type: DELETE_CATEGORY,
       payload: categoryId
     });
-    dispatch(setAlert('Category Deleted', 'success'))
+    dispatch(setAlert('Category Deleted', 'success'));
   } catch (err) {
     dispatch({
       type: ERROR_CATEGORY,

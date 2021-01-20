@@ -69,7 +69,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={landing} />
           <Route exact path="/dashboard" component={dashboard} />
-          <Route exact path="/dashboard/:categoryId" component={dashboard} />
+          <Route exact path="/dashboard/:currentCategoryId" component={dashboard} />
           <Route exact path="/user" component={user} />
           <Route exact path="/password/change" component={passwordChange} />
           <Route exact path="/password/reset" component={passwordReset} />

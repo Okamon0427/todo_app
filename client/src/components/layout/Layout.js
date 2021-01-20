@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -78,10 +79,11 @@ const MiniDrawer = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { categories } = useSelector(state => state.category);
-
+  const { currentCategoryId } = useParams();
+  const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [editCategory, setEditCategory] = useState(null)
+  const [editCategory, setEditCategory] = useState(null);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -122,6 +124,9 @@ const MiniDrawer = (props) => {
 
   const onDelete = (categoryId) => {
     dispatch(deleteCategory(categoryId));
+    if (categoryId === currentCategoryId) {
+      history.push('/dashboard');
+    }
   }
 
   return (

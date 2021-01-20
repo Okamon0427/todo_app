@@ -18,4 +18,10 @@ const CategorySchema = new Schema({
   }
 });
 
+// Delete Todos related to Category when the Category is deleted
+CategorySchema.pre('remove', async function (next) {
+  await this.model('todo').deleteMany({ category: this._id });
+  next();
+});
+
 module.exports = Category = mongoose.model('category', CategorySchema);

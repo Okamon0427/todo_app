@@ -26,21 +26,13 @@ const todoReducers = (state = initialState, action) => {
         error: null
       };
     case GET_TODOS:
+    case GET_TODOS_BY_CATEGORY:
       return {
         ...state,
         todos: payload,
         loading: false,
         error: null
       };
-    case GET_TODOS_BY_CATEGORY:
-      return {
-        ...state,
-        todos: state.todos.filter(todo => {
-          return todo.category === payload
-        }),
-        loading: false,
-        error: null
-      }
     case EDIT_TODO:
       return {
         ...state,

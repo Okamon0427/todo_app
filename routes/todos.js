@@ -73,20 +73,20 @@ router.get('/', auth,
 // @Route  GET api/todos/:categoryId
 // @desc   Get all todos by category ID
 // @access Private
-// router.get('/:categoryId', auth,
-//   async (req, res) => {
-//     try {
-//       const todos = await Todo.find({
-//         user: req.user.id,
-//         category: req.params.categoryId
-//       }).sort({ createdAt: -1 });
-//       res.json(todos);
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send(serverError);
-//     }
-//   }
-// );
+router.get('/:categoryId', auth,
+  async (req, res) => {
+    try {
+      const todos = await Todo.find({
+        user: req.user.id,
+        category: req.params.categoryId
+      }).sort({ createdAt: -1 });
+      res.json(todos);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send(serverError);
+    }
+  }
+);
 
 // @Route  PUT api/todos/:todoId
 // @desc   Update todo by Todo Id
