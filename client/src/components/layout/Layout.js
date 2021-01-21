@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
 import AddCategoryForm from './AddCategoryForm';
 import CategoriesList from './CategoriesList';
-import { userDataAuth } from '../../actions/auth';
+import { userDataAuth, logoutAuth } from '../../actions/auth';
 import { getCategories, addCategory, updateCategory, deleteCategory } from '../../actions/category';
 
 const drawerWidth = 240;
@@ -80,6 +80,7 @@ const MiniDrawer = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { categories } = useSelector(state => state.category);
+  const { isAuthenticated } = useSelector(state => state.auth);
   const { currentCategoryId } = useParams();
   const history = useHistory();
   const theme = useTheme();
@@ -133,12 +134,18 @@ const MiniDrawer = (props) => {
     }
   }
 
+  const onLogout = () => {
+    dispatch(logoutAuth());
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Navbar
         handleDrawerOpen={handleDrawerOpen}
         open={open}
+        onLogout={onLogout}
+        isAuthenticated={isAuthenticated}
       />
       <Drawer
         variant="permanent"

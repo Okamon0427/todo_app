@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   alert: null,
-  isOpen: true
+  isOpen: false
 }
 
 const authReducers = (state = initialState, action) => {
