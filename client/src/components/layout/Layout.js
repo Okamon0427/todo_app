@@ -9,6 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
 import AddCategoryForm from './AddCategoryForm';
 import CategoriesList from './CategoriesList';
+import { userDataAuth } from '../../actions/auth';
 import { getCategories, addCategory, updateCategory, deleteCategory } from '../../actions/category';
 
 const drawerWidth = 240;
@@ -86,6 +87,9 @@ const MiniDrawer = (props) => {
   const [editCategory, setEditCategory] = useState(null);
 
   useEffect(() => {
+    if (localStorage.token) {
+      dispatch(userDataAuth());
+    }
     dispatch(getCategories());
   }, [dispatch]);
 

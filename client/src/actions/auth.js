@@ -76,7 +76,6 @@ export const loginAuth = ({ email, password }) => async dispatch => {
       body,
       CONTENT_TYPE
     );
-    console.log(res)
 
     localStorage.setItem('token', res.data.token);
   

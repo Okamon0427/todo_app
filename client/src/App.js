@@ -7,13 +7,14 @@ import Landing from './components/auth';
 import PasswordReset from './components/others/PasswordReset';
 import Layout from './components/layout/Layout';
 import Alert from './components/layout/Alert';
+import { setTokenToHeader } from './utils/functions';
 import './App.css';
 
-// Check Later
-import { setTokenToHeader } from './utils/functions';
+// Set jwt token stored in local strage to req header
 setTokenToHeader(localStorage.token);
 
 const App = () => {
+
   return (
     <Provider store={store}>
       <Alert />
