@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MiniDrawer = (props) => {
+const Layout = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { categories } = useSelector(state => state.category);
@@ -188,4 +188,4 @@ const MiniDrawer = (props) => {
   );
 }
 
-export default MiniDrawer;
+export default Layout;

@@ -24,7 +24,7 @@ const NotFound = () => {
   return (
     <>
       <h1>{title}</h1>
-      <Link to="/dashboard">
+      <Link to={isAuthenticated ? "/dashboard" : "/"}>
         <Button
           color="primary"
           className={classes.button}
