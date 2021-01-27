@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { VALIDATION_MESSAGE } = require('../utils/constants');
+
+const {
+  userRequired,
+  titleRequired
+} = VALIDATION_MESSAGE;
 
 const TodoSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user',
-    required: true
+    required: [true, userRequired]
   },
   category: {
     type: Schema.Types.ObjectId,
@@ -13,7 +19,7 @@ const TodoSchema = new Schema({
   },
   title: {
     type: String,
-    required: true
+    required: [true, titleRequired]
   },
   dueDate: {
     type: Date

@@ -18,6 +18,14 @@ export const ERROR_MESSAGE = {
   passwordMatch: "Password is not matched",
   titleRequired: "Title is required",
   statusRequired: "Status is required",
+  serverError: "Server error. Please try it again."
+}
+
+export const SUCCESS_MESSAGE = {
+  passwordChanged: "Passward is changed",
+  categoryDeleted: "Category is deleted",
+  todoDeleted: "Todo is deleted", 
+  logout: "You logged out"
 }
 
 export const REGEX = {

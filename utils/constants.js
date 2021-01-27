@@ -1,4 +1,5 @@
 module.exports.VALIDATION_MESSAGE = {
+  userRequired: "User is required",
   userNameRequired: "User name is required",
   emailRequired: "Email is required",
   emailValid: "Email should be a valid email address",

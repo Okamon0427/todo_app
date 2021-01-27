@@ -7,8 +7,11 @@ import {
   CLEAR_USER
 } from './types';
 import { setAlert } from './alert';
-import { CONTENT_TYPE } from '../utils/constants';
+import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 import { logoutAuth } from './auth';
+
+const { serverError } = ERROR_MESSAGE;
+const { passwordChanged } = SUCCESS_MESSAGE;
 
 // Get user
 export const getUser = () => async dispatch => {
@@ -27,7 +30,7 @@ export const getUser = () => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 };
 
@@ -54,7 +57,7 @@ export const editUserInfo = editUser => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 };
 
@@ -73,7 +76,7 @@ export const editUserPassword = editUser => async dispatch => {
       type: EDIT_PASSWORD_USER,
       payload: res.data
     });
-    dispatch(setAlert('Password changed', "success"));
+    dispatch(setAlert(passwordChanged, "success"));
   } catch (err) {
     dispatch({
       type: ERROR_USER,
@@ -82,7 +85,7 @@ export const editUserPassword = editUser => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 };
 
@@ -101,7 +104,7 @@ export const deleteUser = id => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 };
 

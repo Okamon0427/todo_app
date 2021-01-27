@@ -1,15 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { VALIDATION_MESSAGE } = require('../utils/constants');
+
+const {
+  userRequired,
+  titleRequired
+} = VALIDATION_MESSAGE;
 
 const CategorySchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user',
-    required: true
+    required: [true, userRequired]
   },
   title: {
     type: String,
-    required: true,
+    required: [true, titleRequired],
     unique: true
   },
   createdAt: {

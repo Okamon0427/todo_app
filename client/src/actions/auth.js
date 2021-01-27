@@ -10,8 +10,11 @@ import { setAlert } from './alert';
 import { clearTodo } from './todo';
 import { clearUser } from './user';
 import { clearCategory } from './category';
-import { CONTENT_TYPE } from '../utils/constants';
+import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 import { setTokenToHeader } from '../utils/functions';
+
+const { serverError } = ERROR_MESSAGE;
+const { logout } = SUCCESS_MESSAGE;
 
 // Get login user data
 export const userDataAuth = () => async dispatch => {
@@ -32,7 +35,7 @@ export const userDataAuth = () => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 }
 
@@ -62,7 +65,7 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 };
 
@@ -92,7 +95,7 @@ export const loginAuth = ({ email, password }) => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg, "error"));
+    dispatch(setAlert(err.response.data.msg || serverError, "error"));
   }
 };
 
@@ -103,5 +106,5 @@ export const logoutAuth = () => dispatch => {
   dispatch(clearCategory());
   dispatch(clearTodo());
   dispatch(clearUser());
-  dispatch(setAlert("You logged out", "success"));
+  dispatch(setAlert(logout, "success"));
 };

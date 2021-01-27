@@ -1,19 +1,26 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { VALIDATION_MESSAGE } = require('../utils/constants');
+
+const {
+  userNameRequired,
+  emailRequired,
+  passwordRequired
+} = VALIDATION_MESSAGE;
 
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: [true, userNameRequired]
   },
   email: {
     type: String,
-    required: true,
+    required: [true, emailRequired],
     unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: [true, passwordRequired],
     minlength: 6
   },
   role: {

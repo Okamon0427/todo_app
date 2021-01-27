@@ -26,7 +26,7 @@ const SimpleSnackbar = () => {
   return (
     <Snackbar
       open={isOpen}
-      autoHideDuration={10000}
+      autoHideDuration={5000}
       onClose={handleClose}
     >
       <Alert
