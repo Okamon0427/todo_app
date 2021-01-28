@@ -2,12 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
+  naviLink: {
+    marginLeft: 'auto'
+  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -64,19 +69,27 @@ const Navbar = ({
           Todo App
         </Typography>
         {isAuthenticated && (
-          <>
-            <Link to="/user">
-              <Button color="inherit">Setting</Button>
-            </Link>
-            <Link to="/">
-              <Button
+          <div className={classes.naviLink}>
+            <Tooltip title="User Setting">
+              <IconButton
                 color="inherit"
+                component={Link}
+                to="/user"
+              >
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Logout">
+              <IconButton
+                color="inherit"
+                component={Link}
+                to="/"
                 onClick={onLogout}
               >
-                Logout
-              </Button>
-            </Link>
-          </>
+                <ExitToAppIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
         )}
       </Toolbar>
     </AppBar>
