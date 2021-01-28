@@ -2,7 +2,6 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
 import { AUTH_TYPE, ERROR_MESSAGE, REGEX } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,6 +9,10 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
+  },
+  margin: {
+    marginRight: 0,
+    marginLeft: 0
   },
   button: {
     margin: theme.spacing(1),
@@ -41,13 +44,18 @@ const Signup = ({ onSubmit }) => {
       <TextField
         name="name"
         label="User Name"
+        className={classes.margin}
+        fullWidth
         inputRef={register({ required: true })}
         error={errors.name}
         helperText={errors.name && userNameRequired}
       />
+      <br />
       <TextField
         name="email"
         label="Email"
+        className={classes.margin}
+        fullWidth
         inputRef={register({
           required: true,
           pattern: email
@@ -61,10 +69,13 @@ const Signup = ({ onSubmit }) => {
           emailValid
         )}
       />
+      <br />
       <TextField
         name="password"
         label="Password"
         type="password"
+        className={classes.margin}
+        fullWidth
         inputRef={register({ required: true, minLength: 6 })}
         error={errors.password}
         helperText={(
@@ -75,10 +86,13 @@ const Signup = ({ onSubmit }) => {
           passwordMinLength
         )}
       />
+      <br />
       <TextField
         name="password2"
         label="Confirm Password"
         type='password'
+        className={classes.margin}
+        fullWidth
         inputRef={register({
           required: true,
           validate: (value) => {
@@ -94,12 +108,14 @@ const Signup = ({ onSubmit }) => {
           passwordMatch
         )}
       />
+      <br />
       <Button
         variant="contained"
         color="primary"
         type="submit"
         className={classes.button}
-        startIcon={<AddIcon />}
+        className={classes.margin}
+        fullWidth
       >
         {signup}
       </Button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Paper } from '@material-ui/core';
+import { Box, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Signup from './Signup';
 import Login from './Login';
@@ -9,8 +9,9 @@ import { AUTH_TYPE } from '../../utils/constants';
 import { registerAuth, loginAuth } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
+  paper: {
+    width: 300,
+    padding: 20,
   },
 }));
 
@@ -43,33 +44,38 @@ const Landing = () => {
   }
 
   return (
-    <Paper>
-      <h1>
-        {authType === signup ? signup : login}
-      </h1>
-      {authType === signup && (
-        <Signup onSubmit={onSubmit} />
-      )}
-      {authType === login && (
-        <Login onSubmit={onSubmit} />
-      )}
-      <Button
-        color="primary"
-        onClick={changeAuthType}
-      >
-        Change to {authType === signup ? login : signup}
-      </Button>
-      {authType === login && (
-        <Link to="/password/reset">
-          <Button
-            color="primary"
-            className={classes.button}
+    <Box mt={10}>
+      <Grid container justify="center">
+        <Grid item>
+          <Paper className={classes.paper}>
+            <Typography variant="h4" align="center">
+              {authType === signup ? signup : login}
+            </Typography>
+            {authType === signup && (
+              <Signup onSubmit={onSubmit} />
+            )}
+            {authType === login && (
+              <Login onSubmit={onSubmit} />
+            )}
+            <Button
+              color="primary"
+              onClick={changeAuthType}
             >
-            Forget Password?
-          </Button>
-        </Link>
-      )}
-    </Paper>
+              Change to {authType === signup ? login : signup}
+            </Button>
+            {authType === login && (
+              <Button
+                color="primary"
+                component={Link}
+                to="/password/reset"
+              >
+                Forget Password?
+              </Button>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
