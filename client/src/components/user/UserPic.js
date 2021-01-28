@@ -1,13 +1,13 @@
 import React from 'react';
-import { Avatar, Paper } from '@material-ui/core';
+import { Avatar, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
+  paper: {
+    padding: 10,
+  },
+  marginBottom: {
+    marginBottom: 10,
   },
   large: {
     width: theme.spacing(12),
@@ -19,14 +19,26 @@ const UserPic = ({ userData }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Paper>
-        <h1>User Page</h1>
-        <Avatar className={classes.large}>
-          {userData && userData.name && userData.name.slice(0, 1)}
-        </Avatar>
-      </Paper>
-    </div>
+    <Paper
+      className={classes.paper}
+      variant="outlined"
+    >
+      <Grid container direction="column" alignItems="center">
+        <Grid item>
+          <Typography
+            variant="h5"
+            className={classes.marginBottom}
+          >
+            User Page
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Avatar className={classes.large}>
+            {userData && userData.name && userData.name.slice(0, 1)}
+          </Avatar>
+        </Grid>
+      </Grid>
+    </Paper>
   )
 }
 

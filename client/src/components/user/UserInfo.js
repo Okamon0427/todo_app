@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 400,
     backgroundColor: theme.palette.background.paper,
   },
+  textForm: {
+    paddingLeft: 0,
+    paddingRight: 0
+  },
 }));
 
 const {
@@ -61,10 +65,10 @@ const UserInfo = ({ userData, editInfo, onEdit, onCancel, onSubmit }) => {
     <List className={classes.root}>
       {info.map((item) => (
         editInfo === item.key ? (
-          <ListItem key={item.key}>
-            <ListItemAvatar>
-              <Avatar>{item.icon}</Avatar>
-            </ListItemAvatar>
+          <ListItem
+            key={item.key}
+            className={classes.textForm}
+          >
             <form
               className={classes.root}
               noValidate
@@ -101,7 +105,10 @@ const UserInfo = ({ userData, editInfo, onEdit, onCancel, onSubmit }) => {
             </form>
           </ListItem>
         ) : (
-          <ListItem key={item.key}>
+          <ListItem
+            key={item.key}
+            className={classes.textForm}
+          >
             <ListItemAvatar>
               <Avatar>{item.icon}</Avatar>
             </ListItemAvatar>

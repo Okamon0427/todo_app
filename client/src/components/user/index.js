@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Paper } from '@material-ui/core';
+import { Button, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UserPic from './UserPic';
 import UserInfo from './UserInfo';
@@ -9,19 +9,14 @@ import AccountModal from './AccountModal';
 import { getUser, editUserInfo, deleteUser } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
+  paper: {
+    width: 300,
+    padding: 20,
   },
   modal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
 }));
 
@@ -74,38 +69,38 @@ const User = () => {
   }
 
   return (
-    <>
-      <Paper>
-        <UserPic userData={user} />
-        <UserInfo
-          userData={user}
-          editInfo={editInfo}
-          onEdit={onEdit}
-          onCancel={onCancel}
-          onSubmit={onSubmit}
-        />
-        <Link to="/password/change">
+    <Grid container justify="center">
+      <Grid item>
+        <Paper className={classes.paper}>
+          <UserPic userData={user} />
+          <UserInfo
+            userData={user}
+            editInfo={editInfo}
+            onEdit={onEdit}
+            onCancel={onCancel}
+            onSubmit={onSubmit}
+          />
           <Button
             color="primary"
-            className={classes.button}
+            component={Link}
+            to="/password/change"
           >
             Change Password
           </Button>
-        </Link>
-        <Button
-          color="secondary"
-          className={classes.button}
-          onClick={handleOpen}
-        >
-          Delete Account
-        </Button>
-      </Paper>
-      <AccountModal
-        open={open}
-        handleClose={handleClose}
-        onDelete={onDelete}
-      />
-    </>
+          <Button
+            color="secondary"
+            onClick={handleOpen}
+          >
+            Delete Account
+          </Button>
+        </Paper>
+        <AccountModal
+          open={open}
+          handleClose={handleClose}
+          onDelete={onDelete}
+        />
+      </Grid>
+    </Grid>
   )
 }
 
