@@ -48,7 +48,7 @@ const Landing = () => {
       <Grid container justify="center">
         <Grid item>
           <Paper className={classes.paper}>
-            <Typography variant="h4" align="center">
+            <Typography variant="h5" align="center">
               {authType === signup ? signup : login}
             </Typography>
             {authType === signup && (

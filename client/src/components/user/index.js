@@ -88,6 +88,13 @@ const User = () => {
             Change Password
           </Button>
           <Button
+            color="primary"
+            component={Link}
+            to="/dashboard"
+          >
+            Go Back
+          </Button>
+          <Button
             color="secondary"
             onClick={handleOpen}
           >

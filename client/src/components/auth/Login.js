@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 0,
     marginLeft: 0
   },
-  button: {
-    margin: theme.spacing(1),
-  },
 }));
 
 const { login } = AUTH_TYPE;
@@ -79,7 +76,6 @@ const Login = ({ onSubmit }) => {
         variant="contained"
         color="primary"
         type="submit"
-        className={classes.button}
         className={classes.margin}
         fullWidth
       >
