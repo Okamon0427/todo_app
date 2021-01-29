@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccountModal = ({ open, handleClose, onDelete }) => {
+const ModalComponent = ({ open, handleClose, onDelete }) => {
   const classes = useStyles();
 
   return (
@@ -37,8 +37,12 @@ const AccountModal = ({ open, handleClose, onDelete }) => {
     >
       <Fade in={open}>
         <div className={classes.paper}>
-          <h2 id="transition-modal-title">Do you really want to delete this account?</h2>
-          <p id="transition-modal-description">This action cannot be undone</p>
+          <h2 id="transition-modal-title">
+            Do you really want to delete this account?
+          </h2>
+          <p id="transition-modal-description">
+            This action cannot be undone
+          </p>
           <Button
             variant="contained"
             color="secondary"
@@ -60,4 +64,4 @@ const AccountModal = ({ open, handleClose, onDelete }) => {
   )
 }
 
-export default AccountModal;
+export default ModalComponent;

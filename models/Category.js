@@ -16,6 +16,7 @@ const CategorySchema = new Schema({
   title: {
     type: String,
     required: [true, titleRequired],
+    maxlength: 15,
     unique: true
   },
   createdAt: {

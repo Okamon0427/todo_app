@@ -7,6 +7,7 @@ const Category = require('../models/Category');
 
 const {
   titleRequired,
+  titleMaxLength
 } = VALIDATION_MESSAGE;
 const {
   categoryNotFound,
@@ -24,6 +25,8 @@ router.post('/', auth,
     check('title', titleRequired)
       .not()
       .isEmpty(),
+    check('title', titleMaxLength)
+      .isLength({ max: 15 })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -92,6 +95,8 @@ router.put('/:categoryId', auth,
     check('title', titleRequired)
       .not()
       .isEmpty(),
+    check('title', titleMaxLength)
+      .isLength({ max: 15 })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -100,6 +105,8 @@ router.put('/:categoryId', auth,
     }
 
     try {
+      const { title } = req.body;
+
       const category = await Category.findById(req.params.categoryId);
       if (!category) {
         return res.status(404).json({ msg: categoryNotFound });

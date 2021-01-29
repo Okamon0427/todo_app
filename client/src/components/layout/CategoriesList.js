@@ -5,6 +5,7 @@ import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Text
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import PublishIcon from '@material-ui/icons/Publish';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import { ERROR_MESSAGE } from '../../utils/constants';
 
@@ -17,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-  titleRequired
+  titleRequired,
+  titleMaxLength
 } = ERROR_MESSAGE;
 
 const CategoriesList = ({
@@ -52,10 +54,15 @@ const CategoriesList = ({
               <TextField
                 name="title"
                 label="title"
-                inputRef={register({ required: true })}
+                defaultValue={category.title}
+                inputRef={register({ required: true, maxLength: 15 })}
                 error={errors.title}
                 helperText={(
-                  errors.title && titleRequired
+                  errors.title && errors.title.type === "required" &&
+                  titleRequired
+                ) || (
+                  errors.title && errors.title.type === "maxLength" &&
+                  titleMaxLength
                 )}
               />
               <IconButton
@@ -96,7 +103,7 @@ const CategoriesList = ({
                 aria-label="cancel"
                 onClick={() => onDelete(category._id)}
               >
-                <ClearIcon />
+                <DeleteIcon />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>

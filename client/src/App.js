@@ -7,7 +7,7 @@ import Landing from './components/auth';
 import PasswordReset from './components/others/PasswordReset';
 import Layout from './components/layout/Layout';
 import Navbar from './components/layout/Navbar';
-import Alert from './components/layout/Alert';
+import Alert from './components/UI/Alert';
 import { setTokenToHeader } from './utils/functions';
 import './App.css';
 

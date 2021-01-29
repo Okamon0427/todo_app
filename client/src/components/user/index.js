@@ -5,7 +5,7 @@ import { Button, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UserPic from './UserPic';
 import UserInfo from './UserInfo';
-import AccountModal from './AccountModal';
+import Modal from '../UI/Modal';
 import { getUser, editUserInfo, deleteUser } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +101,7 @@ const User = () => {
             Delete Account
           </Button>
         </Paper>
-        <AccountModal
+        <Modal
           open={open}
           handleClose={handleClose}
           onDelete={onDelete}

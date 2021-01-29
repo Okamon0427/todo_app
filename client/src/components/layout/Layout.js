@@ -12,7 +12,7 @@ import CategoriesList from './CategoriesList';
 import { userDataAuth, logoutAuth } from '../../actions/auth';
 import { getCategories, addCategory, updateCategory, deleteCategory } from '../../actions/category';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -114,6 +114,7 @@ const Layout = (props) => {
       dispatch(updateCategory(convertedData));
       setEditCategory(null);
     }
+    e.target.reset();
   };
 
   const onEdit = (categoryId, userId) => {
@@ -178,7 +179,9 @@ const Layout = (props) => {
           onDelete={onDelete}
           editCategory={editCategory}
         />
-        <AddCategoryForm onSubmit={onSubmit} />
+        <AddCategoryForm
+          onSubmit={onSubmit}
+        />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

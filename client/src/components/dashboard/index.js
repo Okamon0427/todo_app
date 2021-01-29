@@ -6,7 +6,7 @@ import { Input } from '@material-ui/core';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
-import Spinner from '../layout/Spinner';
+import Spinner from '../UI/Spinner';
 // import { DATE_FORMAT } from '../../utils/constants';
 // import { formattedDate } from '../../utils/functions';
 import { searchTodos } from '../../utils/functions';

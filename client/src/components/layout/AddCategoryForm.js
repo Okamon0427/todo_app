@@ -8,16 +8,17 @@ import { ERROR_MESSAGE } from '../../utils/constants';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
+      marginLeft: theme.spacing(2)
     },
   },
   button: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
   },
 }));
 
 const {
   titleRequired,
+  titleMaxLength,
 } = ERROR_MESSAGE;
 
 const AddCategoryForm = ({
@@ -36,12 +37,17 @@ const AddCategoryForm = ({
       <TextField
         name="title"
         label="Title"
-        inputRef={register({ required: true })}
+        inputRef={register({ required: true, maxLength: 15 })}
         error={errors.title}
         helperText={(
-          errors.title && titleRequired
+          errors.title && errors.title.type === "required" &&
+          titleRequired
+        ) || (
+          errors.title && errors.title.type === "maxLength" &&
+          titleMaxLength
         )}
       />
+      <br />
       <Button
         variant="contained"
         color="primary"

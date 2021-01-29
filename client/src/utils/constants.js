@@ -10,22 +10,23 @@ export const CONTENT_TYPE = {
 }
 
 export const ERROR_MESSAGE = {
-  userNameRequired: "User name is required",
-  emailRequired: "Email is required",
-  emailValid: "Email should be a valid email address",
-  passwordRequired: "Password is required",
-  passwordMinLength: "Password should be at least 6 charactars",
-  passwordMatch: "Password is not matched",
-  titleRequired: "Title is required",
-  statusRequired: "Status is required",
-  serverError: "Server error. Please try it again."
+  userNameRequired: 'User name is required',
+  emailRequired: 'Email is required',
+  emailValid: 'Email should be a valid email address',
+  passwordRequired: 'Password is required',
+  passwordMinLength: 'Password should be at least 6 charactars',
+  passwordMatch: 'Password is not matched',
+  titleRequired: 'Title is required',
+  titleMaxLength: 'Title should be within 15 charactars',
+  statusRequired: 'Status is required',
+  serverError: 'Server error. Please try it again.'
 }
 
 export const SUCCESS_MESSAGE = {
-  passwordChanged: "Passward is changed",
-  categoryDeleted: "Category is deleted",
-  todoDeleted: "Todo is deleted", 
-  logout: "You logged out"
+  passwordChanged: 'Passward is changed',
+  categoryDeleted: 'Category is deleted',
+  todoDeleted: 'Todo is deleted',
+  logout: 'You logged out'
 }
 
 export const REGEX = {

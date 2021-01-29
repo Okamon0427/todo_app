@@ -1,15 +1,16 @@
 module.exports.VALIDATION_MESSAGE = {
-  userRequired: "User is required",
-  userNameRequired: "User name is required",
-  emailRequired: "Email is required",
-  emailValid: "Email should be a valid email address",
-  passwordRequired: "Password is required",
-  passwordMinLength: "Password should be at least 6 charactars",
-  currentPasswordMinLength: "Current password should be at least 6 charactars",
-  newPasswordMinLength: "New password should be at least 6 charactars",
-  passwordMatch: "Password is not matched",
-  titleRequired: "Title is required",
-  statusRequired: "Status is required",
+  userRequired: 'User is required',
+  userNameRequired: 'User name is required',
+  emailRequired: 'Email is required',
+  emailValid: 'Email should be a valid email address',
+  passwordRequired: 'Password is required',
+  passwordMinLength: 'Password should be at least 6 charactars',
+  currentPasswordMinLength: 'Current password should be at least 6 charactars',
+  newPasswordMinLength: 'New password should be at least 6 charactars',
+  passwordMatch: 'Password is not matched',
+  titleRequired: 'Title is required',
+  titleMaxLength: 'Title should be within 15 charactars',
+  statusRequired: 'Status is required',
 }
 
 module.exports.ERROR_MESSAGE = {
