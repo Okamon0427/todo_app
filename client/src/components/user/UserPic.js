@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: 10,
+    padding: theme.spacing(2),
   },
   marginBottom: {
-    marginBottom: 10,
+    marginBottom: theme.spacing(2),
   },
   large: {
     width: theme.spacing(12),
@@ -22,7 +22,7 @@ const UserPic = ({ userData }) => {
     <Paper
       className={classes.paper}
       variant="outlined"
-    >
+      >
       <Grid container direction="column" alignItems="center">
         <Grid item>
           <Typography

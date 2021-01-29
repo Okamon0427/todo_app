@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import { Avatar, IconButton, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, TextField } from '@material-ui/core';
+import { Avatar, IconButton, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, TextField, Tooltip } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import EditIcon from '@material-ui/icons/Edit';
@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   textForm: {
-    paddingLeft: 0,
-    paddingRight: 0
+    paddingRight: theme.spacing(0),
+    paddingLeft: theme.spacing(0),
   },
 }));
 
@@ -88,20 +88,24 @@ const UserInfo = ({ userData, editInfo, onEdit, onCancel, onSubmit }) => {
                   item.validationMsg[1]
                 )}
               />
-              <IconButton
-                type="submit"
-                edge="end"
-                aria-label="submit"
-              >
-                <PublishIcon />
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="cancel"
-                onClick={onCancel}
-              >
-                <ClearIcon />
-              </IconButton>
+              <Tooltip title="Update">
+                <IconButton
+                  type="submit"
+                  edge="end"
+                  aria-label="submit"
+                >
+                  <PublishIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Cancel">
+                <IconButton
+                  edge="end"
+                  aria-label="cancel"
+                  onClick={onCancel}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </Tooltip>
             </form>
           </ListItem>
         ) : (
@@ -117,13 +121,15 @@ const UserInfo = ({ userData, editInfo, onEdit, onCancel, onSubmit }) => {
               secondary={item.value}
             />
             <ListItemSecondaryAction>
-              <IconButton
-                edge="end"
-                aria-label="edit"
-                onClick={() => onEdit(item.key)}
-              >
-                <EditIcon />
-              </IconButton>
+              <Tooltip title="Edit">
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  onClick={() => onEdit(item.key)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
             </ListItemSecondaryAction>
           </ListItem>
         )

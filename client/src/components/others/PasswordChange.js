@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
   },
   margin: {
-    marginRight: 0,
-    marginLeft: 0
+    marginRight: theme.spacing(0),
+    marginLeft: theme.spacing(0),
   },
 }));
 

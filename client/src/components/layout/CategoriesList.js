@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, TextField } from '@material-ui/core';
+import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, TextField, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -65,20 +65,24 @@ const CategoriesList = ({
                   titleMaxLength
                 )}
               />
-              <IconButton
-                type="submit"
-                edge="end"
-                aria-label="submit"
-              >
-                <PublishIcon />
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="cancel"
-                onClick={onCancel}
-              >
-                <ClearIcon />
-              </IconButton>
+              <Tooltip title="Update">
+                <IconButton
+                  type="submit"
+                  edge="end"
+                  aria-label="submit"
+                >
+                  <PublishIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Cancel">
+                <IconButton
+                  edge="end"
+                  aria-label="cancel"
+                  onClick={onCancel}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </Tooltip>
             </form>
           </ListItem>
         ) : (
@@ -90,21 +94,25 @@ const CategoriesList = ({
           >
             <ListItemText primary={category.title} />
             <ListItemSecondaryAction>
-              <IconButton
-                type="submit"
-                edge="end"
-                aria-label="submit"
-                onClick={() => onEdit(category._id, category.user)}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="cancel"
-                onClick={() => onDelete(category._id)}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title="Edit">
+                <IconButton
+                  type="submit"
+                  edge="end"
+                  aria-label="submit"
+                  onClick={() => onEdit(category._id, category.user)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete">
+                <IconButton
+                  edge="end"
+                  aria-label="cancel"
+                  onClick={() => onDelete(category._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
             </ListItemSecondaryAction>
           </ListItem>
         )
