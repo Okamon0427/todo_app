@@ -9,6 +9,7 @@ import Layout from './components/layout/Layout';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/UI/Alert';
 import { setTokenToHeader } from './utils/functions';
+import { DRAWER_WIDTH } from './utils/constants';
 import './App.css';
 
 // Set jwt token stored in local strage to req header
@@ -40,7 +41,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={landing} />
           <Route exact path="/password/reset" component={passwordReset} />
-          <Layout>
+          <Layout drawerWidth={DRAWER_WIDTH}>
             <Route component={Routes} />
           </Layout>
         </Switch>

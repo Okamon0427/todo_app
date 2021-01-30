@@ -1,35 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-const drawerWidth = 280;
-
 const useStyles = makeStyles((theme) => ({
   naviLink: {
     marginLeft: 'auto'
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth => `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth => drawerWidth,
+    },
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   hide: {
     display: 'none',
@@ -37,30 +28,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = ({
-  open,
-  handleDrawerOpen,
+  handleDrawerToggle,
   onLogout,
-  isAuthenticated
+  isAuthenticated,
+  drawerWidth
 }) => {
-  const classes = useStyles();
+  const classes = useStyles(drawerWidth);
 
   return (
     <AppBar
       position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: open,
-      })}
+      className={classes.appBar}
     >
       <Toolbar>
         {isAuthenticated && (
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>

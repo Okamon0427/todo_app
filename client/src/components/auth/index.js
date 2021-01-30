@@ -10,6 +10,7 @@ import { registerAuth, loginAuth } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+    boxSizing: 'border-box',
     width: 300,
     padding: 20,
   },

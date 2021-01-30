@@ -59,3 +59,5 @@ export const NOT_FOUND_PAGE = {
   isAuthMessage: 'Move to dashboard page',
   isNotAuthMessage: 'Move to login Page'
 }
+
+export const DRAWER_WIDTH = 280;
