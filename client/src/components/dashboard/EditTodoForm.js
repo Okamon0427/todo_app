@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const {
   titleRequired,
+  titleTodoMaxLength,
   statusRequired
 } = ERROR_MESSAGE;
 
@@ -53,10 +54,14 @@ const EditTodoForm = ({
       <TextField
         name="title"
         label="Title"
-        inputRef={register({ required: true })}
+        inputRef={register({ required: true, maxLength: 50 })}
         error={errors.title}
         helperText={(
-          errors.title && titleRequired
+          errors.title && errors.title.type === "required" &&
+          titleRequired
+        ) || (
+          errors.title && errors.title.type === "maxLength" &&
+          titleTodoMaxLength
         )}
       />
       <FormControl margin="normal">

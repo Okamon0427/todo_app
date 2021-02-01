@@ -19,7 +19,8 @@ const TodoSchema = new Schema({
   },
   title: {
     type: String,
-    required: [true, titleRequired]
+    required: [true, titleRequired],
+    maxlength: 50,
   },
   dueDate: {
     type: Date

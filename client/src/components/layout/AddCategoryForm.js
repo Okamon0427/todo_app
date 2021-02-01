@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const {
   titleRequired,
-  titleMaxLength,
+  titleCategoryMaxLength,
 } = ERROR_MESSAGE;
 
 const AddCategoryForm = ({
@@ -44,7 +44,7 @@ const AddCategoryForm = ({
           titleRequired
         ) || (
           errors.title && errors.title.type === "maxLength" &&
-          titleMaxLength
+          titleCategoryMaxLength
         )}
       />
       <br />

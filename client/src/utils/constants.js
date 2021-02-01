@@ -17,7 +17,8 @@ export const ERROR_MESSAGE = {
   passwordMinLength: 'Password should be at least 6 charactars',
   passwordMatch: 'Password is not matched',
   titleRequired: 'Title is required',
-  titleMaxLength: 'Title should be within 15 charactars',
+  titleCategoryMaxLength: 'Title should be within 15 charactars',
+  titleTodoMaxLength: 'Title should be within 50 charactars',
   statusRequired: 'Status is required',
   serverError: 'Server error. Please try it again.'
 }
@@ -60,4 +61,4 @@ export const NOT_FOUND_PAGE = {
   isNotAuthMessage: 'Move to login Page'
 }
 
-export const DRAWER_WIDTH = 280;
+export const DRAWER_WIDTH = 300;

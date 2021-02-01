@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const {
   titleRequired,
-  titleMaxLength
+  titleCategoryMaxLength
 } = ERROR_MESSAGE;
 
 const CategoriesList = ({
@@ -62,7 +62,7 @@ const CategoriesList = ({
                   titleRequired
                 ) || (
                   errors.title && errors.title.type === "maxLength" &&
-                  titleMaxLength
+                  titleCategoryMaxLength
                 )}
               />
               <Tooltip title="Update">

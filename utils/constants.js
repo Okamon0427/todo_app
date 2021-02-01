@@ -9,7 +9,8 @@ module.exports.VALIDATION_MESSAGE = {
   newPasswordMinLength: 'New password should be at least 6 charactars',
   passwordMatch: 'Password is not matched',
   titleRequired: 'Title is required',
-  titleMaxLength: 'Title should be within 15 charactars',
+  titleCategoryMaxLength: 'Title should be within 15 charactars',
+  titleTodoMaxLength: 'Title should be within 50 charactars',
   statusRequired: 'Status is required',
 }
 

@@ -7,6 +7,7 @@ const Todo = require('../models/Todo');
 
 const {
   titleRequired,
+  titleTodoMaxLength,
   statusRequired
 } = VALIDATION_MESSAGE;
 const {
@@ -24,6 +25,8 @@ router.post('/', auth,
     check('title', titleRequired)
       .not()
       .isEmpty(),
+    check('title', titleTodoMaxLength)
+      .isLength({ max: 50 }),
     check('status', statusRequired)
       .not()
       .isEmpty()
@@ -96,6 +99,8 @@ router.put('/:todoId', auth,
     check('title', titleRequired)
       .not()
       .isEmpty(),
+    check('title', titleTodoMaxLength)
+      .isLength({ max: 50 }),
     check('status', statusRequired)
       .not()
       .isEmpty()
