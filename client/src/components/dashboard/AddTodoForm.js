@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  formControl: {
+    minWidth: 120
+  }
 }));
 
 const {
@@ -64,7 +67,7 @@ const AddTodoForm = ({
           />
         </MuiPickersUtilsProvider>
       </FormControl>
-      <FormControl error={errors.status}>
+      <FormControl className={classes.formControl} error={errors.status}>
         <InputLabel id="status">
           Select Status
         </InputLabel>
@@ -88,6 +91,7 @@ const AddTodoForm = ({
           {errors.status && errors.status.message}
         </FormHelperText>
       </FormControl>
+      <br />
       <Button
         variant="contained"
         color="primary"

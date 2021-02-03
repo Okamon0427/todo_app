@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
@@ -12,12 +12,16 @@ import Spinner from '../UI/Spinner';
 import { searchTodos } from '../../utils/functions';
 import { addTodo, getTodos, getTodosByCategory, editTodo, deleteTodo } from '../../actions/todo';
 
-// const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  searchBar: {
+    margin: theme.spacing(1),
+  }
+}));
 
 // const { numberDate } = DATE_FORMAT;
 
 const Dashboard = () => {
-  // const classes = useStyles();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { todos, loading } = useSelector(state => state.todo);
   const { currentCategoryId } = useParams();
@@ -121,6 +125,7 @@ const Dashboard = () => {
   return (
     <>
       <Input
+        className={classes.searchBar}
         placeholder="Search Todo"
         inputProps={{ 'aria-label': 'description' }}
         onChange={e => onSearchBarChange(e)}

@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 400,
     backgroundColor: theme.palette.background.paper,
   },
+  textField: {
+    maxWidth: 160
+  },
 }));
 
 const {
@@ -54,6 +57,7 @@ const CategoriesList = ({
               <TextField
                 name="title"
                 label="title"
+                className={classes.textField}
                 defaultValue={category.title}
                 inputRef={register({ required: true, maxLength: 15 })}
                 error={errors.title}

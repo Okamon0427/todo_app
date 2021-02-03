@@ -61,4 +61,4 @@ export const NOT_FOUND_PAGE = {
   isNotAuthMessage: 'Move to login Page'
 }
 
-export const DRAWER_WIDTH = 300;
+export const DRAWER_WIDTH = 280;
