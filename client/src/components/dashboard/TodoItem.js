@@ -4,11 +4,15 @@ import { Button, Card, CardActions, CardContent, Typography } from '@material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import { DATE_FORMAT } from '../../utils/constants';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
+    marginBottom: theme.spacing(1),
   },
-});
+  content: {
+    padding: theme.spacing(1),
+  }
+}));
 
 const { wordDate } = DATE_FORMAT
 
@@ -22,7 +26,7 @@ const TodoItem = ({
 
   return (
     <Card className={classes.root}>
-      <CardContent>
+      <CardContent className={classes.content}>
         <Typography
           variant="h5"
           component="h2"
