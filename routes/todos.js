@@ -8,7 +8,6 @@ const Todo = require('../models/Todo');
 const {
   titleRequired,
   titleTodoMaxLength,
-  statusRequired
 } = VALIDATION_MESSAGE;
 const {
   todoNotFound,
@@ -27,9 +26,6 @@ router.post('/', auth,
       .isEmpty(),
     check('title', titleTodoMaxLength)
       .isLength({ max: 50 }),
-    check('status', statusRequired)
-      .not()
-      .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -38,13 +34,12 @@ router.post('/', auth,
     }
 
     try {
-      const { title, dueDate, status, category } = req.body;
+      const { title, dueDate, category } = req.body;
 
       const newTodoObject = new Todo({
         user: req.user.id,
         title,
         dueDate,
-        status,
         category
       });
 
@@ -101,9 +96,6 @@ router.put('/:todoId', auth,
       .isEmpty(),
     check('title', titleTodoMaxLength)
       .isLength({ max: 50 }),
-    check('status', statusRequired)
-      .not()
-      .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);

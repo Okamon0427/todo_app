@@ -30,7 +30,6 @@ const Dashboard = () => {
     id: '',
     title: '',
     dueDate: new Date(),
-    status: ''
   });
   const [isEditMode, setIsEditMode] = useState(null);
   const [isFilterMode, setIsFilterMode] = useState(false);
@@ -81,7 +80,6 @@ const Dashboard = () => {
       id: '',
       title: '',
       dueDate: new Date(),
-      status: ''
     });
     setIsEditMode(null);
   }
@@ -95,7 +93,6 @@ const Dashboard = () => {
       id: editTodo._id,
       title: editTodo.title,
       dueDate: editTodo.dueDate,
-      status: editTodo.status
     });
     setIsEditMode(key);
   }
@@ -105,7 +102,6 @@ const Dashboard = () => {
       id: '',
       title: '',
       dueDate: new Date(),
-      status: ''
     });
     setIsEditMode(null);
   }

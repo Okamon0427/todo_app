@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 const { wordDate } = DATE_FORMAT
 
 const TodoItem = ({
-  todo: { _id, title, dueDate, status },
+  todo: { _id, title, dueDate },
   onEdit,
   isEditMode,
   onDelete
@@ -34,12 +34,6 @@ const TodoItem = ({
           component="p"
         >
           Due: <Moment format={wordDate}>{dueDate}</Moment>
-        </Typography>
-        <Typography
-          variant="body2"
-          component="p"
-        >
-          Status: {status}
         </Typography>
       </CardContent>
       <CardActions>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useForm, Controller } from "react-hook-form";
-import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { useForm } from "react-hook-form";
+import { Button, FormControl, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -21,22 +21,20 @@ const useStyles = makeStyles((theme) => ({
 const {
   titleRequired,
   titleTodoMaxLength,
-  statusRequired
 } = ERROR_MESSAGE;
 
 const EditTodoForm = ({
   onSubmit,
   onDateChange,
-  formData: { title, dueDate, status },
+  formData: { title, dueDate },
   onCancel
 }) => {
   const classes = useStyles();
-  const { register, errors, handleSubmit, control, reset } = useForm();
+  const { register, errors, handleSubmit, reset } = useForm();
 
   const initialValues = {
     title,
     dueDate,
-    status
   };
 
   useEffect(() => {
@@ -72,33 +70,10 @@ const EditTodoForm = ({
             label="Due Date"
             value={dueDate}
             onChange={date => onDateChange(date)}
+            minutesStep={5}
             inputRef={register}
           />
         </MuiPickersUtilsProvider>
-      </FormControl>
-      <FormControl error={errors.status}>
-        <InputLabel id="status">
-          Select Status
-        </InputLabel>
-        <Controller
-          name="status"
-          rules={{ required: statusRequired }}
-          control={control}
-          defaultValue=""
-          as={
-            <Select>
-              {STATUS_ARRAY.map((item) => (
-                <MenuItem key={item.key} value={item.value}>
-                  {item.value}
-                </MenuItem>
-              ))}
-            </Select>
-          }
-        >
-        </Controller>
-        <FormHelperText>
-          {errors.status && errors.status.message}
-        </FormHelperText>
       </FormControl>
       <br />
       <Button

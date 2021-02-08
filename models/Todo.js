@@ -25,11 +25,6 @@ const TodoSchema = new Schema({
   dueDate: {
     type: Date
   },
-  status: {
-    type: String,
-    enum: ['Not Started', 'In Progress', 'Done'],
-    default: 'In Progress'
-  },
   createdAt: {
     type: Date,
     default: Date.now
