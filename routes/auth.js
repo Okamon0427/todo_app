@@ -22,7 +22,7 @@ router.post('/register', validation('register'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const { name, email, password } = req.body;
@@ -65,7 +65,7 @@ router.post('/login', validation('login'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const { email, password } = req.body;

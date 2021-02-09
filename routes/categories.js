@@ -22,7 +22,7 @@ router.post('/', auth, validation('addCategory'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const { title } = req.body;
@@ -74,7 +74,7 @@ router.put('/:categoryId', auth, validation('editCategory'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const { title } = req.body;

@@ -60,7 +60,7 @@ router.put('/:userId', auth, validation('editInfoUser'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const user = await User.findById(req.user.id);
@@ -85,7 +85,7 @@ router.put('/:userId/password', auth, validation('editPasswordUser'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
     
     const { currentPassword, newPassword } = req.body;
@@ -129,7 +129,7 @@ router.get('/password/forget', validation('forgetPassword'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const user = await User.findOne({ email });

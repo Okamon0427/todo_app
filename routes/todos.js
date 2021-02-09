@@ -21,7 +21,7 @@ router.post('/', auth, validation('addTodo'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const { title, dueDate, category } = req.body;
@@ -71,7 +71,7 @@ router.put('/:todoId', auth, validation('editTodo'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
+      return next(new ExpressError(errors.array()[0].msg, 400));
     }
 
     const todo = await Todo.findById(req.params.todoId);
