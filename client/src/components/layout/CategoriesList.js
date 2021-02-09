@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-  titleRequired,
-  titleCategoryMaxLength
+  TITLE_REQUIRED,
+  TITLE_CATEGORY_MAX_LENGTH
 } = ERROR_MESSAGE;
 
 const CategoriesList = ({
@@ -63,10 +63,10 @@ const CategoriesList = ({
                 error={errors.title}
                 helperText={(
                   errors.title && errors.title.type === "required" &&
-                  titleRequired
+                  TITLE_REQUIRED
                 ) || (
                   errors.title && errors.title.type === "maxLength" &&
-                  titleCategoryMaxLength
+                  TITLE_CATEGORY_MAX_LENGTH
                 )}
               />
               <Tooltip title="Update">

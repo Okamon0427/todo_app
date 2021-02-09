@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AUTH_TYPE, ERROR_MESSAGE, REGEX } from '../../utils/constants';
+import { ERROR_MESSAGE, REGEX } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,14 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const { login } = AUTH_TYPE;
 const {
-  emailRequired,
-  emailValid,
-  passwordRequired,
-  passwordMinLength,
+  EMAIL_REQUIRED,
+  EMAIL_VALID,
+  PASSWORD_REQUIRED,
+  PASSWORD_MIN_LENGTH,
 } = ERROR_MESSAGE;
-const { email } = REGEX;
+const { EMAIL_REGEX } = REGEX;
 
 const Login = ({ onSubmit }) => {
   const classes = useStyles();
@@ -43,15 +42,15 @@ const Login = ({ onSubmit }) => {
         fullWidth
         inputRef={register({
           required: true,
-          pattern: email
+          pattern: EMAIL_REGEX
         })}
         error={errors.email}
         helperText={(
           errors.email && errors.email.type === "required" &&
-          emailRequired
+          EMAIL_REQUIRED
         ) || (
           errors.email && errors.email.type === "pattern" &&
-          emailValid
+          EMAIL_VALID
         )}
       />
       <br />
@@ -65,10 +64,10 @@ const Login = ({ onSubmit }) => {
         error={errors.password}
         helperText={(
           errors.password && errors.password.type === "required" &&
-          passwordRequired
+          PASSWORD_REQUIRED
         ) || (
           errors.password && errors.password.type === "minLength" &&
-          passwordMinLength
+          PASSWORD_MIN_LENGTH
         )}
       />
       <br />
@@ -79,7 +78,7 @@ const Login = ({ onSubmit }) => {
         className={classes.margin}
         fullWidth
       >
-        {login}
+        LOGIN
       </Button>
     </form>
   );

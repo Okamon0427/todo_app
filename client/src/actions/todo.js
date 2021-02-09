@@ -11,8 +11,8 @@ import {
 import { setAlert } from './alert';
 import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 
-const { serverError } = ERROR_MESSAGE;
-const { todoDeleted } = SUCCESS_MESSAGE;
+const { SERVER_ERROR } = ERROR_MESSAGE;
+const { TODO_DELETED } = SUCCESS_MESSAGE;
 
 // Add todo
 export const addTodo = newTodo => async dispatch => {
@@ -35,7 +35,7 @@ export const addTodo = newTodo => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 
@@ -56,7 +56,7 @@ export const getTodos = () => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 
@@ -77,7 +77,7 @@ export const getTodosByCategory = categoryId => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 
 };
@@ -103,7 +103,7 @@ export const editTodo = editTodo => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 
@@ -116,7 +116,7 @@ export const deleteTodo = id => async dispatch => {
       type: DELETE_TODO,
       payload: id
     });
-    dispatch(setAlert(todoDeleted, 'success'))
+    dispatch(setAlert(TODO_DELETED, 'success'))
   } catch (err) {
     dispatch({
       type: ERROR_TODO,
@@ -125,7 +125,7 @@ export const deleteTodo = id => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 

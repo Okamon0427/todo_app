@@ -10,8 +10,8 @@ import {
 import { setAlert } from './alert';
 import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 
-const { serverError } = ERROR_MESSAGE;
-const { categoryDeleted } = SUCCESS_MESSAGE;
+const { SERVER_ERROR } = ERROR_MESSAGE;
+const { CATEGORY_DELETED } = SUCCESS_MESSAGE;
 
 // Add category
 export const addCategory = newCategory => async dispatch => {
@@ -34,7 +34,7 @@ export const addCategory = newCategory => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 
@@ -56,7 +56,7 @@ export const getCategories = () => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 
@@ -81,7 +81,7 @@ export const updateCategory = editCategory => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 
@@ -94,7 +94,7 @@ export const deleteCategory = categoryId => async dispatch => {
       type: DELETE_CATEGORY,
       payload: categoryId
     });
-    dispatch(setAlert(categoryDeleted, 'success'));
+    dispatch(setAlert(CATEGORY_DELETED, 'success'));
   } catch (err) {
     dispatch({
       type: ERROR_CATEGORY,
@@ -103,7 +103,7 @@ export const deleteCategory = categoryId => async dispatch => {
         status: err.response.status
       }
     });
-    dispatch(setAlert(err.response.data.msg || serverError, "error"));
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
   }
 };
 

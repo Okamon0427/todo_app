@@ -1,6 +1,6 @@
 export const AUTH_TYPE = {
-  signup: 'Sign Up',
-  login: 'Login'
+  SIGNUP: 'Sign Up',
+  LOGIN: 'Login'
 }
 
 export const CONTENT_TYPE = {
@@ -10,55 +10,34 @@ export const CONTENT_TYPE = {
 }
 
 export const ERROR_MESSAGE = {
-  userNameRequired: 'User name is required',
-  emailRequired: 'Email is required',
-  emailValid: 'Email should be a valid email address',
-  passwordRequired: 'Password is required',
-  passwordMinLength: 'Password should be at least 6 charactars',
-  passwordMatch: 'Password is not matched',
-  titleRequired: 'Title is required',
-  titleCategoryMaxLength: 'Title should be within 15 charactars',
-  titleTodoMaxLength: 'Title should be within 50 charactars',
-  statusRequired: 'Status is required',
-  serverError: 'Server error. Please try it again.'
+  USER_NAME_REQUIRED: 'User name is required',
+  EMAIL_REQUIRED: 'Email is required',
+  EMAIL_VALID: 'Email should be a valid email address',
+  PASSWORD_REQUIRED: 'Password is required',
+  PASSWORD_MIN_LENGTH: 'Password should be at least 6 charactars',
+  PASSWORD_MATCH: 'Password is not matched',
+  TITLE_REQUIRED: 'Title is required',
+  TITLE_CATEGORY_MAX_LENGTH: 'Title should be within 15 charactars',
+  TITLE_TODO_MAX_LENGTH: 'Title should be within 50 charactars',
+  STATUS_REQUIRED: 'Status is required',
+  SERVER_ERROR: 'Server error. Please try it again.'
 }
 
 export const SUCCESS_MESSAGE = {
-  passwordChanged: 'Passward is changed',
-  categoryDeleted: 'Category is deleted',
-  todoDeleted: 'Todo is deleted',
-  logout: 'You logged out'
+  PASSWORD_CHANGED: 'Passward is changed',
+  CATEGORY_DELETED: 'Category is deleted',
+  TODO_DELETED: 'Todo is deleted',
+  LOGOUT: 'You logged out'
 }
 
 export const REGEX = {
   //eslint-disable-next-line
-  email: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  EMAIL_REGEX: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 }
 
 export const DATE_FORMAT = {
   numberDate: 'MM/DD/YYYY, hh:mm a',
   wordDate: 'MMMM Do YYYY, hh:mm a'
 };
-
-export const STATUS_ARRAY = [
-  {
-    key: 0,
-    value: 'Not Started',
-  },
-  {
-    key: 1,
-    value: 'In Progress',
-  },
-  {
-    key: 2,
-    value: 'Done',
-  },
-];
-
-export const NOT_FOUND_PAGE = {
-  title: 'Page Not Found',
-  isAuthMessage: 'Move to dashboard page',
-  isNotAuthMessage: 'Move to login Page'
-}
 
 export const DRAWER_WIDTH = 280;

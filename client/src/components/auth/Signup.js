@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AUTH_TYPE, ERROR_MESSAGE, REGEX } from '../../utils/constants';
+import { ERROR_MESSAGE, REGEX } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,16 +16,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const { signup } = AUTH_TYPE;
 const {
-  userNameRequired,
-  emailRequired,
-  emailValid,
-  passwordRequired,
-  passwordMinLength,
-  passwordMatch
+  USER_NAME_REQUIRED,
+  EMAIL_REQUIRED,
+  EMAIL_VALID,
+  PASSWORD_REQUIRED,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MATCH
 } = ERROR_MESSAGE;
-const { email } = REGEX;
+const { EMAIL_REGEX } = REGEX;
 
 const Signup = ({ onSubmit }) => {
   const classes = useStyles();
@@ -45,7 +44,7 @@ const Signup = ({ onSubmit }) => {
         fullWidth
         inputRef={register({ required: true })}
         error={errors.name}
-        helperText={errors.name && userNameRequired}
+        helperText={errors.name && USER_NAME_REQUIRED}
       />
       <br />
       <TextField
@@ -55,15 +54,15 @@ const Signup = ({ onSubmit }) => {
         fullWidth
         inputRef={register({
           required: true,
-          pattern: email
+          pattern: EMAIL_REGEX
         })}
         error={errors.email}
         helperText={(
           errors.email && errors.email.type === "required" &&
-          emailRequired
+          EMAIL_REQUIRED
         ) || (
           errors.email && errors.email.type === "pattern" &&
-          emailValid
+          EMAIL_VALID
         )}
       />
       <br />
@@ -77,10 +76,10 @@ const Signup = ({ onSubmit }) => {
         error={errors.password}
         helperText={(
           errors.password && errors.password.type === "required" &&
-          passwordRequired
+          PASSWORD_REQUIRED
         ) || (
           errors.password && errors.password.type === "minLength" &&
-          passwordMinLength
+          PASSWORD_MIN_LENGTH
         )}
       />
       <br />
@@ -99,10 +98,10 @@ const Signup = ({ onSubmit }) => {
         error={errors.password2}
         helperText={(
           errors.password2 && errors.password2.type === "required" &&
-          passwordRequired
+          PASSWORD_REQUIRED
         ) || (
           errors.password2 && errors.password2.type === "validate" &&
-          passwordMatch
+          PASSWORD_MATCH
         )}
       />
       <br />
@@ -113,7 +112,7 @@ const Signup = ({ onSubmit }) => {
         className={classes.margin}
         fullWidth
       >
-        {signup}
+        SIGN UP
       </Button>
     </form>
   );

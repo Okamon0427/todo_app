@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-  passwordRequired,
-  passwordMinLength,
-  passwordMatch
+  PASSWORD_REQUIRED,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MATCH
 } = ERROR_MESSAGE;
 
 const PasswordChange = () => {
@@ -71,10 +71,10 @@ const PasswordChange = () => {
               error={errors.currentPassword}
               helperText={(
                 errors.currentPassword && errors.currentPassword.type === "required" &&
-                passwordRequired
+                PASSWORD_REQUIRED
               ) || (
                 errors.currentPassword && errors.currentPassword.type === "minLength" &&
-                passwordMinLength
+                PASSWORD_MIN_LENGTH
               )}
             />
             <TextField
@@ -90,10 +90,10 @@ const PasswordChange = () => {
               error={errors.newPassword}
               helperText={(
                 errors.newPassword && errors.newPassword.type === "required" &&
-                passwordRequired
+                PASSWORD_REQUIRED
               ) || (
                 errors.newPassword && errors.newPassword.type === "minLength" &&
-                passwordMinLength
+                PASSWORD_MIN_LENGTH
               )}
             />
             <TextField
@@ -111,10 +111,10 @@ const PasswordChange = () => {
               error={errors.newPassword2}
               helperText={(
                 errors.newPassword2 && errors.newPassword2.type === "required" &&
-                passwordRequired
+                PASSWORD_REQUIRED
               ) || (
                 errors.newPassword2 && errors.newPassword2.type === "validate" &&
-                passwordMatch
+                PASSWORD_MATCH
               )}
             />
             <Button

@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-  userNameRequired,
-  emailRequired,
-  emailValid,
+  USER_NAME_REQUIRED,
+  EMAIL_REQUIRED,
+  EMAIL_VALID
 } = ERROR_MESSAGE;
-const { email } = REGEX;
+const { EMAIL_REGEX } = REGEX;
 
 const UserInfo = ({ userData, editInfo, onEdit, onCancel, onSubmit }) => {
   const classes = useStyles();
@@ -49,15 +49,15 @@ const UserInfo = ({ userData, editInfo, onEdit, onCancel, onSubmit }) => {
       value: userData ? userData.name : null,
       icon: <PersonIcon />,
       validationKey: { required: true },
-      validationMsg: { 0: userNameRequired, 1: null }
+      validationMsg: { 0: USER_NAME_REQUIRED, 1: null }
     },
     {
       key: 'email',
       label: 'Email',
       value: userData ? userData.email : null,
       icon: <EmailIcon />,
-      validationKey: { required: true, pattern: email },
-      validationMsg: { 0: emailRequired, 1: emailValid }
+      validationKey: { required: true, pattern: EMAIL_REGEX },
+      validationMsg: { 0: EMAIL_REQUIRED, 1: EMAIL_VALID }
     }
   ]
 

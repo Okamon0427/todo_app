@@ -16,16 +16,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const { signup, login } = AUTH_TYPE;
+const { SIGNUP, LOGIN } = AUTH_TYPE;
 
 const Landing = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector(state => state.auth);
-  const [authType, setAuthType] = useState(login);
+  const [authType, setAuthType] = useState(LOGIN);
 
   const onSubmit = (data) => {
-    if (authType === login) {
+    if (authType === LOGIN) {
       dispatch(loginAuth(data));
     } else {
       dispatch(registerAuth(data));
@@ -33,10 +33,10 @@ const Landing = () => {
   }
 
   const changeAuthType = () => {
-    if (authType === login) {
-      setAuthType(signup);
+    if (authType === LOGIN) {
+      setAuthType(SIGNUP);
     } else {
-      setAuthType(login);
+      setAuthType(LOGIN);
     }
   }
 
@@ -50,21 +50,21 @@ const Landing = () => {
         <Grid item>
           <Paper className={classes.paper}>
             <Typography variant="h5" align="center">
-              {authType === signup ? signup : login}
+              {authType === SIGNUP ? SIGNUP : LOGIN}
             </Typography>
-            {authType === signup && (
+            {authType === SIGNUP && (
               <Signup onSubmit={onSubmit} />
             )}
-            {authType === login && (
+            {authType === LOGIN && (
               <Login onSubmit={onSubmit} />
             )}
             <Button
               color="primary"
               onClick={changeAuthType}
             >
-              Change to {authType === signup ? login : signup}
+              Change to {authType === SIGNUP ? LOGIN : SIGNUP}
             </Button>
-            {authType === login && (
+            {authType === LOGIN && (
               <Button
                 color="primary"
                 component={Link}

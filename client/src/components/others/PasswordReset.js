@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-  emailRequired,
-  emailValid,
+  EMAIL_REQUIRED,
+  EMAIL_VALID,
 } = ERROR_MESSAGE;
 const { email } = REGEX;
 
@@ -52,10 +52,10 @@ const PasswordReset = () => {
           error={errors.email}
           helperText={(
             errors.email && errors.email.type === "required" &&
-            emailRequired
+            EMAIL_REQUIRED
           ) || (
             errors.email && errors.email.type === "pattern" &&
-            emailValid
+            EMAIL_VALID
           )}
         />
         <Button

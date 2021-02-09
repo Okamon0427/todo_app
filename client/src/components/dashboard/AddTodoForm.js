@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import { ERROR_MESSAGE, STATUS_ARRAY } from '../../utils/constants';
+import { ERROR_MESSAGE } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
