@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
 const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 const User = require('../models/User');
+
+require('dotenv').config();
 
 const {
   userNameRequired,
@@ -68,7 +69,7 @@ router.post('/register',
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.JWT_SECRET,
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
@@ -120,7 +121,7 @@ router.post('/login',
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.JWT_SECRET,
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
