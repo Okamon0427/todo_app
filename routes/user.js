@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
+const ExpressError = require('../utils/ExpressError');
+const asyncHandler = require('../utils/asyncHandler');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 
@@ -17,52 +19,41 @@ const {
   userExists,
   userNotExists,
   userDeleted,
-  serverError,
   emailSent
 } = ERROR_MESSAGE;
 
 // <<< Delete Later >>>
 // Create user
-router.post('/', async (req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  try {
-    let currentUser = await User.findOne({ email });
-    if (currentUser) {
-      return res.status(400).json({ msg: userExists })
-    }
-
-    newUserObject = new User({
-      name,
-      email,
-      password
-    });
-
-    const newUser = await newUserObject.save();
-
-    res.json(newUser);
-  } catch(err) {
-    console.error(err.message);
-    res.status(500).send(serverError);
+  let currentUser = await User.findOne({ email });
+  if (currentUser) {
+    return next(new ExpressError(userExists, 400));
   }
-});
+
+  newUserObject = new User({
+    name,
+    email,
+    password
+  });
+
+  const newUser = await newUserObject.save();
+
+  res.json(newUser);
+}));
 
 // @Route  GET api/user
 // @desc   Get user
 // @access Private
-router.get('/', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).json({ msg: userNotExists })
-    }
-
-    res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send(serverError);
+router.get('/', auth, asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ExpressError(userNotExists, 404));
   }
-});
+
+  res.json(user);
+}));
 
 // @Route  PUT api/user/:userId
 // @desc   Update user (NOT Password)
@@ -74,30 +65,25 @@ router.put('/:userId', auth,
       .isEmpty(),
     check('email', emailValid).isEmail(),
   ],
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    try {
-      const user = await User.findById(req.user.id);
-      if (!user) {
-        return res.status(404).json({ msg: userNotExists })
-      }
-
-      const updatedUser = await User.findOneAndUpdate(
-        req.user.id,
-        req.body,
-        { new: true, runValidators: true }
-      );
-
-      res.json(updatedUser);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send(serverError);
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(new ExpressError(userNotExists, 404));
     }
-  }
+
+    const updatedUser = await User.findOneAndUpdate(
+      req.user.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.json(updatedUser);
+  })
 );
 
 // @Route  PUT api/user/:userId/password
@@ -114,7 +100,7 @@ router.put('/:userId/password', auth,
       newPasswordMinLength
     ).isLength({ min: 6 })
   ],
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -122,48 +108,38 @@ router.put('/:userId/password', auth,
     
     const { currentPassword, newPassword } = req.body;
 
-    try {
-      let user = await User.findById(req.user.id);
-      if (!user) {
-        return res.status(404).json({ msg: userNotExists })
-      }
-
-      const isMatch = await bcrypt.compare(currentPassword, user.password);
-      if (!isMatch) {
-        return res.status(400).json({ msg: invalidCurrentPassword });
-      }
-  
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(newPassword, salt);
-      
-      const updatedUser = await user.save();
-
-      return res.json(updatedUser);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send(serverError);
+    let user = await User.findById(req.user.id);
+    if (!user) {
+      return next(new ExpressError(userNotExists, 404));
     }
-  }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return next(new ExpressError(invalidCurrentPassword, 400));
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+    
+    const updatedUser = await user.save();
+
+    return res.json(updatedUser);
+  })
 );
 
 // @Route  DELETE api/user/:userId
 // @desc   Delete user
 // @access Private
-router.delete('/:userId', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).json({ msg: userNotExists })
-    }
-
-    await user.remove();
-
-    res.json({ msg: userDeleted });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send(serverError);
+router.delete('/:userId', auth, asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ExpressError(userNotExists, 404));
   }
-});
+
+  await user.remove();
+
+  res.json({ msg: userDeleted });
+}));
 
 // @Route  GET api/user/password/forget
 // @desc   Send email to user who forgets password
@@ -172,26 +148,21 @@ router.get('/password/forget',
   [
     check('email', emailValid).isEmail(),
   ],
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    try {
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(404).json({ msg: userNotExists })
-      }
-
-      // Write Logic to send email
-
-      res.json({ msg: emailSent });
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send(serverError);
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new ExpressError(userNotExists, 404));
     }
-  }
+
+    // Write Logic to send email
+
+    res.json({ msg: emailSent });
+  })
 );
 
 module.exports = router;

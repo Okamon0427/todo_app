@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
+const ExpressError = require('../utils/ExpressError');
+const asyncHandler = require('../utils/asyncHandler');
 const User = require('../models/User');
 
 require('dotenv').config();
@@ -17,7 +19,6 @@ const {
 const {
   invalidCredentials,
   userExists,
-  serverError
 } = ERROR_MESSAGE;
 
 // @Route  POST api/auth/register
@@ -34,7 +35,7 @@ router.post('/register',
       passwordMinLength
     ).isLength({ min: 6 })
   ],
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -42,45 +43,38 @@ router.post('/register',
 
     const { name, email, password } = req.body;
 
-    try {
-      const existUser = await User.findOne({ email });
-      if (existUser) {
-        return res.status(400).json({
-          msg: userExists
-        })
-      }
-  
-      const newUserObject = new User({
-        name,
-        email,
-        password
-      });
-  
-      const salt = await bcrypt.genSalt(10);
-      newUserObject.password = await bcrypt.hash(password, salt);
-      
-      const newUser = await newUserObject.save();
-
-      const payload = {
-        user: {
-          id: newUser.id
-        }
-      };
-
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: 360000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
-    } catch(err) {
-      console.error(err.message);
-      res.status(500).send(serverError);
+    const existUser = await User.findOne({ email });
+    if (existUser) {
+      return next(new ExpressError(userExists, 400));
     }
-  }
+
+    const newUserObject = new User({
+      name,
+      email,
+      password
+    });
+
+    const salt = await bcrypt.genSalt(10);
+    newUserObject.password = await bcrypt.hash(password, salt);
+    
+    const newUser = await newUserObject.save();
+
+    const payload = {
+      user: {
+        id: newUser.id
+      }
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+  })
 );
 
 // @Route  POST api/auth/login
@@ -94,7 +88,7 @@ router.post('/login',
       passwordRequired
     ).exists()
   ],
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -102,37 +96,32 @@ router.post('/login',
 
     const { email, password } = req.body;
 
-    try {
-      let user = await User.findOne({ email });
-      if (!user) {
-        return res.status(400).json({ msg: invalidCredentials });
-      }
-
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(400).json({ msg: invalidCredentials });
-      }
-  
-      const payload = {
-        user: {
-          id: user.id
-        }
-      };
-
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: 360000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
-    } catch(err) {
-      console.error(err.message);
-      res.status(500).send(serverError);
+    let user = await User.findOne({ email });
+    if (!user) {
+      return next(new ExpressError(invalidCredentials, 400));
     }
-  }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return next(new ExpressError(invalidCredentials, 400));
+    }
+
+    const payload = {
+      user: {
+        id: user.id
+      }
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+  })
 );
 
 module.exports = router;
