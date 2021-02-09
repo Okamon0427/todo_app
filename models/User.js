@@ -4,24 +4,24 @@ const Schema = mongoose.Schema;
 const { VALIDATION_MESSAGE } = require('../utils/constants');
 
 const {
-  userNameRequired,
-  emailRequired,
-  passwordRequired
+  USER_NAME_REQUIRED,
+  EMAIL_REQUIRED,
+  PASSWORD_REQUIRED
 } = VALIDATION_MESSAGE;
 
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: [true, userNameRequired]
+    required: [true, USER_NAME_REQUIRED]
   },
   email: {
     type: String,
-    required: [true, emailRequired],
+    required: [true, EMAIL_REQUIRED],
     unique: true
   },
   password: {
     type: String,
-    required: [true, passwordRequired],
+    required: [true, PASSWORD_REQUIRED],
     minlength: 6
   },
   role: {

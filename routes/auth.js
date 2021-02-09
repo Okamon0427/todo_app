@@ -1,51 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
-const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
+const { validationResult } = require('express-validator');
+const { ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
 const asyncHandler = require('../utils/asyncHandler');
+const validation = require('../middleware/validation');
 const User = require('../models/User');
 
 require('dotenv').config();
 
 const {
-  userNameRequired,
-  emailValid,
-  passwordRequired,
-  passwordMinLength,
-} = VALIDATION_MESSAGE;
-const {
-  invalidCredentials,
-  userExists,
+  INVALID_CREDENTIALS,
+  USER_EXISTS
 } = ERROR_MESSAGE;
 
 // @Route  POST api/auth/register
 // @desc   Register user
 // @access Public
-router.post('/register',
-  [
-    check('name', userNameRequired)
-      .not()
-      .isEmpty(),
-    check('email', emailValid).isEmail(),
-    check(
-      'password',
-      passwordMinLength
-    ).isLength({ min: 6 })
-  ],
+router.post('/register', validation('register'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0].msg });
     }
 
     const { name, email, password } = req.body;
 
     const existUser = await User.findOne({ email });
     if (existUser) {
-      return next(new ExpressError(userExists, 400));
+      return next(new ExpressError(USER_EXISTS, 400));
     }
 
     const newUserObject = new User({
@@ -77,30 +61,23 @@ router.post('/register',
 // @Route  POST api/auth/login
 // @desc   Authenticate user
 // @access Public
-router.post('/login',
-  [
-    check('email', emailValid).isEmail(),
-    check(
-      'password',
-      passwordRequired
-    ).exists()
-  ],
+router.post('/login', validation('login'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0].msg });
     }
 
     const { email, password } = req.body;
 
     let user = await User.findOne({ email });
     if (!user) {
-      return next(new ExpressError(invalidCredentials, 400));
+      return next(new ExpressError(INVALID_CREDENTIALS, 400));
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return next(new ExpressError(invalidCredentials, 400));
+      return next(new ExpressError(INVALID_CREDENTIALS, 400));
     }
 
     const payload = {

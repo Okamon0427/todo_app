@@ -2,7 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
 const { ERROR_MESSAGE } = require('./utils/constants');
-const { serverError } = ERROR_MESSAGE;
+const { SERVER_ERROR } = ERROR_MESSAGE;
 
 const app = express();
 connectDB();
@@ -28,7 +28,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   res
     .status(err.statusCode || 500)
-    .json({ msg: err.message || serverError });
+    .json({ msg: err.message || SERVER_ERROR });
 });
 
 const PORT = process.env.PORT || 5000;

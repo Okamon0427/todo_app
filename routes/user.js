@@ -1,78 +1,71 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
+const { validationResult } = require('express-validator');
+const { ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
 const asyncHandler = require('../utils/asyncHandler');
 const auth = require('../middleware/auth');
+const validation = require('../middleware/validation');
 const User = require('../models/User');
 
 const {
-  userNameRequired,
-  emailValid,
-  currentPasswordMinLength,
-  newPasswordMinLength
-} = VALIDATION_MESSAGE;
-const {
-  invalidCurrentPassword,
-  userExists,
-  userNotExists,
-  userDeleted,
-  emailSent
+  INVALID_CURRENT_PASSWORD,
+  USER_EXISTS,
+  USER_NOT_EXISTS,
+  USER_DELETED,
+  EMAIL_SENT
 } = ERROR_MESSAGE;
 
 // <<< Delete Later >>>
 // Create user
-router.post('/', asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+router.post('/',
+  asyncHandler(async (req, res) => {
+    const { name, email, password } = req.body;
 
-  let currentUser = await User.findOne({ email });
-  if (currentUser) {
-    return next(new ExpressError(userExists, 400));
-  }
+    let currentUser = await User.findOne({ email });
+    if (currentUser) {
+      return next(new ExpressError(USER_EXISTS, 400));
+    }
 
-  newUserObject = new User({
-    name,
-    email,
-    password
-  });
+    newUserObject = new User({
+      name,
+      email,
+      password
+    });
 
-  const newUser = await newUserObject.save();
+    const newUser = await newUserObject.save();
 
-  res.json(newUser);
-}));
+    res.json(newUser);
+  })
+);
 
 // @Route  GET api/user
 // @desc   Get user
 // @access Private
-router.get('/', auth, asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id);
-  if (!user) {
-    return next(new ExpressError(userNotExists, 404));
-  }
+router.get('/', auth,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(new ExpressError(USER_NOT_EXISTS, 404));
+    }
 
-  res.json(user);
-}));
+    res.json(user);
+  })
+);
 
 // @Route  PUT api/user/:userId
 // @desc   Update user (NOT Password)
 // @access Private
-router.put('/:userId', auth,
-  [
-    check('name', userNameRequired)
-      .not()
-      .isEmpty(),
-    check('email', emailValid).isEmail(),
-  ],
+router.put('/:userId', auth, validation('editInfoUser'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0].msg });
     }
 
     const user = await User.findById(req.user.id);
     if (!user) {
-      return next(new ExpressError(userNotExists, 404));
+      return next(new ExpressError(USER_NOT_EXISTS, 404));
     }
 
     const updatedUser = await User.findOneAndUpdate(
@@ -88,17 +81,7 @@ router.put('/:userId', auth,
 // @Route  PUT api/user/:userId/password
 // @desc   Update user password
 // @access Private
-router.put('/:userId/password', auth,
-  [
-    check(
-      'currentPassword',
-      currentPasswordMinLength
-    ).isLength({ min: 6 }),
-    check(
-      'newPassword',
-      newPasswordMinLength
-    ).isLength({ min: 6 })
-  ],
+router.put('/:userId/password', auth, validation('editPasswordUser'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -109,12 +92,12 @@ router.put('/:userId/password', auth,
 
     let user = await User.findById(req.user.id);
     if (!user) {
-      return next(new ExpressError(userNotExists, 404));
+      return next(new ExpressError(USER_NOT_EXISTS, 404));
     }
 
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
-      return next(new ExpressError(invalidCurrentPassword, 400));
+      return next(new ExpressError(INVALID_CURRENT_PASSWORD, 400));
     }
     
     const updatedUser = await user.save();
@@ -126,24 +109,23 @@ router.put('/:userId/password', auth,
 // @Route  DELETE api/user/:userId
 // @desc   Delete user
 // @access Private
-router.delete('/:userId', auth, asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id);
-  if (!user) {
-    return next(new ExpressError(userNotExists, 404));
-  }
+router.delete('/:userId', auth,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(new ExpressError(USER_NOT_EXISTS, 404));
+    }
 
-  await user.remove();
+    await user.remove();
 
-  res.json({ msg: userDeleted });
-}));
+    res.json({ msg: USER_DELETED });
+  })
+);
 
 // @Route  GET api/user/password/forget
 // @desc   Send email to user who forgets password
 // @access Public
-router.get('/password/forget',
-  [
-    check('email', emailValid).isEmail(),
-  ],
+router.get('/password/forget', validation('forgetPassword'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -152,12 +134,12 @@ router.get('/password/forget',
 
     const user = await User.findOne({ email });
     if (!user) {
-      return next(new ExpressError(userNotExists, 404));
+      return next(new ExpressError(USER_NOT_EXISTS, 404));
     }
 
     // Write Logic to send email
 
-    res.json({ msg: emailSent });
+    res.json({ msg: EMAIL_SENT });
   })
 );
 

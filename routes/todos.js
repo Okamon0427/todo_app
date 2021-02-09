@@ -1,37 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
+const { validationResult } = require('express-validator');
+const { ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
 const asyncHandler = require('../utils/asyncHandler');
 const auth = require('../middleware/auth');
+const validation = require('../middleware/validation');
 const Todo = require('../models/Todo');
 
 const {
-  titleRequired,
-  titleTodoMaxLength,
-} = VALIDATION_MESSAGE;
-const {
-  todoNotFound,
-  todoAuthError,
-  todoDeleted,
+  TODO_NOT_FOUND,
+  TODO_AUTH_ERROR,
+  TODO_DELETED
 } = ERROR_MESSAGE;
 
 // @Route  POST api/todos
 // @desc   Create todo
 // @access Private
-router.post('/', auth,
-  [
-    check('title', titleRequired)
-      .not()
-      .isEmpty(),
-    check('title', titleTodoMaxLength)
-      .isLength({ max: 50 }),
-  ],
+router.post('/', auth, validation('addTodo'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0].msg });
     }
 
     const { title, dueDate, category } = req.body;
@@ -54,7 +44,9 @@ router.post('/', auth,
 // @access Private
 router.get('/', auth,
   asyncHandler(async (req, res) => {
-    const allTodos = await Todo.find({ user: req.user.id }).sort({ createdAt: -1 });
+    const allTodos = await Todo.find({
+      user: req.user.id
+    }).sort({ createdAt: -1 });
     res.json(allTodos);
   })
 );
@@ -75,27 +67,20 @@ router.get('/:categoryId', auth,
 // @Route  PUT api/todos/:todoId
 // @desc   Update todo by Todo Id
 // @access Private
-router.put('/:todoId', auth,
-  [
-    check('title', titleRequired)
-      .not()
-      .isEmpty(),
-    check('title', titleTodoMaxLength)
-      .isLength({ max: 50 }),
-  ],
+router.put('/:todoId', auth, validation('editTodo'),
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0].msg });
     }
 
     const todo = await Todo.findById(req.params.todoId);
     if (!todo) {
-      return next(new ExpressError(todoNotFound, 404));
+      return next(new ExpressError(TODO_NOT_FOUND, 404));
     }
 
     if (todo.user.toString() !== req.user.id) {
-      return next(new ExpressError(todoAuthError, 401));
+      return next(new ExpressError(TODO_AUTH_ERROR, 401));
     }
 
     const updatedTodo = await Todo.findByIdAndUpdate(
@@ -115,16 +100,16 @@ router.delete('/:todoId', auth,
   asyncHandler(async (req, res) => {
     const todo = await Todo.findById(req.params.todoId);
     if (!todo) {
-      return next(new ExpressError(todoNotFound, 404));
+      return next(new ExpressError(TODO_NOT_FOUND, 404));
     }
 
     if (todo.user.toString() !== req.user.id) {
-      return next(new ExpressError(todoAuthError, 401));
+      return next(new ExpressError(TODO_AUTH_ERROR, 401));
     }
 
     await todo.remove();
 
-    res.json({ msg: todoDeleted });
+    res.json({ msg: TODO_DELETED });
   })
 );
 
