@@ -53,9 +53,6 @@ router.post('/register',
       email,
       password
     });
-
-    const salt = await bcrypt.genSalt(10);
-    newUserObject.password = await bcrypt.hash(password, salt);
     
     const newUser = await newUserObject.save();
 
@@ -101,7 +98,7 @@ router.post('/login',
       return next(new ExpressError(invalidCredentials, 400));
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return next(new ExpressError(invalidCredentials, 400));
     }

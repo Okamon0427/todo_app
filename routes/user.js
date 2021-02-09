@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
@@ -113,13 +112,10 @@ router.put('/:userId/password', auth,
       return next(new ExpressError(userNotExists, 404));
     }
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
       return next(new ExpressError(invalidCurrentPassword, 400));
     }
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
     
     const updatedUser = await user.save();
 
