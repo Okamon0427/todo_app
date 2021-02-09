@@ -124,7 +124,7 @@ router.put('/:categoryId', auth,
       const updatedCategory = await Category.findByIdAndUpdate(
         req.params.categoryId,
         req.body,
-        { new: true }
+        { new: true, runValidators: true },
       );
 
       res.json(updatedCategory);

@@ -116,7 +116,7 @@ router.put('/:todoId', auth,
       const updatedTodo = await Todo.findByIdAndUpdate(
         req.params.todoId,
         req.body,
-        { new: true }
+        { new: true, runValidators: true },
       );
 
       res.json(updatedTodo);

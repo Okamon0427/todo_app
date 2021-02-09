@@ -89,7 +89,7 @@ router.put('/:userId', auth,
       const updatedUser = await User.findOneAndUpdate(
         req.user.id,
         req.body,
-        { new: true }
+        { new: true, runValidators: true }
       );
 
       res.json(updatedUser);
