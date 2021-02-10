@@ -35,6 +35,10 @@ const UserSchema = new Schema({
   }
 });
 
+// Compare password entered by user and password in database
+UserSchema.methods.comparePassword = async function(password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 // Encrypt password
 UserSchema.pre('save', async function(next) {
@@ -45,11 +49,6 @@ UserSchema.pre('save', async function(next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
-
-// Compare password entered by user and password in database
-UserSchema.methods.comparePassword = async function(password) {
-  return await bcrypt.compare(password, this.password);
-};
 
 // Delete Categories and todos related to User when the User is deleted
 UserSchema.pre('remove', async function (next) {

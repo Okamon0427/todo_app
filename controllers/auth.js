@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const { ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
 const asyncHandler = require('../utils/asyncHandler');
+const sendJWTToken = require('../utils/sendJWTToken');
 const User = require('../models/User');
 
 require('dotenv').config();
@@ -36,21 +36,7 @@ exports.register = asyncHandler(async (req, res) => {
   
   const newUser = await newUserObject.save();
 
-  const payload = {
-    user: {
-      id: newUser.id
-    }
-  };
-
-  jwt.sign(
-    payload,
-    process.env.JWT_SECRET,
-    { expiresIn: 360000 },
-    (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    }
-  );
+  sendJWTToken(newUser, res);
 });
 
 // @Route  POST api/auth/login
@@ -74,19 +60,5 @@ exports.login = asyncHandler(async (req, res) => {
     return next(new ExpressError(INVALID_CREDENTIALS, 400));
   }
 
-  const payload = {
-    user: {
-      id: user.id
-    }
-  };
-
-  jwt.sign(
-    payload,
-    process.env.JWT_SECRET,
-    { expiresIn: 360000 },
-    (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    }
-  );
+  sendJWTToken(user, res);
 });
