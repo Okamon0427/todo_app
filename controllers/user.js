@@ -9,6 +9,7 @@ const {
   USER_EXISTS,
   USER_NOT_EXISTS,
   USER_DELETED,
+  EMAIL_EXISTS,
   EMAIL_SENT
 } = ERROR_MESSAGE;
 
@@ -18,7 +19,7 @@ exports.addUser = asyncHandler(async (req, res, next) => {
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
   }
-  
+
   const { name, email, password } = req.body;
 
   let currentUser = await User.findOne({ email });
@@ -33,6 +34,7 @@ exports.addUser = asyncHandler(async (req, res, next) => {
   });
 
   const newUser = await newUserObject.save();
+  newUser.password = undefined;
 
   res.json(newUser);
 });
@@ -63,11 +65,16 @@ exports.editInfoUser = asyncHandler(async (req, res, next) => {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
   }
 
+  const userWithEmail = await User.findOne({ email: req.body.email });
+  if (userWithEmail && userWithEmail._id.toString() !== user._id.toString()) {
+    return next(new ExpressError(EMAIL_EXISTS, 404));
+  }
+
   const updatedUser = await User.findOneAndUpdate(
     req.user.id,
     req.body,
     { new: true, runValidators: true }
-  );
+  ).select('-password');
 
   res.json(updatedUser);
 });

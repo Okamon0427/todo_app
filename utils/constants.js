@@ -18,6 +18,7 @@ module.exports.ERROR_MESSAGE = {
   INVALID_CREDENTIALS: 'Invalid Credentials',
   INVALID_CURRENT_PASSWORD: 'Invalid current password',
   USER_EXISTS: 'This user already exists',
+  EMAIL_EXISTS: 'This email is already used',
   USER_NOT_EXISTS: 'This user does not exists',
   USER_DELETED: 'User is deleted',
   CATEGORY_NOT_FOUND: 'Category is not found',

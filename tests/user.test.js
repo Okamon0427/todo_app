@@ -5,7 +5,7 @@ const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 
 require('dotenv').config();
 
-const { AUTH_ERROR, TOKEN_INVALID } = ERROR_MESSAGE;
+const { EMAIL_EXISTS, AUTH_ERROR, TOKEN_INVALID } = ERROR_MESSAGE;
 
 let token;
 
@@ -96,5 +96,82 @@ describe('Post User test', () => {
       .set('x-auth-token', token + 1);
     expect(res.status).toBe(401);
     expect(res.body.msg).toBe(TOKEN_INVALID);
+  });
+});
+
+describe('Edit User test', () => {
+  const editUserPath = '/api/user/abc'; // :userId
+
+  const user = {
+    name: 'Test',
+    email: 'test1@gmail.com',
+  }
+
+  const user2 = {
+    name: 'Test',
+    email: 'test2@gmail.com',
+  }
+  
+  test('should success to edit user', async () => {
+    const res = await request(app)
+      .put(editUserPath)
+      .send(user)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Test');
+    expect(res.body.email).toBe('test1@gmail.com');
+    expect(res.body.password).toBeUndefined();
+  });
+
+  test('should success to edit user without changing anything', async () => {
+    const res = await request(app)
+      .put(editUserPath)
+      .send(user)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Test');
+    expect(res.body.email).toBe('test1@gmail.com');
+    expect(res.body.password).toBeUndefined();
+  });
+  
+  test('should fail to edit user without request token', async () => {
+    const res = await request(app)
+      .put(editUserPath)
+      .send(user)
+      .set('Accept', 'application/json');
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(AUTH_ERROR);
+  });
+
+  test('should fail to edit user with invalid token', async () => {
+    const res = await request(app)
+      .put(editUserPath)
+      .send(user)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token + 1);
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(TOKEN_INVALID);
+  });
+
+  // test('should fail to edit user with not exisiting user ID', async () => {
+  //   const res = await request(app)
+  //     .put(editUserPath)
+  //     .send(user)
+  //     .set('Accept', 'application/json')
+  //     .set('x-auth-token', token);
+  //   expect(res.status).toBe(404);
+  //   expect(res.body.msg).toBe(TOKEN_INVALID);
+  // });
+
+  test('should fail to edit user with exisiting email', async () => {
+    const res = await request(app)
+      .put(editUserPath)
+      .send(user2)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(404);
+    expect(res.body.msg).toBe(EMAIL_EXISTS);
   });
 });
