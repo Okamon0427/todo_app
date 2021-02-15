@@ -100,7 +100,9 @@ exports.editPasswordUser = asyncHandler(async (req, res, next) => {
     return next(new ExpressError(INVALID_CURRENT_PASSWORD, 400));
   }
   
+  user.password = newPassword;
   const updatedUser = await user.save();
+  updatedUser.password = undefined;
 
   return res.json(updatedUser);
 });

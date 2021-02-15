@@ -8,6 +8,7 @@ const {
   PASSWORD_MIN_LENGTH,
   CURRENT_PASSWORD_MIN_LENGTH,
   NEW_PASSWORD_MIN_LENGTH,
+  PASSWORD_MATCH,
   TITLE_CATEGORY_MAX_LENGTH,
   TITLE_REQUIRED,
   TITLE_TODO_MAX_LENGTH
@@ -47,6 +48,13 @@ module.exports = function(method) {
           .isLength({ min: 6 }),
         check('newPassword', NEW_PASSWORD_MIN_LENGTH)
           .isLength({ min: 6 })
+          .custom((value, { req }) => {
+            if (value !== req.body.newPassword2) {
+              throw new Error(PASSWORD_MATCH);
+            } else {
+              return value;
+            }
+        }),
       ];
     case 'forgetPassword':
       return [

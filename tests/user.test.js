@@ -5,7 +5,17 @@ const { VALIDATION_MESSAGE, ERROR_MESSAGE } = require('../utils/constants');
 
 require('dotenv').config();
 
-const { EMAIL_EXISTS, AUTH_ERROR, TOKEN_INVALID } = ERROR_MESSAGE;
+const {
+  CURRENT_PASSWORD_MIN_LENGTH,
+  NEW_PASSWORD_MIN_LENGTH,
+  PASSWORD_MATCH,
+} = VALIDATION_MESSAGE;
+const {
+  INVALID_CURRENT_PASSWORD,
+  EMAIL_EXISTS,
+  AUTH_ERROR,
+  TOKEN_INVALID
+} = ERROR_MESSAGE;
 
 let token;
 
@@ -173,5 +183,107 @@ describe('Edit User test', () => {
       .set('x-auth-token', token);
     expect(res.status).toBe(404);
     expect(res.body.msg).toBe(EMAIL_EXISTS);
+  });
+});
+
+describe('Edit User Password test', () => {
+  const editPasswordPath = '/api/user/abc/password'; // :userId
+
+  const user = {
+    currentPassword: '123456',
+    newPassword: '1234567',
+    newPassword2: '1234567'
+  }
+
+  const user2 = {
+    currentPassword: '',
+    newPassword: '123456',
+    newPassword2: '123456'
+  }
+
+  const user3 = {
+    currentPassword: '12345',
+    newPassword: '123456',
+    newPassword2: '123456'
+  }
+
+  const user4 = {
+    currentPassword: '1234567',
+    newPassword: '12345',
+    newPassword2: '12345'
+  }
+
+  const user5 = {
+    currentPassword: '1234567',
+    newPassword: '123456',
+    newPassword2: '1234560'
+  }
+
+  const user6 = {
+    currentPassword: '1234560',
+    newPassword: '123456',
+    newPassword2: '123456'
+  }
+  
+  test('should success to edit password', async () => {
+    const res = await request(app)
+      .put(editPasswordPath)
+      .send(user)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Test');
+    expect(res.body.email).toBe('test1@gmail.com');
+    expect(res.body.password).toBeUndefined();
+  });
+
+  test('should fail to edit password with the empty password', async () => {
+    const res = await request(app)
+      .put(editPasswordPath)
+      .send(user2)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(CURRENT_PASSWORD_MIN_LENGTH);
+  });
+
+  test('should fail to edit password with the password of less than 6 letters', async () => {
+    const res = await request(app)
+      .put(editPasswordPath)
+      .send(user3)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(CURRENT_PASSWORD_MIN_LENGTH);
+  });
+
+  test('should fail to edit password with the new password of less than 6 letters', async () => {
+    const res = await request(app)
+      .put(editPasswordPath)
+      .send(user4)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(NEW_PASSWORD_MIN_LENGTH);
+  });
+
+  test('should fail to edit password with the difference between current password and confirm password', async () => {
+    const res = await request(app)
+      .put(editPasswordPath)
+      .send(user5)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(PASSWORD_MATCH);
+  });
+
+  test('should fail to edit password with the the incorrect password', async () => {
+    const res = await request(app)
+      .put(editPasswordPath)
+      .send(user6)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(INVALID_CURRENT_PASSWORD);
   });
 });
