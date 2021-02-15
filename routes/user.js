@@ -12,7 +12,7 @@ const validation = require('../middleware/validation');
 
 const router = express.Router();
 
-router.post('/', addUser); // delete later
+router.post('/', auth, validation('addUser'), addUser);
 router.get('/', auth, getUser);
 router.put('/:userId', auth, validation('editInfoUser'), editInfoUser);
 router.put('/:userId/password', auth, validation('editPasswordUser'), editPasswordUser);

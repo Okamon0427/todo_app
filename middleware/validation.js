@@ -16,6 +16,7 @@ const {
 module.exports = function(method) {
   switch (method) {
     case 'register':
+    case 'addUser':
       return [
         check('name', USER_NAME_REQUIRED)
           .not()

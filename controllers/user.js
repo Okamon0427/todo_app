@@ -12,9 +12,13 @@ const {
   EMAIL_SENT
 } = ERROR_MESSAGE;
 
-// <<< Delete Later >>>
 // Create user
 exports.addUser = asyncHandler(async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(new ExpressError(errors.array()[0].msg, 400));
+  }
+  
   const { name, email, password } = req.body;
 
   let currentUser = await User.findOne({ email });

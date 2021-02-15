@@ -28,5 +28,7 @@ module.exports.ERROR_MESSAGE = {
   TODO_AUTH_ERROR: 'This todo is not yours',
   TODO_DELETED: 'Todo is deleted',
   SERVER_ERROR: 'Server Error',
+  AUTH_ERROR: 'Authorization denied',
+  TOKEN_INVALID: 'Token is not valid',
   EMAIL_SENT: 'Email is sent to your email'
 }
