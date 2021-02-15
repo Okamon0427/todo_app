@@ -15,7 +15,7 @@ const {
 // @Route  POST api/auth/register
 // @desc   Register user
 // @access Public
-exports.register = asyncHandler(async (req, res) => {
+exports.register = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -42,7 +42,7 @@ exports.register = asyncHandler(async (req, res) => {
 // @Route  POST api/auth/login
 // @desc   Authenticate user
 // @access Public
-exports.login = asyncHandler(async (req, res) => {
+exports.login = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));

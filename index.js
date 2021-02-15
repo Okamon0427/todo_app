@@ -25,8 +25,10 @@ if (process.env.NODE_ENV === 'production') {
 
 // Error Handler
 app.use((err, req, res, next) => {
-  console.error(err);
-  res
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(err);
+  }
+  return res
     .status(err.statusCode || 500)
     .json({ msg: err.message || SERVER_ERROR });
 });
@@ -37,3 +39,5 @@ app.listen(
   PORT,
   () => console.log(`Server started on port ${PORT}`)
 );
+
+module.exports = app;
