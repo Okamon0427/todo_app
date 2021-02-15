@@ -14,7 +14,7 @@ const {
 
 // <<< Delete Later >>>
 // Create user
-exports.addUser = asyncHandler(async (req, res) => {
+exports.addUser = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
 
   let currentUser = await User.findOne({ email });
@@ -36,7 +36,7 @@ exports.addUser = asyncHandler(async (req, res) => {
 // @Route  GET api/user
 // @desc   Get user
 // @access Private
-exports.getUser = asyncHandler(async (req, res) => {
+exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
@@ -48,7 +48,7 @@ exports.getUser = asyncHandler(async (req, res) => {
 // @Route  PUT api/user/:userId
 // @desc   Update user (NOT Password)
 // @access Private
-exports.editInfoUser = asyncHandler(async (req, res) => {
+exports.editInfoUser = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -71,7 +71,7 @@ exports.editInfoUser = asyncHandler(async (req, res) => {
 // @Route  PUT api/user/:userId/password
 // @desc   Update user password
 // @access Private
-exports.editPasswordUser = asyncHandler(async (req, res) => {
+exports.editPasswordUser = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -97,7 +97,7 @@ exports.editPasswordUser = asyncHandler(async (req, res) => {
 // @Route  DELETE api/user/:userId
 // @desc   Delete user
 // @access Private
-exports.deleteUser = asyncHandler(async (req, res) => {
+exports.deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
@@ -111,7 +111,7 @@ exports.deleteUser = asyncHandler(async (req, res) => {
 // @Route  GET api/user/password/forget
 // @desc   Send email to user who forgets password
 // @access Public
-exports.forgetPassword = asyncHandler(async (req, res) => {
+exports.forgetPassword = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));

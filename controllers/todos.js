@@ -13,7 +13,7 @@ const {
 // @Route  POST api/todos
 // @desc   Create todo
 // @access Private
-exports.addTodo = asyncHandler(async (req, res) => {
+exports.addTodo = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -36,7 +36,7 @@ exports.addTodo = asyncHandler(async (req, res) => {
 // @Route  GET api/todos
 // @desc   Get all todos by user ID
 // @access Private
-exports.getAllTodos = asyncHandler(async (req, res) => {
+exports.getAllTodos = asyncHandler(async (req, res, next) => {
   const allTodos = await Todo.find({
     user: req.user.id
   }).sort({ createdAt: -1 });
@@ -46,7 +46,7 @@ exports.getAllTodos = asyncHandler(async (req, res) => {
 // @Route  GET api/todos/:categoryId
 // @desc   Get all todos by category ID
 // @access Private
-exports.getTodosByCategory = asyncHandler(async (req, res) => {
+exports.getTodosByCategory = asyncHandler(async (req, res, next) => {
   const todos = await Todo.find({
     user: req.user.id,
     category: req.params.categoryId
@@ -57,7 +57,7 @@ exports.getTodosByCategory = asyncHandler(async (req, res) => {
 // @Route  PUT api/todos/:todoId
 // @desc   Update todo by Todo Id
 // @access Private
-exports.editTodo = asyncHandler(async (req, res) => {
+exports.editTodo = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -84,7 +84,7 @@ exports.editTodo = asyncHandler(async (req, res) => {
 // @Route  DELETE api/todos/:todoId
 // @desc   Delete todo by Todo Id
 // @access Private
-exports.deleteTodo = asyncHandler(async (req, res) => {
+exports.deleteTodo = asyncHandler(async (req, res, next) => {
   const todo = await Todo.findById(req.params.todoId);
   if (!todo) {
     return next(new ExpressError(TODO_NOT_FOUND, 404));

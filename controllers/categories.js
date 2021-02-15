@@ -14,7 +14,7 @@ const {
 // @Route  POST api/categories
 // @desc   Create category
 // @access Private
-exports.addCategory = asyncHandler(async (req, res) => {
+exports.addCategory = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -40,7 +40,7 @@ exports.addCategory = asyncHandler(async (req, res) => {
 // @Route  GET api/categories
 // @desc   GET all categories by user ID
 // @access Private
-exports.getCategoriesByUser = asyncHandler(async (req, res) => {  
+exports.getCategoriesByUser = asyncHandler(async (req, res, next) => {  
   const allCategories = await Category.find({
     user: req.user.id
   }).sort({ createdAt: -1 });
@@ -50,7 +50,7 @@ exports.getCategoriesByUser = asyncHandler(async (req, res) => {
 // @Route  GET api/categories/:categoryId
 // @desc   GET category by category ID
 // @access Private
-exports.getCategory = asyncHandler(async (req, res) => {  
+exports.getCategory = asyncHandler(async (req, res, next) => {  
   const categories = await Category.findById(
     req.params.categoryId
   ).sort({ createdAt: -1 });
@@ -60,7 +60,7 @@ exports.getCategory = asyncHandler(async (req, res) => {
 // @Route  PUT api/categories/:categoryId
 // @desc   Update category by category ID
 // @access Private
-exports.editCategory = asyncHandler(async (req, res) => {
+exports.editCategory = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
@@ -94,7 +94,7 @@ exports.editCategory = asyncHandler(async (req, res) => {
 // @Route  DELETE api/categories/:categoryId
 // @desc   Delete category
 // @access Private
-exports.deleteCategory = asyncHandler(async (req, res) => {  
+exports.deleteCategory = asyncHandler(async (req, res, next) => {  
   const category = await Category.findById(req.params.categoryId);
   if (!category) {
     return next(new ExpressError(CATEGORY_NOT_FOUND, 404));
