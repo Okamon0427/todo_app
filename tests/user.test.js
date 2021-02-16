@@ -14,7 +14,8 @@ const {
   INVALID_CURRENT_PASSWORD,
   EMAIL_EXISTS,
   AUTH_ERROR,
-  TOKEN_INVALID
+  USER_DELETED,
+  TOKEN_INVALID,
 } = ERROR_MESSAGE;
 
 let token;
@@ -285,5 +286,33 @@ describe('Edit User Password test', () => {
       .set('x-auth-token', token);
     expect(res.status).toBe(400);
     expect(res.body.msg).toBe(INVALID_CURRENT_PASSWORD);
+  });
+});
+
+describe('Delete User test', () => {
+  const deleteUserPath = '/api/user/abc'; // :userId
+  
+  test('should success to delete user', async () => {
+    const res = await request(app)
+      .delete(deleteUserPath)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.msg).toBe(USER_DELETED);
+  });
+
+  test('should fail to delete user without request token', async () => {
+    const res = await request(app)
+      .delete(deleteUserPath);
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(AUTH_ERROR);
+  });
+
+  test('should fail to delete user with invalid token', async () => {
+    const res = await request(app)
+      .delete(deleteUserPath)
+      .set('x-auth-token', token + 1);
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(TOKEN_INVALID);
   });
 });
