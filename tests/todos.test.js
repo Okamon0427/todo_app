@@ -20,7 +20,7 @@ const {
 let token;
 
 beforeAll((done) => {
-  console.log("User test start");
+  console.log("Todos test start");
   process.env.NODE_ENV = 'test';
 
   request(app)
@@ -41,7 +41,7 @@ afterAll(async () => {
   await User.deleteMany({});
   await Category.deleteMany({});
   await Todo.deleteMany({});
-  console.log("User test finish");
+  console.log("Todos test finish");
 });
 
 describe('Get All Todos test', () => {
