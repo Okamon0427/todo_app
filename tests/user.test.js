@@ -49,6 +49,9 @@ describe('Get User test', () => {
       .get(getUserPath)
       .set('x-auth-token', token);
     expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Test');
+    expect(res.body.email).toBe('test@gmail.com');
+    expect(res.body.password).toBeUndefined();
   });
 });
 
