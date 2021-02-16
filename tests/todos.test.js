@@ -11,11 +11,6 @@ const {
   TITLE_REQUIRED,
   TITLE_TODO_MAX_LENGTH
 } = VALIDATION_MESSAGE;
-const {
-  INVALID_CURRENT_PASSWORD,
-  EMAIL_EXISTS,
-  USER_DELETED,
-} = ERROR_MESSAGE;
 
 let token;
 
@@ -44,37 +39,13 @@ afterAll(async () => {
   console.log("Todos test finish");
 });
 
-describe('Get All Todos test', () => {
-  const getTodosPath = '/api/todos';
-
-  test('should success to get all todos', async () => {
-    const res = await request(app)
-      .get(getTodosPath)
-      .set('x-auth-token', token);
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual(expect.any(Array));
-  });
-});
-
-// describe('Get Todos by Category test', () => {
-//   const getTodosPath = '/api/todos';
-
-//   test('should success to get all todos', async () => {
-//     const res = await request(app)
-//       .get(getTodosPath)
-//       .set('x-auth-token', token);
-//     expect(res.status).toBe(200);
-//     expect(res.body).toEqual(expect.any(Array));
-//   });
-// });
-
 describe('Post Todo test', () => {
   const postTodoPath = '/api/todos';
 
   const todo = {
     title: 'TestTodo',
     dueDate: '2021-02-09T13:29:38.547Z',
-    category: 'TestCategory'
+    // category: ''
   };
 
   const todo2 = {
@@ -151,5 +122,17 @@ describe('Post Todo test', () => {
     expect(res.body.title).toBe('TestTodo');
     expect(res.body.dueDate).toBe('2021-02-09T13:29:38.547Z');
     expect(res.body.category).toBeNull();
+  });
+});
+
+describe('Get All Todos test', () => {
+  const getTodosPath = '/api/todos';
+
+  test('should success to get all todos', async () => {
+    const res = await request(app)
+      .get(getTodosPath)
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(expect.any(Array));
   });
 });
