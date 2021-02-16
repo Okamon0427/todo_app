@@ -94,7 +94,7 @@ exports.editCategory = asyncHandler(async (req, res, next) => {
 // @Route  DELETE api/categories/:categoryId
 // @desc   Delete category
 // @access Private
-exports.deleteCategory = asyncHandler(async (req, res, next) => {  
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.categoryId);
   if (!category) {
     return next(new ExpressError(CATEGORY_NOT_FOUND, 404));

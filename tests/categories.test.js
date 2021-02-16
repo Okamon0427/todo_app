@@ -12,10 +12,12 @@ const {
   TITLE_CATEGORY_MAX_LENGTH
 } = VALIDATION_MESSAGE;
 const {
-  CATEGORY_EXISTS
+  CATEGORY_EXISTS,
+  CATEGORY_DELETED
 } = ERROR_MESSAGE;
 
 let token;
+let categoryId;
 
 beforeAll((done) => {
   console.log("Categories test start");
@@ -65,6 +67,7 @@ describe('Post Category test', () => {
       .set('x-auth-token', token);
     expect(res.status).toBe(200);
     expect(res.body.title).toBe('TestCategory');
+    categoryId = res.body._id;
   });
 
   test('should fail to post category without title', async () => {
@@ -110,14 +113,93 @@ describe('Get Categories test', () => {
   });
 });
 
-// describe('Get Category test', () => {
-//   const getCategoryPath = '/api/categories'; // :category
+describe('Get Category test', () => {
+  const getCategoryPath = '/api/categories/';
 
-//   test('should success to get category', async () => {
-//     const res = await request(app)
-//       .get(getCategoryPath)
-//       .set('x-auth-token', token);
-//     expect(res.status).toBe(200);
-//     expect(res.body).toBe('hello');
-//   });
-// });
+  test('should success to get category', async () => {
+    const res = await request(app)
+      .get(getCategoryPath + categoryId)
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('TestCategory');
+  });
+});
+
+describe('Edit Category test', () => {
+  const editCategoryPath = '/api/categories/';
+
+  const category = {
+    title: 'TestCategory!'
+  };
+
+  const category2 = {
+    title: ''
+  };
+
+  const category3 = {
+    title: 'TestCategoryTestCategory'
+  };
+
+  test('should success to edit category', async () => {
+    const res = await request(app)
+      .put(editCategoryPath + categoryId)
+      .send(category)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('TestCategory!');
+  });
+
+  test('should fail to edit category with changing anything', async () => {
+    const res = await request(app)
+      .put(editCategoryPath + categoryId)
+      .send(category)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(CATEGORY_EXISTS);
+  });
+
+  test('should fail to edit category without title', async () => {
+    const res = await request(app)
+      .put(editCategoryPath + categoryId)
+      .send(category2)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(TITLE_REQUIRED);
+  });
+
+  test('should fail to edit category with the title of more than 15 letters', async () => {
+    const res = await request(app)
+      .put(editCategoryPath + categoryId)
+      .send(category3)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(TITLE_CATEGORY_MAX_LENGTH);
+  });
+
+  test('should fail to edit category with the existing title of category', async () => {
+    const res = await request(app)
+      .put(editCategoryPath + categoryId)
+      .send(category)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(CATEGORY_EXISTS);
+  });
+});
+
+describe('Delete Category test', () => {
+  const deleteCategoryPath = '/api/categories/';
+
+  test('should success to delete category', async () => {
+    const res = await request(app)
+      .delete(deleteCategoryPath + categoryId)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.msg).toBe(CATEGORY_DELETED);
+  });
+});
