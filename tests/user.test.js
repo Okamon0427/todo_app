@@ -13,9 +13,7 @@ const {
 const {
   INVALID_CURRENT_PASSWORD,
   EMAIL_EXISTS,
-  AUTH_ERROR,
   USER_DELETED,
-  TOKEN_INVALID,
 } = ERROR_MESSAGE;
 
 let token;
@@ -52,21 +50,6 @@ describe('Get User test', () => {
       .set('x-auth-token', token);
     expect(res.status).toBe(200);
   });
-
-  test('should fail to get user information without request token', async () => {
-    const res = await request(app)
-      .get(getUserPath);
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(AUTH_ERROR);
-  });
-
-  test('should fail to get user information with invalid token', async () => {
-    const res = await request(app)
-      .get(getUserPath)
-      .set('x-auth-token', token + 1);
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(TOKEN_INVALID);
-  });
 });
 
 describe('Post User test', () => {
@@ -88,25 +71,6 @@ describe('Post User test', () => {
     expect(res.body.name).toBe('Test2');
     expect(res.body.email).toBe('test2@gmail.com');
     expect(res.body.password).toBeUndefined();
-  });
-  
-  test('should fail to post user without request token', async () => {
-    const res = await request(app)
-      .post(postUserPath)
-      .send(user2)
-      .set('Accept', 'application/json');
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(AUTH_ERROR);
-  });
-
-  test('should fail to post user with invalid token', async () => {
-    const res = await request(app)
-      .post(postUserPath)
-      .send(user2)
-      .set('Accept', 'application/json')
-      .set('x-auth-token', token + 1);
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(TOKEN_INVALID);
   });
 });
 
@@ -147,25 +111,6 @@ describe('Edit User test', () => {
     expect(res.body.password).toBeUndefined();
   });
   
-  test('should fail to edit user without request token', async () => {
-    const res = await request(app)
-      .put(editUserPath)
-      .send(user)
-      .set('Accept', 'application/json');
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(AUTH_ERROR);
-  });
-
-  test('should fail to edit user with invalid token', async () => {
-    const res = await request(app)
-      .put(editUserPath)
-      .send(user)
-      .set('Accept', 'application/json')
-      .set('x-auth-token', token + 1);
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(TOKEN_INVALID);
-  });
-
   // test('should fail to edit user with not exisiting user ID', async () => {
   //   const res = await request(app)
   //     .put(editUserPath)
@@ -299,20 +244,5 @@ describe('Delete User test', () => {
       .set('x-auth-token', token);
     expect(res.status).toBe(200);
     expect(res.body.msg).toBe(USER_DELETED);
-  });
-
-  test('should fail to delete user without request token', async () => {
-    const res = await request(app)
-      .delete(deleteUserPath);
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(AUTH_ERROR);
-  });
-
-  test('should fail to delete user with invalid token', async () => {
-    const res = await request(app)
-      .delete(deleteUserPath)
-      .set('x-auth-token', token + 1);
-    expect(res.status).toBe(401);
-    expect(res.body.msg).toBe(TOKEN_INVALID);
   });
 });
