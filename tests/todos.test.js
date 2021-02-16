@@ -135,10 +135,10 @@ describe('Post Todo test', () => {
       .send(todo4)
       .set('Accept', 'application/json')
       .set('x-auth-token', token);
-      expect(res.status).toBe(200);
-      expect(res.body.title).toBe('TestTodo');
-      expect(res.body.dueDate).toBeNull();
-      // expect(res.body.category).toBe('TestCategory');
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('TestTodo');
+    expect(res.body.dueDate).toBeNull();
+    // expect(res.body.category).toBe('TestCategory');
   });
 
   test('should success to post todo without the category', async () => {
@@ -147,9 +147,9 @@ describe('Post Todo test', () => {
       .send(todo5)
       .set('Accept', 'application/json')
       .set('x-auth-token', token);
-      expect(res.status).toBe(200);
-      expect(res.body.title).toBe('TestTodo');
-      expect(res.body.dueDate).toBe('2021-02-09T13:29:38.547Z');
-      expect(res.body.category).toBeNull();
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('TestTodo');
+    expect(res.body.dueDate).toBe('2021-02-09T13:29:38.547Z');
+    expect(res.body.category).toBeNull();
   });
 });

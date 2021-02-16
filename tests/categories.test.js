@@ -9,12 +9,10 @@ require('dotenv').config();
 
 const {
   TITLE_REQUIRED,
-  TITLE_TODO_MAX_LENGTH
+  TITLE_CATEGORY_MAX_LENGTH
 } = VALIDATION_MESSAGE;
 const {
-  INVALID_CURRENT_PASSWORD,
-  EMAIL_EXISTS,
-  USER_DELETED,
+  CATEGORY_EXISTS
 } = ERROR_MESSAGE;
 
 let token;
@@ -44,6 +42,62 @@ afterAll(async () => {
   console.log("Categories test finish");
 });
 
+describe('Post Category test', () => {
+  const postCategoryPath = '/api/categories';
+
+  const category = {
+    title: 'TestCategory'
+  };
+
+  const category2 = {
+    title: ''
+  };
+
+  const category3 = {
+    title: 'TestCategoryTestCategory'
+  };
+
+  test('should success to post category', async () => {
+    const res = await request(app)
+      .post(postCategoryPath)
+      .send(category)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe('TestCategory');
+  });
+
+  test('should fail to post category without title', async () => {
+    const res = await request(app)
+      .post(postCategoryPath)
+      .send(category2)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(TITLE_REQUIRED);
+  });
+
+  test('should fail to post category with the title of more than 15 letters', async () => {
+    const res = await request(app)
+      .post(postCategoryPath)
+      .send(category3)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(400);
+    expect(res.body.msg).toBe(TITLE_CATEGORY_MAX_LENGTH);
+  });
+
+  test('should fail to post category with the existing title of category', async () => {
+    const res = await request(app)
+      .post(postCategoryPath)
+      .send(category)
+      .set('Accept', 'application/json')
+      .set('x-auth-token', token);
+    expect(res.status).toBe(401);
+    expect(res.body.msg).toBe(CATEGORY_EXISTS);
+  });
+});
+
 describe('Get Categories test', () => {
   const getCategoriesPath = '/api/categories';
 
@@ -55,3 +109,15 @@ describe('Get Categories test', () => {
     expect(res.body).toEqual(expect.any(Array));
   });
 });
+
+// describe('Get Category test', () => {
+//   const getCategoryPath = '/api/categories'; // :category
+
+//   test('should success to get category', async () => {
+//     const res = await request(app)
+//       .get(getCategoryPath)
+//       .set('x-auth-token', token);
+//     expect(res.status).toBe(200);
+//     expect(res.body).toBe('hello');
+//   });
+// });
