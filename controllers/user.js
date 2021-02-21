@@ -107,6 +107,41 @@ exports.editPasswordUser = asyncHandler(async (req, res, next) => {
   return res.json(updatedUser);
 });
 
+// @Route  PUT api/user/:userId/image
+// @desc   Update user image
+// @access Private
+exports.editImageUser = asyncHandler(async (req, res, next) => {
+  // validation
+
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return next(new ExpressError(errors.array()[0].msg, 400));
+  // }
+
+  // search exists user
+  let user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ExpressError(USER_NOT_EXISTS, 404));
+  }
+
+  // receive req.file
+  if (!req.file) {
+    return next(new ExpressError('Hello')); // set up constant
+  }
+  const { path } = req.file;
+
+  // update new image in model
+  user.avatar = path;
+  const updatedUser = await user.save();
+
+  // delete current image in cloudinary
+
+  // update new image in cloudinary
+
+  // response json data
+  return res.json(updatedUser); // return filepath to cloudinary
+});
+
 // @Route  DELETE api/user/:userId
 // @desc   Delete user
 // @access Private

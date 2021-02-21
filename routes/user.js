@@ -1,9 +1,12 @@
 const express = require('express');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' }) // change later
 const {
   addUser,
   getUser,
   editInfoUser,
   editPasswordUser,
+  editImageUser,
   deleteUser,
   forgetPassword
 } = require('../controllers/user');
@@ -16,6 +19,7 @@ router.post('/', auth, validation('addUser'), addUser);
 router.get('/', auth, getUser);
 router.put('/:userId', auth, validation('editInfoUser'), editInfoUser);
 router.put('/:userId/password', auth, validation('editPasswordUser'), editPasswordUser);
+router.put('/:userId/image', upload.single('avatar'), auth, editImageUser);
 router.delete('/:userId', auth, deleteUser);
 router.get('/password/forget', validation('forgetPassword'), forgetPassword);
 
