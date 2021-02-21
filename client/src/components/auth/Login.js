@@ -45,7 +45,7 @@ const Login = ({ onSubmit }) => {
           required: true,
           pattern: EMAIL_REGEX
         })}
-        error={errors.email}
+        error={!!errors.email}
         helperText={(
           errors.email && errors.email.type === "required" &&
           <span role="alert">{EMAIL_REQUIRED}</span>
@@ -63,7 +63,7 @@ const Login = ({ onSubmit }) => {
         className={classes.margin}
         fullWidth
         inputRef={register({ required: true, minLength: 6 })}
-        error={errors.password}
+        error={!!errors.password}
         helperText={(
           errors.password && errors.password.type === "required" &&
           <span role="alert">{PASSWORD_REQUIRED}</span>

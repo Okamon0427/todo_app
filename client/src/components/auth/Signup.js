@@ -44,7 +44,7 @@ const Signup = ({ onSubmit }) => {
         className={classes.margin}
         fullWidth
         inputRef={register({ required: true })}
-        error={errors.name}
+        error={!!errors.name}
         helperText={errors.name && <span role="alert">{USER_NAME_REQUIRED}</span>}
       />
       <br />
@@ -58,7 +58,7 @@ const Signup = ({ onSubmit }) => {
           required: true,
           pattern: EMAIL_REGEX
         })}
-        error={errors.email}
+        error={!!errors.email}
         helperText={(
           errors.email && errors.email.type === "required" &&
           <span role="alert">{EMAIL_REQUIRED}</span>
@@ -76,7 +76,7 @@ const Signup = ({ onSubmit }) => {
         className={classes.margin}
         fullWidth
         inputRef={register({ required: true, minLength: 6 })}
-        error={errors.password}
+        error={!!errors.password}
         helperText={(
           errors.password && errors.password.type === "required" &&
           <span role="alert">{PASSWORD_REQUIRED}</span>
@@ -99,7 +99,7 @@ const Signup = ({ onSubmit }) => {
             return value === watch('password');
           }
         })}
-        error={errors.password2}
+        error={!!errors.password2}
         helperText={(
           errors.password2 && errors.password2.type === "required" &&
           <span role="alert">{PASSWORD_REQUIRED}</span>
