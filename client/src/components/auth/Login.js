@@ -38,6 +38,7 @@ const Login = ({ onSubmit }) => {
       <TextField
         name="email"
         label="Email"
+        data-testid="email"
         className={classes.margin}
         fullWidth
         inputRef={register({
@@ -58,6 +59,7 @@ const Login = ({ onSubmit }) => {
         name="password"
         label="Password"
         type="password"
+        data-testid="password"
         className={classes.margin}
         fullWidth
         inputRef={register({ required: true, minLength: 6 })}
