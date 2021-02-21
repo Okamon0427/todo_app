@@ -48,10 +48,10 @@ const Login = ({ onSubmit }) => {
         error={errors.email}
         helperText={(
           errors.email && errors.email.type === "required" &&
-          EMAIL_REQUIRED
+          <span role="alert">{EMAIL_REQUIRED}</span>
         ) || (
           errors.email && errors.email.type === "pattern" &&
-          EMAIL_VALID
+          <span role="alert">{EMAIL_VALID}</span>
         )}
       />
       <br />
@@ -66,10 +66,10 @@ const Login = ({ onSubmit }) => {
         error={errors.password}
         helperText={(
           errors.password && errors.password.type === "required" &&
-          PASSWORD_REQUIRED
+          <span role="alert">{PASSWORD_REQUIRED}</span>
         ) || (
           errors.password && errors.password.type === "minLength" &&
-          PASSWORD_MIN_LENGTH
+          <span role="alert">{PASSWORD_MIN_LENGTH}</span>
         )}
       />
       <br />

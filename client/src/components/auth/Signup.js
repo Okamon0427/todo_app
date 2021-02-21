@@ -40,16 +40,18 @@ const Signup = ({ onSubmit }) => {
       <TextField
         name="name"
         label="User Name"
+        data-testid="name"
         className={classes.margin}
         fullWidth
         inputRef={register({ required: true })}
         error={errors.name}
-        helperText={errors.name && USER_NAME_REQUIRED}
+        helperText={errors.name && <span role="alert">{USER_NAME_REQUIRED}</span>}
       />
       <br />
       <TextField
         name="email"
         label="Email"
+        data-testid="email"
         className={classes.margin}
         fullWidth
         inputRef={register({
@@ -59,10 +61,10 @@ const Signup = ({ onSubmit }) => {
         error={errors.email}
         helperText={(
           errors.email && errors.email.type === "required" &&
-          EMAIL_REQUIRED
+          <span role="alert">{EMAIL_REQUIRED}</span>
         ) || (
           errors.email && errors.email.type === "pattern" &&
-          EMAIL_VALID
+          <span role="alert">{EMAIL_VALID}</span>
         )}
       />
       <br />
@@ -70,16 +72,17 @@ const Signup = ({ onSubmit }) => {
         name="password"
         label="Password"
         type="password"
+        data-testid="password"
         className={classes.margin}
         fullWidth
         inputRef={register({ required: true, minLength: 6 })}
         error={errors.password}
         helperText={(
           errors.password && errors.password.type === "required" &&
-          PASSWORD_REQUIRED
+          <span role="alert">{PASSWORD_REQUIRED}</span>
         ) || (
           errors.password && errors.password.type === "minLength" &&
-          PASSWORD_MIN_LENGTH
+          <span role="alert">{PASSWORD_MIN_LENGTH}</span>
         )}
       />
       <br />
@@ -87,6 +90,7 @@ const Signup = ({ onSubmit }) => {
         name="password2"
         label="Confirm Password"
         type='password'
+        data-testid="password2"
         className={classes.margin}
         fullWidth
         inputRef={register({
@@ -98,10 +102,10 @@ const Signup = ({ onSubmit }) => {
         error={errors.password2}
         helperText={(
           errors.password2 && errors.password2.type === "required" &&
-          PASSWORD_REQUIRED
+          <span role="alert">{PASSWORD_REQUIRED}</span>
         ) || (
           errors.password2 && errors.password2.type === "validate" &&
-          PASSWORD_MATCH
+          <span role="alert">{PASSWORD_MATCH}</span>
         )}
       />
       <br />
