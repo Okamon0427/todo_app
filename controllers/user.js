@@ -11,7 +11,8 @@ const {
   USER_NOT_EXISTS,
   USER_DELETED,
   EMAIL_EXISTS,
-  EMAIL_SENT
+  EMAIL_SENT,
+  IMAGE_NOT_FOUND
 } = ERROR_MESSAGE;
 
 // Create user
@@ -118,7 +119,7 @@ exports.editImageUser = asyncHandler(async (req, res, next) => {
   }
 
   if (!req.file) {
-    return next(new ExpressError('Hello')); // set up constant
+    return next(new ExpressError(IMAGE_NOT_FOUND, 400)); 
   }
   
   // delete current image in cloudinary
@@ -129,8 +130,6 @@ exports.editImageUser = asyncHandler(async (req, res, next) => {
   const updatedUser = await user.save();
   
   return res.json(updatedUser);
-
-  // delete image in cloudinary when user is deleted
 });
 
 // @Route  DELETE api/user/:userId

@@ -31,5 +31,6 @@ module.exports.ERROR_MESSAGE = {
   SERVER_ERROR: 'Server Error',
   AUTH_ERROR: 'Authorization denied',
   TOKEN_INVALID: 'Token is not valid',
+  IMAGE_NOT_FOUND: 'Image is not found',
   EMAIL_SENT: 'Email is sent to your email'
 }
