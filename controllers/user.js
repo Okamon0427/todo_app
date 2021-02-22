@@ -141,6 +141,9 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
   }
 
+  // delete current image in cloudinary
+  await cloudinary.uploader.destroy(user.avatar.filename);
+
   await user.remove();
 
   res.json({ msg: USER_DELETED });
