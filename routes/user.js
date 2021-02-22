@@ -1,6 +1,7 @@
 const express = require('express');
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' }) // change later
+const { storage } = require('../config/cloudinary');
+const upload = multer({ storage })
 const {
   addUser,
   getUser,

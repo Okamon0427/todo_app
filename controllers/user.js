@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const { ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
 const asyncHandler = require('../utils/asyncHandler');
+const { cloudinary } = require('../config/cloudinary');
 const User = require('../models/User');
 
 const {
@@ -111,35 +112,25 @@ exports.editPasswordUser = asyncHandler(async (req, res, next) => {
 // @desc   Update user image
 // @access Private
 exports.editImageUser = asyncHandler(async (req, res, next) => {
-  // validation
-
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return next(new ExpressError(errors.array()[0].msg, 400));
-  // }
-
-  // search exists user
   let user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
   }
 
-  // receive req.file
   if (!req.file) {
     return next(new ExpressError('Hello')); // set up constant
   }
-  const { path } = req.file;
-
-  // update new image in model
-  user.avatar = path;
-  const updatedUser = await user.save();
-
+  
   // delete current image in cloudinary
+  await cloudinary.uploader.destroy(user.avatar.filename);
 
-  // update new image in cloudinary
+  user.avatar.url = req.file.path;
+  user.avatar.filename = req.file.filename;
+  const updatedUser = await user.save();
+  
+  return res.json(updatedUser);
 
-  // response json data
-  return res.json(updatedUser); // return filepath to cloudinary
+  // delete image in cloudinary when user is deleted
 });
 
 // @Route  DELETE api/user/:userId

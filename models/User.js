@@ -25,7 +25,12 @@ const UserSchema = new Schema({
     minlength: 6
   },
   avatar: {
-    type: String
+    url: {
+      type: String
+    },
+    filename: {
+      type: String
+    }
   },
   role: {
     type: String,
