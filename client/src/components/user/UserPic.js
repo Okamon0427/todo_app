@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Grid, Paper, Typography } from '@material-ui/core';
+import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(12),
     height: theme.spacing(12),
   },
+  input: {
+    display: 'none',
+  },
+  button: {
+    marginTop: theme.spacing(1),
+  }
 }));
 
 const UserPic = ({ userData }) => {
@@ -23,19 +29,52 @@ const UserPic = ({ userData }) => {
       className={classes.paper}
       variant="outlined"
       >
-      <Grid container direction="column" alignItems="center">
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+      >
         <Grid item>
           <Typography
-            variant="h5"
+            variant="h6"
             className={classes.marginBottom}
           >
             User Page
           </Typography>
         </Grid>
         <Grid item>
-          <Avatar className={classes.large}>
-            {userData && userData.name && userData.name.slice(0, 1)}
-          </Avatar>
+          <Avatar
+            className={classes.large}
+            alt={
+              userData
+              && userData.name
+              && userData.name.slice(0, 1)
+            }
+            src={
+              userData
+              && userData.avatar
+              && userData.avatar.url
+            }
+          />
+        </Grid>
+        <Grid>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="contained-button-file"
+            multiple
+            type="file"
+          />
+          <label htmlFor="contained-button-file">
+            <Button
+              className={classes.button}
+              size="small"
+              color="primary"
+              component="span"
+            >
+              Change
+            </Button>
+          </label>
         </Grid>
       </Grid>
     </Paper>

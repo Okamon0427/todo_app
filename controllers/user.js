@@ -119,7 +119,7 @@ exports.editImageUser = asyncHandler(async (req, res, next) => {
   }
 
   if (!req.file) {
-    return next(new ExpressError(IMAGE_NOT_FOUND, 400)); 
+    return next(new ExpressError(IMAGE_NOT_FOUND, 400));
   }
   
   // delete current image in cloudinary
