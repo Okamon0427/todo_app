@@ -72,7 +72,9 @@ const User = () => {
     <Grid container justify="center">
       <Grid item>
         <Paper className={classes.paper}>
-          <UserPic userData={user} />
+          <UserPic
+            userData={user}
+          />
           <UserInfo
             userData={user}
             editInfo={editInfo}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -58,23 +59,15 @@ const UserPic = ({ userData }) => {
           />
         </Grid>
         <Grid>
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="contained-button-file"
-            multiple
-            type="file"
-          />
-          <label htmlFor="contained-button-file">
-            <Button
-              className={classes.button}
-              size="small"
-              color="primary"
-              component="span"
-            >
-              Change
-            </Button>
-          </label>
+          <Button
+            className={classes.button}
+            size="small"
+            color="primary"
+            component={Link}
+            to="/user/avatar"
+          >
+            Change Avatar
+          </Button>
         </Grid>
       </Grid>
     </Paper>
