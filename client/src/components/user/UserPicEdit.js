@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getUser } from '../../actions/user';
@@ -25,20 +25,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserPicEdit = ({ userData }) => {
+const UserPicEdit = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { user } = useSelector(state => state.user);
 
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
+  const [previewFile, setPreviewFile] = useState(null);
 
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
 
   const onChange = (e) => {
-    setFile(e.target.files[0]);
+    const tempFile = e.target.files[0];
+    setFile(tempFile);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(tempFile);
+    reader.onloadend = () => {
+      setPreviewFile(reader.result);
+    }
+
+    // dispatch
+
+    // callback
+    // setFile(null);
+    // setPreviewFile(null);
   }
 
   const onSubmit = (e) => {
@@ -48,7 +61,8 @@ const UserPicEdit = ({ userData }) => {
   }
 
   const onCancel = () => {
-    setFile('');
+    setFile(null);
+    setPreviewFile(null);
     history.push('/user');
   }
 
@@ -72,11 +86,7 @@ const UserPicEdit = ({ userData }) => {
             <Grid item>
               <Avatar
                 className={classes.large}
-                alt={
-                  userData
-                  && userData.name
-                  && userData.name.slice(0, 1)
-                }
+                src={previewFile}
               />
             </Grid>
             <Grid>
@@ -103,6 +113,7 @@ const UserPicEdit = ({ userData }) => {
                   size="small"
                   color="primary"
                   type="submit"
+                  disabled={!file}
                 >
                   Submit
                 </Button>
