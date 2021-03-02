@@ -9,6 +9,12 @@ export const CONTENT_TYPE = {
   }
 }
 
+export const CONTENT_TYPE_IMAGE = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+}
+
 export const ERROR_MESSAGE = {
   USER_NAME_REQUIRED: 'User name is required',
   EMAIL_REQUIRED: 'Email is required',
@@ -27,7 +33,8 @@ export const SUCCESS_MESSAGE = {
   PASSWORD_CHANGED: 'Passward is changed',
   CATEGORY_DELETED: 'Category is deleted',
   TODO_DELETED: 'Todo is deleted',
-  LOGOUT: 'You logged out'
+  LOGOUT: 'You logged out',
+  IMAGE_UPLOADED: 'Image is uploaded'
 }
 
 export const REGEX = {

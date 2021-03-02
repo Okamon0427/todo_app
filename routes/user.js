@@ -20,7 +20,7 @@ router.post('/', auth, validation('addUser'), addUser);
 router.get('/', auth, getUser);
 router.put('/:userId', auth, validation('editInfoUser'), editInfoUser);
 router.put('/:userId/password', auth, validation('editPasswordUser'), editPasswordUser);
-router.put('/:userId/image', upload.single('avatar'), auth, editImageUser);
+router.put('/:userId/image', upload.single('file'), auth, editImageUser);
 router.delete('/:userId', auth, deleteUser);
 router.get('/password/forget', validation('forgetPassword'), forgetPassword);
 

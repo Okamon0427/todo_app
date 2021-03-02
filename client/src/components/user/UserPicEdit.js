@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getUser } from '../../actions/user';
+import { editUserImage } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,35 +29,38 @@ const UserPicEdit = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { user } = useSelector(state => state.user);
 
   const [file, setFile] = useState(null);
   const [previewFile, setPreviewFile] = useState(null);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
 
   const onChange = (e) => {
     const tempFile = e.target.files[0];
     setFile(tempFile);
 
-    const reader = new FileReader();
-    reader.readAsDataURL(tempFile);
-    reader.onloadend = () => {
-      setPreviewFile(reader.result);
+    if(tempFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(tempFile);
+      reader.onloadend = () => {
+        setPreviewFile(reader.result);
+      }
+    } else {
+      setPreviewFile(null);
     }
-
-    // dispatch
-
-    // callback
-    // setFile(null);
-    // setPreviewFile(null);
   }
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!file) return;
+
     const formData = new FormData();
     formData.append('file', file);
+
+    dispatch(editUserImage(formData, user._id));
+
+    setFile(null);
+    setPreviewFile(null);
+    history.push('/user');
   }
 
   const onCancel = () => {
@@ -117,14 +120,16 @@ const UserPicEdit = () => {
                 >
                   Submit
                 </Button>
-                <Button
-                  className={classes.button}
-                  size="small"
-                  onClick={onCancel}
-                >
-                  Cancel
-                </Button>
               </form>
+            </Grid>
+            <Grid>
+              <Button
+                className={classes.button}
+                size="small"
+                onClick={onCancel}
+              >
+                Cancel
+              </Button>
             </Grid>
           </Grid>
         </Paper>

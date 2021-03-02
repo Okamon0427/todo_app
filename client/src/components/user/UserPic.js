@@ -64,7 +64,7 @@ const UserPic = ({ userData }) => {
             size="small"
             color="primary"
             component={Link}
-            to="/user/avatar"
+            to="/user/image"
           >
             Change Avatar
           </Button>

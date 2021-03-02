@@ -7,11 +7,11 @@ import {
   CLEAR_USER
 } from './types';
 import { setAlert } from './alert';
-import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
+import { CONTENT_TYPE, CONTENT_TYPE_IMAGE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 import { logoutAuth } from './auth';
 
 const { SERVER_ERROR } = ERROR_MESSAGE;
-const { PASSWORD_CHANGED } = SUCCESS_MESSAGE;
+const { PASSWORD_CHANGED, IMAGE_UPLOADED } = SUCCESS_MESSAGE;
 
 // Get user
 export const getUser = () => async dispatch => {
@@ -77,6 +77,27 @@ export const editUserPassword = editUser => async dispatch => {
       payload: res.data
     });
     dispatch(setAlert(PASSWORD_CHANGED, "success"));
+  } catch (err) {
+    dispatch({
+      type: ERROR_USER,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+    dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
+  }
+};
+
+export const editUserImage = (formData, userId) => async dispatch => {
+  try {
+    await axios.put(
+      `/api/user/${userId}/image`,
+      formData,
+      CONTENT_TYPE_IMAGE
+    );
+
+    dispatch(setAlert(IMAGE_UPLOADED, "success"));
   } catch (err) {
     dispatch({
       type: ERROR_USER,
