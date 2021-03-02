@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,17 +19,38 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     marginTop: theme.spacing(1),
-  }
+  },
+  input: {
+    display: 'none',
+  },
 }));
 
 const UserPicEdit = ({ userData }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const { user } = useSelector(state => state.user);
+
+  const [file, setFile] = useState('');
 
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
+
+  const onChange = (e) => {
+    setFile(e.target.files[0]);
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', file);
+  }
+
+  const onCancel = () => {
+    setFile('');
+    history.push('/user');
+  }
 
   return (
     <Grid container justify="center">
@@ -59,28 +80,40 @@ const UserPicEdit = ({ userData }) => {
               />
             </Grid>
             <Grid>
-              <Button
-                className={classes.button}
-                size="small"
-                color="primary"
-              >
-                Choose Image
-              </Button>
-              <Button
-                className={classes.button}
-                size="small"
-                color="primary"
-              >
-                Submit
-              </Button>
-              <Button
-                className={classes.button}
-                size="small"
-                component={Link}
-                to="/user"
-              >
-                Cancel
-              </Button>
+              <form onSubmit={onSubmit}>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  type="file"
+                  onChange={onChange}
+                />
+                <label htmlFor="contained-button-file">
+                  <Button
+                    className={classes.button}
+                    size="small"
+                    color="primary"
+                    component="span"
+                  >
+                    Choose Image
+                  </Button>
+                </label>
+                <Button
+                  className={classes.button}
+                  size="small"
+                  color="primary"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+                <Button
+                  className={classes.button}
+                  size="small"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+              </form>
             </Grid>
           </Grid>
         </Paper>
