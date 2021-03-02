@@ -24,7 +24,7 @@ exports.addCategory = asyncHandler(async (req, res, next) => {
 
   const existTitle = await Category.find({ title, user: req.user.id });
   if (existTitle && existTitle.length > 0) {
-    return next(new ExpressError(CATEGORY_EXISTS, 401));
+    return next(new ExpressError(CATEGORY_EXISTS, 400));
   }
 
   const newCategoryObject = new Category({
@@ -74,12 +74,12 @@ exports.editCategory = asyncHandler(async (req, res, next) => {
   }
 
   if (category.user.toString() !== req.user.id) {
-    return next(new ExpressError(CATEGORY_AUTH_ERROR, 401));
+    return next(new ExpressError(CATEGORY_AUTH_ERROR, 400));
   }
 
   const existTitle = await Category.find({ title, user: req.user.id });
   if (existTitle && existTitle.length > 0) {
-    return next(new ExpressError(CATEGORY_EXISTS, 401));
+    return next(new ExpressError(CATEGORY_EXISTS, 400));
   }
 
   const updatedCategory = await Category.findByIdAndUpdate(
@@ -101,7 +101,7 @@ exports.deleteCategory = asyncHandler(async (req, res, next) => {
   }
 
   if (category.user.toString() !== req.user.id) {
-    return next(new ExpressError(CATEGORY_AUTH_ERROR, 401));
+    return next(new ExpressError(CATEGORY_AUTH_ERROR, 400));
   }
 
   await category.remove();

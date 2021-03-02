@@ -7,11 +7,11 @@ const User = require('../models/User');
 
 const {
   INVALID_CURRENT_PASSWORD,
+  INVALID_ROUTE,
   USER_EXISTS,
   USER_NOT_EXISTS,
   USER_DELETED,
   EMAIL_EXISTS,
-  EMAIL_SENT,
   IMAGE_NOT_FOUND
 } = ERROR_MESSAGE;
 
@@ -45,7 +45,7 @@ exports.addUser = asyncHandler(async (req, res, next) => {
 // @desc   Get user
 // @access Private
 exports.getUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user.id).select('-password');
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
   }
@@ -60,6 +60,10 @@ exports.editInfoUser = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ExpressError(errors.array()[0].msg, 400));
+  }
+
+  if (req.user.id !== req.params.userId) {
+    return next(new ExpressError(INVALID_ROUTE, 400));
   }
 
   const user = await User.findById(req.user.id);
@@ -92,6 +96,10 @@ exports.editPasswordUser = asyncHandler(async (req, res, next) => {
   
   const { currentPassword, newPassword } = req.body;
 
+  if (req.user.id !== req.params.userId) {
+    return next(new ExpressError(INVALID_ROUTE, 400));
+  }
+
   let user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
@@ -113,6 +121,10 @@ exports.editPasswordUser = asyncHandler(async (req, res, next) => {
 // @desc   Update user image
 // @access Private
 exports.editImageUser = asyncHandler(async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(new ExpressError(INVALID_ROUTE, 400));
+  }
+
   let user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
@@ -128,6 +140,7 @@ exports.editImageUser = asyncHandler(async (req, res, next) => {
   user.avatar.url = req.file.path;
   user.avatar.filename = req.file.filename;
   const updatedUser = await user.save();
+  updatedUser.password = undefined;
   
   return res.json(updatedUser);
 });
@@ -136,6 +149,10 @@ exports.editImageUser = asyncHandler(async (req, res, next) => {
 // @desc   Delete user
 // @access Private
 exports.deleteUser = asyncHandler(async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(new ExpressError(INVALID_ROUTE, 400));
+  }
+  
   const user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
@@ -147,23 +164,4 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   await user.remove();
 
   res.json({ msg: USER_DELETED });
-});
-
-// @Route  GET api/user/password/forget
-// @desc   Send email to user who forgets password
-// @access Public
-exports.forgetPassword = asyncHandler(async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(new ExpressError(errors.array()[0].msg, 400));
-  }
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    return next(new ExpressError(USER_NOT_EXISTS, 404));
-  }
-
-  // Write Logic to send email
-
-  res.json({ msg: EMAIL_SENT });
 });

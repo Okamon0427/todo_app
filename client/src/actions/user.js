@@ -89,6 +89,7 @@ export const editUserPassword = editUser => async dispatch => {
   }
 };
 
+// Edit Avatar
 export const editUserImage = (formData, userId) => async dispatch => {
   try {
     await axios.put(

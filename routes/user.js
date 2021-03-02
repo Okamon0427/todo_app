@@ -9,7 +9,6 @@ const {
   editPasswordUser,
   editImageUser,
   deleteUser,
-  forgetPassword
 } = require('../controllers/user');
 const auth = require('../middleware/auth');
 const validation = require('../middleware/validation');
@@ -22,6 +21,5 @@ router.put('/:userId', auth, validation('editInfoUser'), editInfoUser);
 router.put('/:userId/password', auth, validation('editPasswordUser'), editPasswordUser);
 router.put('/:userId/image', upload.single('file'), auth, editImageUser);
 router.delete('/:userId', auth, deleteUser);
-router.get('/password/forget', validation('forgetPassword'), forgetPassword);
 
 module.exports = router;

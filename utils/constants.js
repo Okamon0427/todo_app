@@ -17,6 +17,7 @@ module.exports.VALIDATION_MESSAGE = {
 module.exports.ERROR_MESSAGE = {
   INVALID_CREDENTIALS: 'Invalid Credentials',
   INVALID_CURRENT_PASSWORD: 'Invalid current password',
+  INVALID_ROUTE: 'Invalid route',
   USER_EXISTS: 'This user already exists',
   EMAIL_EXISTS: 'This email is already used',
   USER_NOT_EXISTS: 'This user does not exists',
@@ -32,5 +33,4 @@ module.exports.ERROR_MESSAGE = {
   AUTH_ERROR: 'Authorization denied',
   TOKEN_INVALID: 'Token is not valid',
   IMAGE_NOT_FOUND: 'Image is not found',
-  EMAIL_SENT: 'Email is sent to your email'
 }

@@ -69,7 +69,7 @@ exports.editTodo = asyncHandler(async (req, res, next) => {
   }
 
   if (todo.user.toString() !== req.user.id) {
-    return next(new ExpressError(TODO_AUTH_ERROR, 401));
+    return next(new ExpressError(TODO_AUTH_ERROR, 400));
   }
 
   const updatedTodo = await Todo.findByIdAndUpdate(
@@ -91,7 +91,7 @@ exports.deleteTodo = asyncHandler(async (req, res, next) => {
   }
 
   if (todo.user.toString() !== req.user.id) {
-    return next(new ExpressError(TODO_AUTH_ERROR, 401));
+    return next(new ExpressError(TODO_AUTH_ERROR, 400));
   }
 
   await todo.remove();

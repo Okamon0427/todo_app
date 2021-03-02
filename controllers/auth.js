@@ -35,6 +35,7 @@ exports.register = asyncHandler(async (req, res, next) => {
   });
   
   const newUser = await newUserObject.save();
+  newUser.password = undefined;
 
   sendJWTToken(newUser, res);
 });
@@ -52,13 +53,15 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   let user = await User.findOne({ email });
   if (!user) {
-    return next(new ExpressError(INVALID_CREDENTIALS, 400));
+    return next(new ExpressError(INVALID_CREDENTIALS, 401));
   }
 
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
-    return next(new ExpressError(INVALID_CREDENTIALS, 400));
+    return next(new ExpressError(INVALID_CREDENTIALS, 401));
   }
+
+  user.password = undefined
 
   sendJWTToken(user, res);
 });
