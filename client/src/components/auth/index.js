@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -64,15 +64,6 @@ const Landing = () => {
             >
               Change to {authType === SIGNUP ? LOGIN : SIGNUP}
             </Button>
-            {authType === LOGIN && (
-              <Button
-                color="primary"
-                component={Link}
-                to="/password/reset"
-              >
-                Forget Password?
-              </Button>
-            )}
           </Paper>
         </Grid>
       </Grid>

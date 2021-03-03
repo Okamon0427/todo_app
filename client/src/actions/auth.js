@@ -18,7 +18,9 @@ const { LOGOUT } = SUCCESS_MESSAGE;
 
 // Get login user data
 export const userDataAuth = () => async dispatch => {
-  setTokenToHeader(localStorage.token);
+  if (localStorage.token) {
+    setTokenToHeader(localStorage.token);
+  }
 
   try {
     const res = await axios.get('/api/user');
