@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Typography } from '@material-ui/core';
+import { Input, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
@@ -146,17 +146,21 @@ const Dashboard = () => {
             No Todo
           </Typography>
         ) : (
-          todosArray && todosArray.map(todo => {
-            return (
-              <TodoItem
-                key={todo._id}
-                todo={todo}
-                onEdit={onEdit}
-                isEditMode={isEditMode}
-                onDelete={onDelete}
-              />
-            )
-          })
+          <Grid container spacing={1}>
+            {todosArray && todosArray.map(todo => {
+              return (
+                <Grid item xs={12} md={6}>
+                  <TodoItem
+                    key={todo._id}
+                    todo={todo}
+                    onEdit={onEdit}
+                    isEditMode={isEditMode}
+                    onDelete={onDelete}
+                  />
+                </Grid>
+              )
+            })}
+          </Grid>
         )
       )}
     </>

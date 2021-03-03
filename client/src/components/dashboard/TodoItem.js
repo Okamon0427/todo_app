@@ -7,7 +7,6 @@ import { DATE_FORMAT } from '../../utils/constants';
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
-    marginBottom: theme.spacing(1),
   },
   content: {
     padding: theme.spacing(1),
@@ -44,7 +43,7 @@ const TodoItem = ({
         {!isEditMode && (
           <>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => onEdit(_id)}
@@ -52,7 +51,7 @@ const TodoItem = ({
               Edit
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="secondary"
               size="small"
               onClick={() => onDelete(_id)}

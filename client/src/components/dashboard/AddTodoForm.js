@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-  titleRequired,
-  titleTodoMaxLength,
+  TITLE_REQUIRED,
+  TITLE_TODO_MAX_LENGTH,
 } = ERROR_MESSAGE;
 
 const AddTodoForm = ({
@@ -48,10 +48,10 @@ const AddTodoForm = ({
         error={errors.title}
         helperText={(
           errors.title && errors.title.type === "required" &&
-          titleRequired
+          TITLE_REQUIRED
         ) || (
           errors.title && errors.title.type === "maxLength" &&
-          titleTodoMaxLength
+          TITLE_TODO_MAX_LENGTH
         )}
       />
       <FormControl margin="normal">
