@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, TextField, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     maxWidth: 160
   },
+  test: {
+    backgroundColor: 'rgba(0, 0, 0, 0.10)'
+  }
 }));
 
 const {
@@ -35,13 +38,15 @@ const CategoriesList = ({
 }) => {
   const classes = useStyles();
   const { register, errors, handleSubmit } = useForm();
-
+  const { currentCategoryId } = useParams();
+  
   return (
     <List>
       <ListItem
         button
         component={Link}
         to="/dashboard"
+        className={!currentCategoryId && classes.test}
       >
         <ListItemText primary="All" />
       </ListItem>
@@ -95,6 +100,11 @@ const CategoriesList = ({
             key={category._id}
             component={Link}
             to={`/dashboard/${category._id}`}
+            className={
+              currentCategoryId
+              && currentCategoryId === category._id
+              && classes.test
+            }
           >
             <ListItemText primary={category.title} />
             <ListItemSecondaryAction>

@@ -149,9 +149,13 @@ const Dashboard = () => {
           <Grid container spacing={1}>
             {todosArray && todosArray.map(todo => {
               return (
-                <Grid item xs={12} md={6}>
+                <Grid
+                  key={todo._id}
+                  item
+                  xs={12}
+                  md={6}
+                >
                   <TodoItem
-                    key={todo._id}
                     todo={todo}
                     onEdit={onEdit}
                     isEditMode={isEditMode}
