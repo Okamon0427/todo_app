@@ -10,6 +10,11 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: theme.spacing(1),
+  },
+  notEdit: {
+    '& > *': {
+      color: 'rgba(0, 0, 0, 0.25)'
+    }
   }
 }));
 
@@ -24,44 +29,49 @@ const TodoItem = ({
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardContent className={classes.content}>
-        <Typography
-          variant="h5"
-          component="h2"
-        >
-          {title}
-        </Typography>
-        <Typography
-          variant="body2"
-          component="p"
-        >
-          Due: <Moment format={wordDate}>{dueDate}</Moment>
-        </Typography>
-      </CardContent>
-      <CardActions>
-        {!isEditMode && (
-          <>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              onClick={() => onEdit(_id)}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              size="small"
-              onClick={() => onDelete(_id)}
-            >
-              Delete
-            </Button>
-          </>
-        )}
-      </CardActions>
-    </Card>
+    <div className={
+      isEditMode && (isEditMode !== _id)
+      ? classes.notEdit : null
+    }>
+      <Card className={classes.root}>
+        <CardContent className={classes.content}>
+          <Typography
+            variant="h5"
+            component="h2"
+          >
+            {title}
+          </Typography>
+          <Typography
+            variant="body2"
+            component="p"
+          >
+            Due: <Moment format={wordDate}>{dueDate}</Moment>
+          </Typography>
+        </CardContent>
+        <CardActions>
+          {!isEditMode && (
+            <>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={() => onEdit(_id)}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                size="small"
+                onClick={() => onDelete(_id)}
+              >
+                Delete
+              </Button>
+            </>
+          )}
+        </CardActions>
+      </Card>
+    </div>
   );
 }
 
