@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input } from '@material-ui/core';
+import { Input, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
@@ -141,7 +141,11 @@ const Dashboard = () => {
         />
       )}
       {loading ? <Spinner /> : (
-        todosArray.length === 0 ? <h1>No Todo</h1> : (
+        todosArray.length === 0 ? (
+          <Typography variant="h4">
+            No Todo
+          </Typography>
+        ) : (
           todosArray && todosArray.map(todo => {
             return (
               <TodoItem
