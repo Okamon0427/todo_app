@@ -2,7 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
 const { ERROR_MESSAGE } = require('./utils/constants');
-const { SERVER_ERROR } = ERROR_MESSAGE;
+const { SERVER_ERROR, INVALID_ROUTE } = ERROR_MESSAGE;
 
 const app = express();
 connectDB();
@@ -28,6 +28,12 @@ app.use((err, req, res, next) => {
   if (process.env.NODE_ENV !== 'test') {
     console.error(err);
   }
+
+  if (err.kind === 'ObjectId') {
+    err.statusCode = 400;
+    err.message = INVALID_ROUTE;
+  }
+
   return res
     .status(err.statusCode || 500)
     .json({ msg: err.message || SERVER_ERROR });

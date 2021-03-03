@@ -26,7 +26,7 @@ module.exports.ERROR_MESSAGE = {
   CATEGORY_AUTH_ERROR: 'This category is not yours',
   CATEGORY_EXISTS: 'This title already exists',
   CATEGORY_DELETED: 'Category is deleted',
-  TODO_NOT_FOUND: 'Todo id not found',
+  TODO_NOT_FOUND: 'Todo is not found',
   TODO_AUTH_ERROR: 'This todo is not yours',
   TODO_DELETED: 'Todo is deleted',
   SERVER_ERROR: 'Server Error',

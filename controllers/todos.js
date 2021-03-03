@@ -3,11 +3,13 @@ const { ERROR_MESSAGE } = require('../utils/constants');
 const ExpressError = require('../utils/ExpressError');
 const asyncHandler = require('../utils/asyncHandler');
 const Todo = require('../models/Todo');
+const Category = require('../models/Category');
 
 const {
+  CATEGORY_NOT_FOUND,
   TODO_NOT_FOUND,
   TODO_AUTH_ERROR,
-  TODO_DELETED
+  TODO_DELETED,
 } = ERROR_MESSAGE;
 
 // @Route  POST api/todos
@@ -47,6 +49,11 @@ exports.getAllTodos = asyncHandler(async (req, res, next) => {
 // @desc   Get all todos by category ID
 // @access Private
 exports.getTodosByCategory = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.categoryId);
+  if (!category) {
+    return next(new ExpressError(CATEGORY_NOT_FOUND, 404));
+  }
+
   const todos = await Todo.find({
     user: req.user.id,
     category: req.params.categoryId
