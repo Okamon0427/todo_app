@@ -57,11 +57,13 @@ const UserPicEdit = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    dispatch(editUserImage(formData, user._id));
-
-    setFile(null);
-    setPreviewFile(null);
-    history.push(PATH_URL.USER);
+    dispatch(editUserImage(formData, user._id))
+      .then(() => {
+        setFile(null);
+        setPreviewFile(null);
+        history.push(PATH_URL.USER);
+      })
+      .catch(() => {});
   }
 
   const onCancel = () => {

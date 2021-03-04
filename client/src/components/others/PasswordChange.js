@@ -41,8 +41,11 @@ const PasswordChange = () => {
       ...data,
       id: user._id
     };
-    dispatch(editUserPassword(convertedData));
-    history.push(PATH_URL.USER);
+    dispatch(editUserPassword(convertedData))
+      .then(() => {
+        history.push(PATH_URL.USER);
+      })
+      .catch(() => []);
   }
 
   return (

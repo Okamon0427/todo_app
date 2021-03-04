@@ -65,8 +65,11 @@ const User = () => {
   }
 
   const onDelete = () => {
-    dispatch(deleteUser(user._id));
-    history.push(PATH_URL.LANDING);
+    dispatch(deleteUser(user._id))
+      .then(() => {
+        history.push(PATH_URL.LANDING);
+      })
+      .catch(() => {});
   }
 
   return (

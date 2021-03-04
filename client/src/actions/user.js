@@ -77,6 +77,8 @@ export const editUserPassword = editUser => async dispatch => {
       payload: res.data
     });
     dispatch(setAlert(PASSWORD_CHANGED, "success"));
+
+    return Promise.resolve();
   } catch (err) {
     dispatch({
       type: ERROR_USER,
@@ -86,6 +88,8 @@ export const editUserPassword = editUser => async dispatch => {
       }
     });
     dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
+
+    return Promise.reject();
   }
 };
 
@@ -99,6 +103,8 @@ export const editUserImage = (formData, userId) => async dispatch => {
     );
 
     dispatch(setAlert(IMAGE_UPLOADED, "success"));
+    
+    return Promise.resolve();
   } catch (err) {
     dispatch({
       type: ERROR_USER,
@@ -108,6 +114,8 @@ export const editUserImage = (formData, userId) => async dispatch => {
       }
     });
     dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
+
+    return Promise.reject();
   }
 };
 
@@ -118,6 +126,8 @@ export const deleteUser = id => async dispatch => {
 
     dispatch(logoutAuth());
     dispatch(setAlert(res.data.msg, "success"));
+
+    return Promise.resolve();
   } catch (err) {
     dispatch({
       type: ERROR_USER,
@@ -127,6 +137,8 @@ export const deleteUser = id => async dispatch => {
       }
     });
     dispatch(setAlert(err.response.data.msg || SERVER_ERROR, "error"));
+
+    return Promise.reject();
   }
 };
 

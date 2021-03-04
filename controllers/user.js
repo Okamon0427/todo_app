@@ -144,7 +144,9 @@ exports.editImageUser = asyncHandler(async (req, res, next) => {
   }
   
   // delete current image in cloudinary
-  await cloudinary.uploader.destroy(user.avatar.filename);
+  if (user.avatar.length > 0) {
+    await cloudinary.uploader.destroy(user.avatar.filename);
+  }
 
   user.avatar.url = req.file.path;
   user.avatar.filename = req.file.filename;
@@ -172,7 +174,9 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   }
 
   // delete current image in cloudinary
-  await cloudinary.uploader.destroy(user.avatar.filename);
+  if (user.avatar.length > 0) {
+    await cloudinary.uploader.destroy(user.avatar.filename);
+  }
 
   await user.remove();
 
