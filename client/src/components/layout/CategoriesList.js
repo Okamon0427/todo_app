@@ -47,8 +47,8 @@ const CategoriesList = ({
         component={Link}
         to={PATH_URL.DASHBOARD}
         className={
-          currentCategoryId === undefined
-          && classes.currentCategory
+          (currentCategoryId === undefined)
+          ? classes.currentCategory : null
         }
       >
         <ListItemText primary="All" />
@@ -104,8 +104,8 @@ const CategoriesList = ({
             component={Link}
             to={PATH_URL.DASHBOARD + `/${category._id}`}
             className={
-              currentCategoryId === category._id
-              && classes.currentCategory
+              (currentCategoryId === category._id)
+              ? classes.currentCategory : null
             }
           >
             <ListItemText primary={category.title} />

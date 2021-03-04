@@ -3,20 +3,21 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  spinnerContainer: {
     display: 'flex',
-    '& > * + *': {
-      marginLeft: theme.spacing(2),
-    },
+    justifyContent: 'center'
   },
+  spinner: {
+    margin: '200px auto'
+  }
 }));
 
 const CircularIndeterminate = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <CircularProgress />
+    <div className={classes.spinnerContainer}>
+      <CircularProgress className={classes.spinner} />
     </div>
   );
 }
