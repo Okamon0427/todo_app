@@ -91,7 +91,6 @@ const User = () => {
             Change Password
           </Button>
           <Button
-            color="primary"
             component={Link}
             to={PATH_URL.DASHBOARD}
           >

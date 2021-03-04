@@ -4,21 +4,23 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Routes from './components/routes/Routes';
 import Alert from './components/UI/Alert';
+import MuiColorProvider from './components/UI/Color';
 import { setTokenToHeader } from './utils/functions';
 import './App.css';
-
 
 // Set jwt token stored in local strage to req header
 setTokenToHeader(localStorage.token);
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Alert />
-      <Router>
-        <Route component={Routes} />
-      </Router>
-    </Provider>
+    <MuiColorProvider>
+      <Provider store={store}>
+        <Alert />
+        <Router>
+          <Route component={Routes} />
+        </Router>
+      </Provider>
+    </MuiColorProvider>
   );
 }
 

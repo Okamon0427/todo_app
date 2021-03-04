@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     maxWidth: 160
   },
-  test: {
+  currentCategory: {
     backgroundColor: 'rgba(0, 0, 0, 0.10)'
   }
 }));
@@ -46,7 +46,10 @@ const CategoriesList = ({
         button
         component={Link}
         to={PATH_URL.DASHBOARD}
-        className={!currentCategoryId && classes.test}
+        className={
+          currentCategoryId === undefined
+          && classes.currentCategory
+        }
       >
         <ListItemText primary="All" />
       </ListItem>
@@ -101,9 +104,8 @@ const CategoriesList = ({
             component={Link}
             to={PATH_URL.DASHBOARD + `/${category._id}`}
             className={
-              currentCategoryId
-              && currentCategoryId === category._id
-              && classes.test
+              currentCategoryId === category._id
+              && classes.currentCategory
             }
           >
             <ListItemText primary={category.title} />

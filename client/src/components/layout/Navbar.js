@@ -6,6 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { PATH_URL } from '../../utils/constants';
+import { cyan } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   naviLink: {
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: 'none',
   },
+  customColor: {
+    backgroundColor: cyan[500]
+  }
 }));
 
 const Navbar = ({
@@ -39,7 +43,7 @@ const Navbar = ({
   return (
     <AppBar
       position="fixed"
-      className={classes.appBar}
+      className={`${classes.appBar} ${classes.customColor}`}
     >
       <Toolbar>
         {isAuthenticated && (
