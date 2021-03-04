@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { editUserImage } from '../../actions/user';
+import { PATH_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -60,13 +61,13 @@ const UserPicEdit = () => {
 
     setFile(null);
     setPreviewFile(null);
-    history.push('/user');
+    history.push(PATH_URL.USER);
   }
 
   const onCancel = () => {
     setFile(null);
     setPreviewFile(null);
-    history.push('/user');
+    history.push(PATH_URL.USER);
   }
 
   return (

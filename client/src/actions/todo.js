@@ -9,7 +9,7 @@ import {
   CLEAR_TODO
 } from './types';
 import { setAlert } from './alert';
-import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
+import { CONTENT_TYPE, ERROR_MESSAGE, PATH_API, SUCCESS_MESSAGE } from '../utils/constants';
 
 const { SERVER_ERROR } = ERROR_MESSAGE;
 const { TODO_DELETED } = SUCCESS_MESSAGE;
@@ -18,7 +18,7 @@ const { TODO_DELETED } = SUCCESS_MESSAGE;
 export const addTodo = newTodo => async dispatch => {
   try {
     const res = await axios.post(
-      '/api/todos/',
+      PATH_API.TODO,
       newTodo,
       CONTENT_TYPE
     );
@@ -42,7 +42,7 @@ export const addTodo = newTodo => async dispatch => {
 // Get todos
 export const getTodos = () => async dispatch => {
   try {
-    const res = await axios.get('/api/todos');
+    const res = await axios.get(PATH_API.TODO);
   
     dispatch({
       type: GET_TODOS,
@@ -63,7 +63,7 @@ export const getTodos = () => async dispatch => {
 // Get todos by category
 export const getTodosByCategory = categoryId => async dispatch => {
   try {
-    const res = await axios.get(`/api/todos/${categoryId}`);
+    const res = await axios.get(PATH_API.TODO + `/${categoryId}`);
 
     dispatch({
       type: GET_TODOS_BY_CATEGORY,
@@ -86,7 +86,7 @@ export const getTodosByCategory = categoryId => async dispatch => {
 export const editTodo = editTodo => async dispatch => {
   try {
     const res = await axios.put(
-      `/api/todos/${editTodo.id}`,
+      PATH_API.TODO + `/${editTodo.id}`,
       editTodo,
       CONTENT_TYPE
     );
@@ -110,7 +110,7 @@ export const editTodo = editTodo => async dispatch => {
 // Delete todo
 export const deleteTodo = id => async dispatch => {
   try {
-    await axios.delete(`/api/todos/${id}`);
+    await axios.delete(PATH_API.TODO + `/${id}`);
 
     dispatch({
       type: DELETE_TODO,

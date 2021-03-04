@@ -7,6 +7,7 @@ import UserPic from './UserPic';
 import UserInfo from './UserInfo';
 import Modal from '../UI/Modal';
 import { getUser, editUserInfo, deleteUser } from '../../actions/user';
+import { PATH_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -65,7 +66,7 @@ const User = () => {
 
   const onDelete = () => {
     dispatch(deleteUser(user._id));
-    history.push('/');
+    history.push(PATH_URL.LANDING);
   }
 
   return (
@@ -85,14 +86,14 @@ const User = () => {
           <Button
             color="primary"
             component={Link}
-            to="/password/change"
+            to={PATH_URL.PASSWORD_CHANGE}
           >
             Change Password
           </Button>
           <Button
             color="primary"
             component={Link}
-            to="/dashboard"
+            to={PATH_URL.DASHBOARD}
           >
             Go Back
           </Button>

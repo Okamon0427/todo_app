@@ -8,7 +8,7 @@ import {
   CLEAR_CATEGORY
 } from './types';
 import { setAlert } from './alert';
-import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
+import { CONTENT_TYPE, ERROR_MESSAGE, PATH_API, SUCCESS_MESSAGE } from '../utils/constants';
 
 const { SERVER_ERROR } = ERROR_MESSAGE;
 const { CATEGORY_DELETED } = SUCCESS_MESSAGE;
@@ -17,7 +17,7 @@ const { CATEGORY_DELETED } = SUCCESS_MESSAGE;
 export const addCategory = newCategory => async dispatch => {
   try {
     const res = await axios.post(
-      '/api/categories/',
+      PATH_API.CATEGORY,
       newCategory,
       CONTENT_TYPE
     );
@@ -41,7 +41,7 @@ export const addCategory = newCategory => async dispatch => {
 // Get categories
 export const getCategories = () => async dispatch => {
   try {
-    const res = await axios.get('/api/categories');
+    const res = await axios.get(PATH_API.CATEGORY);
   
     dispatch({
       type: GET_CATEGORY,
@@ -64,7 +64,7 @@ export const getCategories = () => async dispatch => {
 export const updateCategory = editCategory => async dispatch => {
   try {
     const res = await axios.put(
-      `/api/categories/${editCategory.categoryId}`,
+      PATH_API.CATEGORY + `/${editCategory.categoryId}`,
       editCategory,
       CONTENT_TYPE
     );
@@ -88,7 +88,7 @@ export const updateCategory = editCategory => async dispatch => {
 // Delete categories
 export const deleteCategory = categoryId => async dispatch => {
   try {
-    await axios.delete(`/api/categories/${categoryId}`);
+    await axios.delete(PATH_API.CATEGORY + `/${categoryId}`);
   
     dispatch({
       type: DELETE_CATEGORY,

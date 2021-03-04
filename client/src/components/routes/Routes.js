@@ -9,7 +9,15 @@ import UserPicEdit from '../user/UserPicEdit';
 import PasswordChange from '../others/PasswordChange';
 import Navbar from '../layout/Navbar';
 import NotFound from '../others/NotFound';
-import { DRAWER_WIDTH } from '../../utils/constants';
+import { PATH_URL, DRAWER_WIDTH } from '../../utils/constants';
+
+const {
+  LANDING,
+  DASHBOARD,
+  USER,
+  USER_IMAGE,
+  PASSWORD_CHANGE,
+} = PATH_URL;
 
 const landing = () => {
   return (
@@ -64,12 +72,12 @@ const notFound = () => {
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/" component={landing} />
-      <PrivateRoute exact path="/dashboard" component={dashboard} />
-      <PrivateRoute exact path="/dashboard/:currentCategoryId" component={dashboard} />
-      <PrivateRoute exact path="/user" component={user} />
-      <PrivateRoute exact path="/user/image" component={userPicEdit} />
-      <PrivateRoute exact path="/password/change" component={passwordChange} />
+      <Route exact path={LANDING} component={landing} />
+      <PrivateRoute exact path={DASHBOARD} component={dashboard} />
+      <PrivateRoute exact path={DASHBOARD + "/:currentCategoryId"} component={dashboard} />
+      <PrivateRoute exact path={USER} component={user} />
+      <PrivateRoute exact path={USER_IMAGE} component={userPicEdit} />
+      <PrivateRoute exact path={PASSWORD_CHANGE} component={passwordChange} />
       <Route component={notFound} />
     </Switch>
   )

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { PATH_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -64,7 +65,7 @@ const UserPic = ({ userData }) => {
             size="small"
             color="primary"
             component={Link}
-            to="/user/image"
+            to={PATH_URL.USER_IMAGE}
           >
             Change Avatar
           </Button>

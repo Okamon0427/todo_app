@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { ERROR_MESSAGE } from '../../utils/constants';
+import { PATH_URL, ERROR_MESSAGE } from '../../utils/constants';
 import { editUserPassword } from '../../actions/user';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +42,7 @@ const PasswordChange = () => {
       id: user._id
     };
     dispatch(editUserPassword(convertedData));
-    history.push('/user');
+    history.push(PATH_URL.USER);
   }
 
   return (
@@ -130,7 +130,7 @@ const PasswordChange = () => {
           <Button
             color="primary"
             component={Link}
-            to="/user"
+            to={PATH_URL.USER}
           >
             Go Back
           </Button>

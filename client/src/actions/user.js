@@ -7,7 +7,7 @@ import {
   CLEAR_USER
 } from './types';
 import { setAlert } from './alert';
-import { CONTENT_TYPE, CONTENT_TYPE_IMAGE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
+import { PATH_API, CONTENT_TYPE, CONTENT_TYPE_IMAGE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 import { logoutAuth } from './auth';
 
 const { SERVER_ERROR } = ERROR_MESSAGE;
@@ -16,7 +16,7 @@ const { PASSWORD_CHANGED, IMAGE_UPLOADED } = SUCCESS_MESSAGE;
 // Get user
 export const getUser = () => async dispatch => {
   try {
-    const res = await axios.get('/api/user');
+    const res = await axios.get(PATH_API.USER);
   
     dispatch({
       type: GET_USER,
@@ -40,7 +40,7 @@ export const editUserInfo = editUser => async dispatch => {
     const body = JSON.stringify({ ...editUser });
 
     const res = await axios.put(
-      `/api/user/${editUser.id}`,
+      PATH_API.USER + `/${editUser.id}`,
       body,
       CONTENT_TYPE
     );
@@ -67,7 +67,7 @@ export const editUserPassword = editUser => async dispatch => {
     const body = JSON.stringify({ ...editUser });
 
     const res = await axios.put(
-      `/api/user/${editUser.id}/password`,
+      PATH_API.USER + `/${editUser.id}/password`,
       body,
       CONTENT_TYPE
     );
@@ -93,7 +93,7 @@ export const editUserPassword = editUser => async dispatch => {
 export const editUserImage = (formData, userId) => async dispatch => {
   try {
     await axios.put(
-      `/api/user/${userId}/image`,
+      PATH_API.USER + `/${userId}/image`,
       formData,
       CONTENT_TYPE_IMAGE
     );
@@ -114,7 +114,7 @@ export const editUserImage = (formData, userId) => async dispatch => {
 // Delete User
 export const deleteUser = id => async dispatch => {
   try {
-    const res = await axios.delete(`/api/user/${id}`);
+    const res = await axios.delete(PATH_API.USER + `/${id}`);
 
     dispatch(logoutAuth());
     dispatch(setAlert(res.data.msg, "success"));

@@ -12,6 +12,7 @@ import AddCategoryForm from './AddCategoryForm';
 import CategoriesList from './CategoriesList';
 import { userDataAuth, logoutAuth } from '../../actions/auth';
 import { getCategories, addCategory, updateCategory, deleteCategory } from '../../actions/category';
+import { PATH_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,7 +93,7 @@ function ResponsiveDrawer(props) {
   const onDelete = (categoryId) => {
     dispatch(deleteCategory(categoryId));
     if (categoryId === currentCategoryId) {
-      history.push('/dashboard');
+      history.push(PATH_URL.DASHBOARD);
     }
   }
 

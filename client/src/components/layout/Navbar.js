@@ -5,6 +5,7 @@ import { AppBar, IconButton, Toolbar, Tooltip, Typography } from '@material-ui/c
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { PATH_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   naviLink: {
@@ -61,7 +62,7 @@ const Navbar = ({
               <IconButton
                 color="inherit"
                 component={Link}
-                to="/user"
+                to={PATH_URL.USER}
               >
                 <SettingsIcon />
               </IconButton>
@@ -70,7 +71,7 @@ const Navbar = ({
               <IconButton
                 color="inherit"
                 component={Link}
-                to="/"
+                to={PATH_URL.LANDING}
                 onClick={onLogout}
               >
                 <ExitToAppIcon />

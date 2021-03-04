@@ -5,7 +5,7 @@ import { Box, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Signup from './Signup';
 import Login from './Login';
-import { AUTH_TYPE } from '../../utils/constants';
+import { PATH_URL, AUTH_TYPE } from '../../utils/constants';
 import { registerAuth, loginAuth } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,7 @@ const Landing = () => {
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to={PATH_URL.DASHBOARD} />
   }
 
   return (

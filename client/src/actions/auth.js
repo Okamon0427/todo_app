@@ -10,7 +10,7 @@ import { setAlert } from './alert';
 import { clearTodo } from './todo';
 import { clearUser } from './user';
 import { clearCategory } from './category';
-import { CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
+import { PATH_API, CONTENT_TYPE, ERROR_MESSAGE, SUCCESS_MESSAGE } from '../utils/constants';
 import { setTokenToHeader } from '../utils/functions';
 
 const { SERVER_ERROR } = ERROR_MESSAGE;
@@ -23,7 +23,7 @@ export const userDataAuth = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get('/api/user');
+    const res = await axios.get(PATH_API.USER);
 
     dispatch({
       type: USERDATA_AUTH,
@@ -47,7 +47,7 @@ export const registerAuth = ({ name, email, password }) => async dispatch => {
 
   try {
     const res = await axios.post(
-      '/api/auth/register',
+      PATH_API.REGISTER,
       body,
       CONTENT_TYPE
     );
@@ -77,7 +77,7 @@ export const loginAuth = ({ email, password }) => async dispatch => {
 
   try {
     const res = await axios.post(
-      '/api/auth/login',
+      PATH_API.LOGIN,
       body,
       CONTENT_TYPE
     );

@@ -37,6 +37,22 @@ export const SUCCESS_MESSAGE = {
   IMAGE_UPLOADED: 'Image is uploaded'
 }
 
+export const PATH_URL = {
+  LANDING: '/',
+  DASHBOARD: '/dashboard',
+  USER: '/user',
+  USER_IMAGE: '/user/image',
+  PASSWORD_CHANGE: '/password/change'
+}
+
+export const PATH_API = {
+  USER: '/api/user',
+  REGISTER: '/api/auth/register',
+  LOGIN: '/api/auth/login',
+  CATEGORY: '/api/categories/',
+  TODO: '/api/todos/',
+}
+
 export const REGEX = {
   //eslint-disable-next-line
   EMAIL_REGEX: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/

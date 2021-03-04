@@ -7,7 +7,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import PublishIcon from '@material-ui/icons/Publish';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
-import { ERROR_MESSAGE } from '../../utils/constants';
+import { PATH_URL, ERROR_MESSAGE } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +45,7 @@ const CategoriesList = ({
       <ListItem
         button
         component={Link}
-        to="/dashboard"
+        to={PATH_URL.DASHBOARD}
         className={!currentCategoryId && classes.test}
       >
         <ListItemText primary="All" />
@@ -99,7 +99,7 @@ const CategoriesList = ({
             button
             key={category._id}
             component={Link}
-            to={`/dashboard/${category._id}`}
+            to={PATH_URL.DASHBOARD + `/${category._id}`}
             className={
               currentCategoryId
               && currentCategoryId === category._id

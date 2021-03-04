@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { PATH_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -23,7 +24,7 @@ const NotFound = () => {
       <Typography className={classes.margin} variant="h4">
         Page Not Found
       </Typography>
-      <Link to={isAuthenticated ? "/dashboard" : "/"}>
+      <Link to={isAuthenticated ? PATH_URL.DASHBOARD : PATH_URL.LANDING}>
         <Button
           color="primary"
           className={classes.button}
