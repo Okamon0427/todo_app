@@ -29,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
   },
   customColor: {
     backgroundColor: cyan[500]
+  },
+  username: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      marginRight: theme.spacing(2),
+      lineHeight: '48px',
+      display: 'inline-block',
+    },
   }
 }));
 
@@ -36,7 +44,8 @@ const Navbar = ({
   handleDrawerToggle,
   onLogout,
   isAuthenticated,
-  drawerWidth
+  drawerWidth,
+  user
 }) => {
   const classes = useStyles(drawerWidth);
 
@@ -62,6 +71,12 @@ const Navbar = ({
         </Typography>
         {isAuthenticated && (
           <div className={classes.naviLink}>
+            <Typography
+              variant="h6"
+              className={classes.username}
+            >
+              Hello, {user && user.name}
+            </Typography>
             <Tooltip title="User Setting">
               <IconButton
                 color="inherit"

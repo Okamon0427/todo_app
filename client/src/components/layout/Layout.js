@@ -47,7 +47,7 @@ function ResponsiveDrawer(props) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { categories } = useSelector(state => state.category);
-  const { isAuthenticated } = useSelector(state => state.auth);
+  const { isAuthenticated, user } = useSelector(state => state.auth);
   const { currentCategoryId } = useParams();
   const history = useHistory();
   const [editCategory, setEditCategory] = useState(null);
@@ -131,6 +131,7 @@ function ResponsiveDrawer(props) {
         onLogout={onLogout}
         isAuthenticated={isAuthenticated}
         drawerWidth={props.drawerWidth}
+        user={user}
       />
       <nav
         className={classes.drawer}
