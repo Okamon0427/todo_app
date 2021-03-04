@@ -7,8 +7,6 @@ import TodoItem from './TodoItem';
 import AddTodoForm from './AddTodoForm';
 import EditTodoForm from './EditTodoForm';
 import Spinner from '../UI/Spinner';
-// import { DATE_FORMAT } from '../../utils/constants';
-// import { formattedDate } from '../../utils/functions';
 import { searchTodos } from '../../utils/functions';
 import { addTodo, getTodos, getTodosByCategory, editTodo, deleteTodo } from '../../actions/todo';
 
@@ -17,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   }
 }));
-
-// const { numberDate } = DATE_FORMAT;
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -54,7 +50,8 @@ const Dashboard = () => {
   }
 
   const onDateChange = date => {
-    console.log(date)
+    console.log('onChange')
+    console.log(date) // delete
     setFormData({
       ...formData,
       dueDate: date._d
@@ -92,7 +89,7 @@ const Dashboard = () => {
       ...formData,
       id: editTodo._id,
       title: editTodo.title,
-      dueDate: editTodo.dueDate,
+      dueDate: new Date(editTodo.dueDate),
     });
     setIsEditMode(key);
   }

@@ -34,7 +34,6 @@ const EditTodoForm = ({
 
   const initialValues = {
     title,
-    dueDate,
   };
 
   useEffect(() => {

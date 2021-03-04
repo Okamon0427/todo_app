@@ -48,7 +48,6 @@ export const getCategories = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    console.log(err.response)
     dispatch({
       type: ERROR_CATEGORY,
       payload: {
