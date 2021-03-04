@@ -33,4 +33,5 @@ module.exports.ERROR_MESSAGE = {
   AUTH_ERROR: 'Authorization denied',
   TOKEN_INVALID: 'Token is not valid',
   IMAGE_NOT_FOUND: 'Image is not found',
+  TEST_USER: 'Test user cannot change user information'
 }

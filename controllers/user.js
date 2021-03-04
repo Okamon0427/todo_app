@@ -12,7 +12,8 @@ const {
   USER_NOT_EXISTS,
   USER_DELETED,
   EMAIL_EXISTS,
-  IMAGE_NOT_FOUND
+  IMAGE_NOT_FOUND,
+  TEST_USER
 } = ERROR_MESSAGE;
 
 // Create user
@@ -71,6 +72,10 @@ exports.editInfoUser = asyncHandler(async (req, res, next) => {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
   }
 
+  if (user.role === 'test') {
+    return next(new ExpressError(TEST_USER, 403));
+  }
+
   const userWithEmail = await User.findOne({ email: req.body.email });
   if (userWithEmail && userWithEmail._id.toString() !== user._id.toString()) {
     return next(new ExpressError(EMAIL_EXISTS, 404));
@@ -103,6 +108,10 @@ exports.editPasswordUser = asyncHandler(async (req, res, next) => {
   let user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
+  }
+
+  if (user.role === 'test') {
+    return next(new ExpressError(TEST_USER, 403));
   }
 
   const isMatch = await user.comparePassword(currentPassword);
@@ -156,6 +165,10 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   if (!user) {
     return next(new ExpressError(USER_NOT_EXISTS, 404));
+  }
+
+  if (user.role === 'test') {
+    return next(new ExpressError(TEST_USER, 403));
   }
 
   // delete current image in cloudinary
