@@ -55,11 +55,13 @@ const User = () => {
       ...data,
       id: user._id
     }
+
     if (editInfo === 'name') {
       convertedData.email = user.email;
-    } else {
+    } else if (editInfo === 'email') {
       convertedData.name = user.name
     }
+    
     dispatch(editUserInfo(convertedData));
     setEditInfo(null);
   }

@@ -81,13 +81,13 @@ exports.editInfoUser = asyncHandler(async (req, res, next) => {
     return next(new ExpressError(EMAIL_EXISTS, 404));
   }
 
-  const updatedUser = await User.findOneAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     req.body,
     { new: true, runValidators: true }
   ).select('-password');
 
-  res.json(updatedUser);
+  return res.json(updatedUser);
 });
 
 // @Route  PUT api/user/:userId/password
