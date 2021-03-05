@@ -13,6 +13,7 @@ import { addTodo, getTodos, getTodosByCategory, editTodo, deleteTodo } from '../
 const useStyles = makeStyles((theme) => ({
   searchBar: {
     margin: theme.spacing(1),
+    marginBottom: theme.spacing(2)
   }
 }));
 
@@ -117,12 +118,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <Input
-        className={classes.searchBar}
-        placeholder="Search Todo"
-        inputProps={{ 'aria-label': 'description' }}
-        onChange={e => onSearchBarChange(e)}
-      />
       {isEditMode ? (
         <EditTodoForm
           onSubmit={onSubmit}
@@ -137,6 +132,12 @@ const Dashboard = () => {
           formData={formData}
         />
       )}
+      <Input
+        className={classes.searchBar}
+        placeholder="Search Todo"
+        inputProps={{ 'aria-label': 'description' }}
+        onChange={e => onSearchBarChange(e)}
+      />
       {loading ? <Spinner /> : (
         todosArray.length === 0 ? (
           <Typography variant="h4">

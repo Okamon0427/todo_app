@@ -51,7 +51,7 @@ const CategoriesList = ({
           ? classes.currentCategory : null
         }
       >
-        <ListItemText primary="All" />
+        <ListItemText primary="All Todos" />
       </ListItem>
       {categories && categories.map((category, index) => (
         editCategory && editCategory.categoryId === category._id ? (

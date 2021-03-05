@@ -3,10 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
+import { CssBaseline, Divider, Drawer, Hidden, Typography } from '@material-ui/core';
 import Navbar from './Navbar';
 import AddCategoryForm from './AddCategoryForm';
 import CategoriesList from './CategoriesList';
@@ -39,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  categories: {
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  }
 }));
 
 function ResponsiveDrawer(props) {
@@ -105,6 +106,15 @@ function ResponsiveDrawer(props) {
     <>
       <div className={classes.toolbar} />
       <Divider />
+      <Typography
+        variant="h5"
+        className={classes.categories}
+      >
+        Categories List
+      </Typography>
+      <AddCategoryForm
+        onSubmit={onSubmit}
+      />
       <CategoriesList
         categories={categories}
         onEdit={onEdit}
@@ -112,9 +122,6 @@ function ResponsiveDrawer(props) {
         onSubmit={onSubmit}
         onDelete={onDelete}
         editCategory={editCategory}
-      />
-      <AddCategoryForm
-        onSubmit={onSubmit}
       />
     </>
   );

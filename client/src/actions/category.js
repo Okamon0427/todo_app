@@ -8,6 +8,7 @@ import {
   CLEAR_CATEGORY
 } from './types';
 import { setAlert } from './alert';
+import { getTodos } from './todo';
 import { CONTENT_TYPE, ERROR_MESSAGE, PATH_API, SUCCESS_MESSAGE } from '../utils/constants';
 
 const { SERVER_ERROR } = ERROR_MESSAGE;
@@ -93,6 +94,7 @@ export const deleteCategory = categoryId => async dispatch => {
       type: DELETE_CATEGORY,
       payload: categoryId
     });
+    dispatch(getTodos());
     dispatch(setAlert(CATEGORY_DELETED, 'success'));
   } catch (err) {
     dispatch({

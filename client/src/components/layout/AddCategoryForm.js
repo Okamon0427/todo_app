@@ -36,7 +36,7 @@ const AddCategoryForm = ({
     >
       <TextField
         name="title"
-        label="Title"
+        label="Category Title"
         inputRef={register({ required: true, maxLength: 15 })}
         error={errors.title}
         helperText={(

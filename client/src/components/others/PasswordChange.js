@@ -131,7 +131,6 @@ const PasswordChange = () => {
             </Button>
           </form>
           <Button
-            color="primary"
             component={Link}
             to={PATH_URL.USER}
           >

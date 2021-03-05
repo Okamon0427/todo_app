@@ -82,7 +82,7 @@ const EditTodoForm = ({
         className={classes.button}
         startIcon={<AddIcon />}
       >
-        Edit Todo
+        Update Todo
       </Button>
       <Button
         variant="contained"

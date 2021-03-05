@@ -45,7 +45,7 @@ const Landing = () => {
   }
 
   return (
-    <Box mt={10}>
+    <Box mt={14}>
       <Grid container justify="center">
         <Grid item>
           <Paper className={classes.paper}>
