@@ -2,6 +2,8 @@ import {
   GET_USER,
   EDIT_INFO_USER,
   EDIT_PASSWORD_USER,
+  EDIT_IMAGE_UPLOADING,
+  EDIT_IMAGE_UPLOADED,
   ERROR_USER,
   CLEAR_USER
 } from '../actions/types';
@@ -24,6 +26,16 @@ const userReducers = (state = initialState, action) => {
         user: payload,
         loading: false,
         error: null
+      };
+    case EDIT_IMAGE_UPLOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case EDIT_IMAGE_UPLOADED:
+      return {
+        ...state,
+        loading: false
       };
     case ERROR_USER:
       return {

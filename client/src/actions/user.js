@@ -3,6 +3,8 @@ import {
   GET_USER,
   EDIT_INFO_USER,
   EDIT_PASSWORD_USER,
+  EDIT_IMAGE_UPLOADING,
+  EDIT_IMAGE_UPLOADED,
   ERROR_USER,
   CLEAR_USER
 } from './types';
@@ -96,12 +98,19 @@ export const editUserPassword = editUser => async dispatch => {
 // Edit Avatar
 export const editUserImage = (formData, userId) => async dispatch => {
   try {
+    dispatch({
+      type: EDIT_IMAGE_UPLOADING,
+    });
+
     await axios.put(
       PATH_API.USER + `/${userId}/image`,
       formData,
       CONTENT_TYPE_IMAGE
     );
 
+    dispatch({
+      type: EDIT_IMAGE_UPLOADED
+    })
     dispatch(setAlert(IMAGE_UPLOADED, "success"));
     
     return Promise.resolve();

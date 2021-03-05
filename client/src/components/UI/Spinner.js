@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CircularIndeterminate = () => {
+const Spinner = () => {
   const classes = useStyles();
 
   return (
@@ -22,4 +22,4 @@ const CircularIndeterminate = () => {
   );
 }
 
-export default CircularIndeterminate; 
+export default Spinner; 

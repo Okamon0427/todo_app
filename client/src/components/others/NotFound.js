@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     marginTop: '100px',
     marginLeft: '16px'
+  },
+  link: {
+    textDecoration: 'none'
   }
 }));
 
@@ -24,12 +27,22 @@ const NotFound = () => {
       <Typography className={classes.margin} variant="h4">
         Page Not Found
       </Typography>
-      <Link to={isAuthenticated ? PATH_URL.DASHBOARD : PATH_URL.LANDING}>
+      <Link
+        className={classes.link}
+        to={
+          isAuthenticated
+          ? PATH_URL.DASHBOARD
+          : PATH_URL.LANDING
+        }
+      >
         <Button
           color="primary"
           className={classes.button}
         >
-          {isAuthenticated ? 'Move to dashboard page' : 'Move to login Page'}
+          {isAuthenticated
+            ? 'Move to dashboard page'
+            : 'Move to login Page'
+          }
         </Button>
       </Link>
     </>

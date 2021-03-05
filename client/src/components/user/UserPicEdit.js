@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Spinner from '../UI/Spinner';
 import { editUserImage } from '../../actions/user';
 import { PATH_URL } from '../../utils/constants';
 
@@ -30,7 +31,7 @@ const UserPicEdit = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { user } = useSelector(state => state.user);
+  const { user, loading } = useSelector(state => state.user);
 
   const [file, setFile] = useState(null);
   const [previewFile, setPreviewFile] = useState(null);
@@ -76,6 +77,7 @@ const UserPicEdit = () => {
     <Grid container justify="center">
       <Grid item>
         <Paper className={classes.paper}>
+        {loading ? <Spinner /> : (
           <Grid
             container
             direction="column"
@@ -135,6 +137,7 @@ const UserPicEdit = () => {
               </Button>
             </Grid>
           </Grid>
+              )}
         </Paper>
       </Grid>
     </Grid>
