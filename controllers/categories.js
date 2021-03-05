@@ -22,9 +22,9 @@ exports.addCategory = asyncHandler(async (req, res, next) => {
 
   const { title } = req.body;
 
-  const existTitle = await Category.find({ title, user: req.user.id });
-  if (existTitle && existTitle.length > 0) {
-    return next(new ExpressError(CATEGORY_EXISTS, 400));
+  const allCategories = await Category.find({ user: req.user.id });
+  if (allCategories.find(category => category.title === title )) {
+    return next(new ExpressError(CATEGORY_EXISTS, 404));
   }
 
   const newCategoryObject = new Category({
@@ -77,9 +77,9 @@ exports.editCategory = asyncHandler(async (req, res, next) => {
     return next(new ExpressError(CATEGORY_AUTH_ERROR, 400));
   }
 
-  const existTitle = await Category.find({ title, user: req.user.id });
-  if (existTitle && existTitle.length > 0) {
-    return next(new ExpressError(CATEGORY_EXISTS, 400));
+  const allCategories = await Category.find({ user: req.user.id });
+  if (allCategories.find(category => category.title === title )) {
+    return next(new ExpressError(CATEGORY_EXISTS, 404));
   }
 
   const updatedCategory = await Category.findByIdAndUpdate(

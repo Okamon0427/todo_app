@@ -17,7 +17,6 @@ const CategorySchema = new Schema({
     type: String,
     required: [true, TITLE_REQUIRED],
     maxlength: 15,
-    unique: true
   },
   createdAt: {
     type: Date,
