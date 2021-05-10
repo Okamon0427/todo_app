@@ -13,13 +13,13 @@ password: 123456
 or register as a new user to use the app, of course!
 
 ## Examples
-##### Landing Page
+#### Landing Page
 ![Landing Page](./client/public/landing.JPG)
 
-##### Main Page
+#### Main Page
 ![Main Page](./client/public/main.JPG)
 
-##### Account Page
+#### Account Page
 ![Main Page](./client/public/account.JPG)
 
 ## Getting Started
