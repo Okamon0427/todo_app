@@ -9,7 +9,16 @@ import { PATH_URL, AUTH_TYPE } from '../../utils/constants';
 import { registerAuth, loginAuth } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
+  img: {
+    transform: 'translateY(-60px)',
+    height: '100vh',
+    width: '100%',
+    backgroundImage: 'url(glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+  },
   paper: {
+    transform: 'translateY(60px)',
     boxSizing: 'border-box',
     width: 300,
     padding: 20,
@@ -25,6 +34,7 @@ const Landing = () => {
   const [authType, setAuthType] = useState(LOGIN);
 
   const onSubmit = (data) => {
+    console.log(data)
     if (authType === LOGIN) {
       dispatch(loginAuth(data));
     } else {
@@ -45,29 +55,31 @@ const Landing = () => {
   }
 
   return (
-    <Box mt={14}>
-      <Grid container justify="center">
-        <Grid item>
-          <Paper className={classes.paper}>
-            <Typography variant="h5" align="center">
-              {authType === SIGNUP ? SIGNUP : LOGIN}
-            </Typography>
-            {authType === SIGNUP && (
-              <Signup onSubmit={onSubmit} />
-            )}
-            {authType === LOGIN && (
-              <Login onSubmit={onSubmit} />
-            )}
-            <Button
-              color="primary"
-              onClick={changeAuthType}
-            >
-              Change to {authType === SIGNUP ? LOGIN : SIGNUP}
-            </Button>
-          </Paper>
+    <div className={classes.img}>
+      <Box mt={14}>
+        <Grid container justify="center">
+          <Grid item>
+            <Paper className={classes.paper}>
+              <Typography variant="h5" align="center">
+                {authType === SIGNUP ? SIGNUP : LOGIN}
+              </Typography>
+              {authType === SIGNUP && (
+                <Signup onSubmit={onSubmit} />
+              )}
+              {authType === LOGIN && (
+                <Login onSubmit={onSubmit} />
+              )}
+              <Button
+                color="primary"
+                onClick={changeAuthType}
+              >
+                Change to {authType === SIGNUP ? LOGIN : SIGNUP}
+              </Button>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </div>
   );
 }
 

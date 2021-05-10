@@ -25,7 +25,7 @@ const landing = () => {
       <Navbar />
       <Landing />
     </>
-  )
+  );
 };
 
 const dashboard = () => {

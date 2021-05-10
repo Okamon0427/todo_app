@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(0),
     marginLeft: theme.spacing(0),
   },
+  marginZero: {
+    margin: 0
+  }
 }));
 
 const {
@@ -81,6 +84,13 @@ const Login = ({ onSubmit }) => {
         fullWidth
       >
         LOGIN
+      </Button>
+      <Button
+        color="primary"
+        className={classes.marginZero}
+        onClick={() => onSubmit({ email: 'test@gmail.com', password: '123456' })}
+      >
+        LOGIN with test account 
       </Button>
     </form>
   );

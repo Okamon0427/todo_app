@@ -5,7 +5,7 @@ A fancy todo app which allows you to manage your task efficiently. Your todo can
 ## URL
 https://useful-todo-app.herokuapp.com/
 You can login as a test user below
-(Some todos might be already registered, and user information cannot be changed)
+(If you use this account, some todos might be already registered, and user information cannot be changed)
 ```
 email: test@gmail.com
 password: 123456
@@ -17,6 +17,10 @@ or register as a new user to use the app, of course!
 - install npm
 ```
 npm install 
+```
+- launch app
+```
+npm run dev
 ```
 
 ## Tech Used
